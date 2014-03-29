@@ -1,4 +1,4 @@
-## Building Dockerimage
+## Building Docker image
 ```
 docker build -t my-build-yocto-genivi .
 ```
