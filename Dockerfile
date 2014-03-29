@@ -24,9 +24,9 @@ RUN mkdir -p /home/build
 RUN chown -R build /home/build
 
 # Clone meta-ivi and poky repos
-RUN su -c "git clone git://git.yoctoproject.org/meta-ivi \
+RUN su -c "cd ~ && git clone git://git.yoctoproject.org/meta-ivi \
 	&& cd meta-ivi && git checkout master" build
-RUN su -c "git clone git://git.yoctoproject.org/poky \
+RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky \
 	&& cd poky && git checkout 44c3f72684c5c920ce8af1da54a2268047342589" build
 
 RUN cd /home/build
