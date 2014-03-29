@@ -34,8 +34,10 @@ MACHINE ??= "qemux86"
 #
 INCOMPATIBLE_LICENSE = "GPLv3"
 #
-DISTRO_FEATURES += "systemd"
 DISTRO ?= "poky-ivi-systemd"
+#
+DISTRO_FEATURES += "systemd"
+DISTRO_FEATURES += "x11"
 END
 
 bitbake gemini-image
