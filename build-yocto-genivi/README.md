@@ -36,6 +36,7 @@ INCOMPATIBLE_LICENSE = "GPLv3"
 #
 DISTRO ?= "poky-ivi-systemd"
 #
+DISTRO_FEATURES += "opengl"
 DISTRO_FEATURES += "systemd"
 DISTRO_FEATURES += "x11"
 END
