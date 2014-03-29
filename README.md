@@ -21,7 +21,7 @@ Running locally built image
 
 ```
 docker run -i -t mybuild
-sudo -i build
+su - build
 # TODO
 ```
 
@@ -30,6 +30,6 @@ Running pre-built image
 
 ```
 docker run -i -t gmacario/easy-build
-sudo -i build
+su - build
 # TODO
 ```
