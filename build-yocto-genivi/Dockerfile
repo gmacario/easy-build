@@ -17,6 +17,7 @@ RUN apt-get update
 # Install packages we cannot leave without...
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
+RUN apt-get install -y openssh-server
 
 # Install the following utilities (required by poky)
 RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
@@ -41,7 +42,7 @@ RUN su -c "cd ~/genivi-baseline \
 # Define container entry point
 ENTRYPOINT ["/bin/bash"]
 
-# Expose memcached port
-#EXPOSE 11211
+# Expose sshd port
+EXPOSE 22
 
 # EOF
