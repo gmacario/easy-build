@@ -35,7 +35,7 @@ RUN su -c "cd ~/genivi-baseline \
 RUN su -c "cd ~/genivi-baseline \
 	&& git clone git://git.yoctoproject.org/meta-ivi \
 	&& cd meta-ivi \
-	&& git checkout 5.0" build
+	&& git checkout 5.0.2" build
 
 #RUN cd /home/build
 
