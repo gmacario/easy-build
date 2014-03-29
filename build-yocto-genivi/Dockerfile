@@ -7,7 +7,9 @@
 #	https://www.docker.io/learn/dockerfile/level2/
 # ===========================================================================================
 
-FROM ubuntu
+#FROM ubuntu
+FROM gmacario/easy-build
+
 MAINTAINER Gianpaolo Macario, gmacario@gmail.com
 
 # Make sure the package repository is up to date
@@ -18,18 +20,23 @@ RUN apt-get update
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
 
-# Create non-root user that will perform the build of the images
-RUN useradd --shell /bin/bash build
-RUN mkdir -p /home/build
-RUN chown -R build /home/build
+## Create non-root user that will perform the build of the images
+#RUN useradd --shell /bin/bash build
+#RUN mkdir -p /home/build
+#RUN chown -R build /home/build
 
 # Clone meta-ivi and poky repos
-RUN su -c "cd ~ && git clone git://git.yoctoproject.org/meta-ivi \
-	&& cd meta-ivi && git checkout master" build
-RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky \
-	&& cd poky && git checkout 44c3f72684c5c920ce8af1da54a2268047342589" build
+RUN su -c "mkdir -p ~/genivi-baseline" build
+RUN su -c "cd ~/genivi-baseline \
+	&& git clone git://git.yoctoproject.org/poky \
+	&& cd poky \
+	&& git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc" build
+RUN su -c "cd ~/genivi-baseline \
+	&& git clone git://git.yoctoproject.org/meta-ivi \
+	&& cd meta-ivi \
+	&& git checkout 5.0" build
 
-RUN cd /home/build
+#RUN cd /home/build
 
 # Run as the following user
 #USER daemon
