@@ -19,7 +19,7 @@ RUN apt-get install -y git tig
 RUN apt-get install -y mc
 
 # Create non-root user that will perform the build of the images
-RUN useradd build
+RUN useradd --shell /bin/bash build
 RUN mkdir -p /home/build
 RUN chown -R build /home/build
 
