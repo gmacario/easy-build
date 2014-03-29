@@ -2,9 +2,7 @@
 # Dockerfile for building Android Open Source Project
 # 
 # References:
-#	http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home
-#	https://www.docker.io/learn/dockerfile/level1/
-#	https://www.docker.io/learn/dockerfile/level2/
+#	http://source.android.com/source/index.html
 # ===========================================================================================
 
 FROM gmacario/easy-build
@@ -22,6 +20,7 @@ RUN apt-get install -y mc
 
 # Install required packages
 # See https://source.android.com/source/building.html
+RUN apt-get install -y curl
 RUN apt-get install -y python
 RUN apt-get install -y make
 #RUN apt-get install -y openjdk-7-jdk
@@ -36,20 +35,23 @@ RUN apt-get install -y make
 #RUN update-alternatives --config java
 #RUN update-alternatives --config javac
 
-RUN apt-get install -y git gnupg flex bison gperf build-essential \
-  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
-  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
-  libgl1-mesa-dev g++-multilib mingw32 tofrodos \
-  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
-RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 \
-	/usr/lib/i386-linux-gnu/libGL.so
+#RUN apt-get install -y git gnupg flex bison gperf build-essential \
+#  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
+#  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
+#  libgl1-mesa-dev g++-multilib mingw32 tofrodos \
+#  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
+#RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 \
+#	/usr/lib/i386-linux-gnu/libGL.so
 
 # Downloading the Source
 # See https://source.android.com/source/downloading.html
 
+RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
+RUN chmod a+x /usr/local/bin/repo
+
 # Initializing a Repo client
 RUN su -c "cd && repo init -u https://android.googlesource.com/platform/manifest \
-	-b androuid-4.0.1_r1" build
+	-b android-4.0.1_r1" build
 RUN su -c "cd && repo sync" build
 
 RUN cd /home/build
