@@ -19,18 +19,9 @@ docker build -t mybuild github.com/gmacario/easy-build
 Running locally built image
 ---------------------------
 
-Option 1:
-
 ```
 docker run -i -t mybuild
 sudo -i build
-# TODO
-```
-
-Option 2:
-
-```
-docker run -i -t mybuild su build
 # TODO
 ```
 
@@ -38,6 +29,7 @@ Running pre-built image
 -----------------------
 
 ```
-docker run -i -t gmacario/easy-build su build
+docker run -i -t gmacario/easy-build
+sudo -i build
 # TODO
 ```
