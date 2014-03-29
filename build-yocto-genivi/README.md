@@ -24,17 +24,17 @@ source poky/oe-init-build-env
 BUILDDIR=`pwd`
 
 cat <<END >>$BUILDDIR/conf/bblayers.conf
-#BBLAYERS += "$PATH_TO_META_IVI/meta-ivi"
-#BBLAYERS += "$PATH_TO_POKY/poky"
+BBLAYERS += "$PATH_TO_META_IVI/meta-ivi"
 END
 
 cat <<END >>$BUILDDIR/conf/local.conf
 #MACHINE ??= "qemuarm"
-#MACHINE ??= "qemux86"
-MACHINE ??= "qemux86-64"
+MACHINE ??= "qemux86"
+#MACHINE ??= "qemux86-64"
 #
 INCOMPATIBLE_LICENSE = "GPLv3"
 #
+DISTRO_FEATURES += "systemd"
 DISTRO ?= "poky-ivi-systemd"
 END
 
