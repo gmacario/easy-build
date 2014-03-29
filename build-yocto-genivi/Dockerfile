@@ -29,13 +29,9 @@ RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
 # Clone meta-ivi and poky repos
 RUN su -c "mkdir -p ~/genivi-baseline" build
 RUN su -c "cd ~/genivi-baseline \
-	&& git clone git://git.yoctoproject.org/poky \
-	&& cd poky \
-	&& git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc" build
+	&& git clone git://git.yoctoproject.org/poky" build
 RUN su -c "cd ~/genivi-baseline \
-	&& git clone git://git.yoctoproject.org/meta-ivi \
-	&& cd meta-ivi \
-	&& git checkout 5.0.2" build
+	&& git clone git://git.yoctoproject.org/meta-ivi" build
 
 #RUN cd /home/build
 
