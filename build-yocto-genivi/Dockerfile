@@ -3,8 +3,6 @@
 # 
 # References:
 #	http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home
-#	https://www.docker.io/learn/dockerfile/level1/
-#	https://www.docker.io/learn/dockerfile/level2/
 # ===========================================================================================
 
 #FROM ubuntu
@@ -16,9 +14,12 @@ MAINTAINER Gianpaolo Macario, gmacario@gmail.com
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
 
-# Install required packages
+# Install packages we cannot leave without...
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
+
+# Install the following utilities (required by poky)
+RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
 
 ## Create non-root user that will perform the build of the images
 #RUN useradd --shell /bin/bash build
@@ -41,13 +42,7 @@ RUN su -c "cd ~/genivi-baseline \
 # Run as the following user
 #USER daemon
 
-# Say hello when the container is launched
-#ENTRYPOINT echo "Whale You Be My Container?"
-#ENTRYPOINT ["echo", "Whale You Be My Container?"]
-#ENTRYPOINT ["wc", "-l"]
-#ENTRYPOINT ["memcached", "-u", "daemon"]
-#ENTRYPOINT ["memcached"]
-#ENTRYPOINT ["echo", "Welcome to easy-build!"]
+# Define container entry point
 ENTRYPOINT ["/bin/bash"]
 
 # Expose memcached port
