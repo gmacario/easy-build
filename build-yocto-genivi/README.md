@@ -82,13 +82,29 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 
 **NOTE**: This command may take a few hours to complete.
 
-As a result the following files should be created under $BUILDDIR/TODO:
+If the build is successful, the following files should be created under $BUILDDIR/tmp/deploy:
 
-* TODO
+    build@70b343514a7e:~/genivi-baseline/build$ ls -la tmp/deploy/images/qemux86/
+    total 261772
+    drwxrwxr-x 2 build build      4096 Mar 30 15:54 .
+    drwxrwxr-x 3 build build      4096 Mar 30 15:35 ..
+    -rw-rw-r-- 2 build build       294 Mar 30 15:50 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+    lrwxrwxrwx 2 build build        73 Mar 30 15:35 bzImage -> bzImage--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.bin
+    -rw-r--r-- 2 build build   6195776 Mar 30 15:35 bzImage--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.bin
+    lrwxrwxrwx 2 build build        73 Mar 30 15:35 bzImage-qemux86.bin -> bzImage--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.bin
+    -rw-r--r-- 1 build build 254164992 Mar 30 15:54 gemini-image-qemux86-20140330142316.rootfs.ext3
+    -rw-r--r-- 1 build build  47327430 Mar 30 15:54 gemini-image-qemux86-20140330142316.rootfs.tar.bz2
+    lrwxrwxrwx 1 build build        47 Mar 30 15:54 gemini-image-qemux86.ext3 -> gemini-image-qemux86-20140330142316.rootfs.ext3
+    lrwxrwxrwx 1 build build        50 Mar 30 15:54 gemini-image-qemux86.tar.bz2 -> gemini-image-qemux86-20140330142316.rootfs.tar.bz2
+    -rw-rw-r-- 2 build build  54414397 Mar 30 15:35 modules--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.tgz
+    lrwxrwxrwx 2 build build        73 Mar 30 15:35 modules-qemux86.tgz -> modules--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.tgz
+    build@70b343514a7e:~/genivi-baseline/build$
 
 In case the build fails, you may try to clean the offending tasks, as in the following example:
 
     bitbake -c cleansstate cairo
+    
+then invoke `bitbake gemini-image` again.
 
 ### Running the created images with QEMU
 
