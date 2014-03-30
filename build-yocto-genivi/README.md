@@ -1,10 +1,10 @@
-## Locally rebuilding Docker image from Dockerfile and running it
+## Creating Docker image from Dockerfile and running it
 
     docker build -t my-build-yocto-genivi .
     docker run -t -i my-build-yocto-genivi
     su - build
 
-## Pulling image from public Docker index and running it
+## Pulling Docker image from index.docker.io and running it
 
     docker pull gmacario/build-yocto-genivi
     docker run -t -i gmacario/build-yocto-genivi
@@ -12,7 +12,7 @@
 
 ## Using the Docker image
 
-Adapted from http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
+Adapted from [meta-ivi README.md](http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md)
 
 ### Initialize build environment
 
