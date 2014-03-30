@@ -1,4 +1,4 @@
-## Rebuilding container from Dockerfile
+## Locally rebuilding Docker image from Dockerfile and running it
 
 ```
 docker build -t my-build-yocto-genivi .
@@ -6,7 +6,7 @@ docker run -t -i my-build-yocto-genivi
 su - build
 ```
 
-## Running container from public Docker index
+## Pulling image from public Docker index and running it
 
 ```
 docker run -t -i gmacario/build-yocto-genivi
@@ -17,21 +17,22 @@ su - build
 
 Adapted from http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
 
-### Build the GENIVI image
+### Initialize build environment
 
-#### Initialize build environment
-
-When logged in as user "build"
+After logging in as user "build" execute the following commands:
 
 ```
 cd ~/genivi-baseline
 TOPDIR=$PWD
-
 source poky/oe-init-build-env
 BUILDDIR=$PWD
 ```
 
+### Building the GENIVI image
+
 #### Configure build
+
+This action is needed only the first time
 
 ```
 cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
@@ -56,14 +57,19 @@ DISTRO_FEATURES += "x11"
 END
 ```
 
-##### Perform build
+#### Perform build
 
 ```
 cd $BUILDDIR
-bitbake gemini-image
+bitbake -k gemini-image
 ```
 
-### To run the emulator
+NOTE: This command may take a few hours to complete.
+As a result the following files should be created under $BUILDDIR/TODO:
+
+* TODO
+
+### Running the created images with QEMU
 
 #### For QEMU vexpressa9
 
@@ -77,7 +83,7 @@ $TOPDIR/meta-ivi/scripts/runqemu gemini-image vexpressa9
 $TOPDIR/poky/scripts/runqemu gemini-image qemux86
 ```
 
-#### For QEMU x86-64:
+#### For QEMU x86-64
 
 ```
 $TOPDIR/poky/scripts/runqemu gemini-image qemux86-x64
