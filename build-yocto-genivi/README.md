@@ -6,6 +6,7 @@
 
 ## Pulling image from public Docker index and running it
 
+    docker pull gmacario/build-yocto-genivi
     docker run -t -i gmacario/build-yocto-genivi
     su - build
 
@@ -28,29 +29,32 @@ After logging in as user "build" execute the following commands:
 
 This action is needed only the first time
 
-    cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     cd $TOPDIR/meta-ivi && git checkout 5.0.2
-        
+    cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    
     cat <<END >>$BUILDDIR/conf/bblayers.conf
-    BBLAYERS += "$TOPDIR/meta-ivi"
+    BBLAYERS += " \
+      $TOPDIR/meta-ivi \
+      $TOPDIR/meta-ivi/meta-ivi-bsp \
+      "
     END
     
     cat <<END >>$BUILDDIR/conf/local.conf
     # Override config options in conf/local.conf
-    BB_NUMBER_THREADS ?= "4"
-    PARALLEL_MAKE ?= "-j 4"
+    BB_NUMBER_THREADS = "4"
+    PARALLEL_MAKE = "-j 4"
     #
-    MACHINE ??= "qemuarm"
-    #MACHINE ??= "qemux86"
-    #MACHINE ??= "qemux86-64"
+    DISTRO = "poky-ivi-systemd"
+    #DISTRO_FEATURES_append = " opengl"
+    #DISTRO_FEATURES_append = " pam"
+    #DISTRO_FEATURES_append = " systemd"
+    #DISTRO_FEATURES_append = " x11"
+    #
+    MACHINE ?= "vexpressa9"
+    #MACHINE ?= "qemux86"
+    #MACHINE ?= "qemux86-64"
     #
     INCOMPATIBLE_LICENSE = "GPLv3"
-    #
-    DISTRO ?= "poky-ivi-systemd"
-    DISTRO_FEATURES_append = " opengl"
-    DISTRO_FEATURES_append = " pam"
-    DISTRO_FEATURES_append = " systemd"
-    DISTRO_FEATURES_append = " x11"
     END
 
 #### Perform build
