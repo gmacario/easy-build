@@ -119,3 +119,14 @@ then invoke `bitbake gemini-image` again.
 #### For QEMU x86-64
 
     $TOPDIR/poky/scripts/runqemu gemini-image qemux86-x64
+    
+## Committing the image with the pre-built Yocto GENIVI Baseline
+
+If the previous commands were successful, exit the container, then execute the following commands to persist the container into a Docker image:
+
+    CONTAINER_ID=$(docker ps -lq)
+    docker commit -m "John Doe <john.doe@me.com>" $CONTAINER_ID <repository:tag>
+
+You may optionally push the image to a public Docker repository, like
+
+    docker push <repository:tag>
