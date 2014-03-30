@@ -29,17 +29,20 @@ After logging in as user "build" execute the following commands:
 
 This action is needed only the first time
 
-    # Known SHA for Yocto GENIVI Baseline 5.0.0
+    # Known SHA for Yocto GENIVI Baseline 5.0.2
+    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
     #cd $TOPDIR/meta-ivi && git checkout 5.0.2
     #cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     
     # Known SHA for Yocto GENIVI Baseline 5.0.1
-    # TODO
+    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.1
+    #cd $TOPDIR/meta-ivi && git checkout 5.0.1
+    #cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     
     # Known SHA for Yocto GENIVI Baseline 5.0.0
-    # See http://wiki.projects.genivi.org/index.php/Meta-ivi/5.0.0/vexpressa9/build-id
-    cd $TOPDIR/meta-ivi && git checkout faf8f8660fae26a14578738b642fdeb08bcb9d54
-    cd $TOPDIR/poky     && git checkout 096bfbf95bb2f28a2e22a54c13be63c81ca483e5
+    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.0
+    cd $TOPDIR/meta-ivi && git checkout 5.0.0
+    cd $TOPDIR/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
     
     cat <<END >>$BUILDDIR/conf/bblayers.conf
     BBLAYERS += " \
