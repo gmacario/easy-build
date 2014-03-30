@@ -29,8 +29,17 @@ After logging in as user "build" execute the following commands:
 
 This action is needed only the first time
 
-    cd $TOPDIR/meta-ivi && git checkout 5.0.2
-    cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    # Known SHA for Yocto GENIVI Baseline 5.0.0
+    #cd $TOPDIR/meta-ivi && git checkout 5.0.2
+    #cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    
+    # Known SHA for Yocto GENIVI Baseline 5.0.1
+    # TODO
+    
+    # Known SHA for Yocto GENIVI Baseline 5.0.0
+    # See http://wiki.projects.genivi.org/index.php/Meta-ivi/5.0.0/vexpressa9/build-id
+    cd $TOPDIR/meta-ivi && git checkout faf8f8660fae26a14578738b642fdeb08bcb9d54
+    cd $TOPDIR/poky     && git checkout 096bfbf95bb2f28a2e22a54c13be63c81ca483e5
     
     cat <<END >>$BUILDDIR/conf/bblayers.conf
     BBLAYERS += " \
@@ -54,8 +63,12 @@ This action is needed only the first time
     #MACHINE ?= "qemux86"
     #MACHINE ?= "qemux86-64"
     #
+    #PREFERRED_VERSION_linux-yocto_vexpressa9 = "3.10.11"
+    #
     INCOMPATIBLE_LICENSE = "GPLv3"
     END
+
+For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html)
 
 #### Perform build
 
