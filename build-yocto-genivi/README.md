@@ -44,6 +44,7 @@ The following commands must be executed only once:
     cd $TOPDIR/meta-ivi && git checkout 5.0.0
     cd $TOPDIR/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
     
+    cp $BUILDDIR/conf/bblayers.conf $BUILDDIR/conf/bblayers.conf.ORIG
     cat <<END >>$BUILDDIR/conf/bblayers.conf
     BBLAYERS += " \
       $TOPDIR/meta-ivi \
@@ -51,6 +52,7 @@ The following commands must be executed only once:
       "
     END
     
+    cp $BUILDDIR/conf/local.conf $BUILDDIR/conf/local.conf.ORIG
     cat <<END >>$BUILDDIR/conf/local.conf
     # Override config options in conf/local.conf
     BB_NUMBER_THREADS = "4"
