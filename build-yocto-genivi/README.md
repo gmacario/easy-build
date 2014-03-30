@@ -47,7 +47,10 @@ This action is needed only the first time
     INCOMPATIBLE_LICENSE = "GPLv3"
     #
     DISTRO ?= "poky-ivi-systemd"
-    DISTRO_FEATURES_append = " opengl systemd x11"
+    DISTRO_FEATURES_append = " opengl"
+    DISTRO_FEATURES_append = " pam"
+    DISTRO_FEATURES_append = " systemd"
+    DISTRO_FEATURES_append = " x11"
     END
 
 #### Perform build
