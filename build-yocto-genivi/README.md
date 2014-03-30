@@ -1,17 +1,13 @@
 ## Locally rebuilding Docker image from Dockerfile and running it
 
-```
-docker build -t my-build-yocto-genivi .
-docker run -t -i my-build-yocto-genivi
-su - build
-```
+    docker build -t my-build-yocto-genivi .
+    docker run -t -i my-build-yocto-genivi
+    su - build
 
 ## Pulling image from public Docker index and running it
 
-```
-docker run -t -i gmacario/build-yocto-genivi
-su - build
-```
+    docker run -t -i gmacario/build-yocto-genivi
+    su - build
 
 ## Using the Docker image
 
@@ -59,12 +55,11 @@ END
 
 #### Perform build
 
-```
-cd $BUILDDIR
-bitbake -k gemini-image
-```
+    cd $BUILDDIR
+    bitbake -k gemini-image
 
-NOTE: This command may take a few hours to complete.
+*NOTE*: This command may take a few hours to complete.
+
 As a result the following files should be created under $BUILDDIR/TODO:
 
 * TODO
@@ -73,18 +68,12 @@ As a result the following files should be created under $BUILDDIR/TODO:
 
 #### For QEMU vexpressa9
 
-```
-$TOPDIR/meta-ivi/scripts/runqemu gemini-image vexpressa9
-```
+    $TOPDIR/meta-ivi/scripts/runqemu gemini-image vexpressa9
 
 #### For QEMU x86
 
-```
-$TOPDIR/poky/scripts/runqemu gemini-image qemux86
-```
+    $TOPDIR/poky/scripts/runqemu gemini-image qemux86
 
 #### For QEMU x86-64
 
-```
-$TOPDIR/poky/scripts/runqemu gemini-image qemux86-x64
-~~
+    $TOPDIR/poky/scripts/runqemu gemini-image qemux86-x64
