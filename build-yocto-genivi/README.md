@@ -58,7 +58,7 @@ END
     cd $BUILDDIR
     bitbake -k gemini-image
 
-*NOTE*: This command may take a few hours to complete.
+**NOTE**: This command may take a few hours to complete.
 
 As a result the following files should be created under $BUILDDIR/TODO:
 
