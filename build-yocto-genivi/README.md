@@ -27,7 +27,7 @@ After logging in as user "build" execute the following commands:
 
 #### Configure build
 
-This action is needed only the first time
+The following commands must be executed only once:
 
     # Known SHA for Yocto GENIVI Baseline 5.0.2
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
@@ -71,7 +71,7 @@ This action is needed only the first time
     INCOMPATIBLE_LICENSE = "GPLv3"
     END
 
-For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html)
+For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
 
 #### Perform build
 
@@ -83,6 +83,10 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 As a result the following files should be created under $BUILDDIR/TODO:
 
 * TODO
+
+In case the build fails, you may try to clean the offending tasks, as in the following example:
+
+    bitbake -c cleansstate cairo
 
 ### Running the created images with QEMU
 
