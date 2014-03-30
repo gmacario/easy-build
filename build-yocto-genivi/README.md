@@ -129,4 +129,4 @@ If the previous commands were successful, exit the container, then execute the f
 
 You may optionally push the image to a public Docker repository, like
 
-    docker push <repository:tag>
+    docker push <repository>
