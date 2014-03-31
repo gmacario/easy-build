@@ -18,9 +18,8 @@ Adapted from [meta-ivi README.md](http://git.yoctoproject.org/cgit/cgit.cgi/meta
 
 After logging in as user "build" execute the following commands:
 
-    cd ~/genivi-baseline
-    TOPDIR=$PWD
-    source poky/oe-init-build-env
+    TOPDIR=~/genivi-baseline
+    source $TOPDIR/poky/oe-init-build-env my-genivi-build
     BUILDDIR=$PWD
 
 ### Building the GENIVI image
@@ -31,8 +30,8 @@ The following commands must be executed only once:
 
     # Known SHA for Yocto GENIVI Baseline 5.0.2
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
-    #cd $TOPDIR/meta-ivi && git checkout 5.0.2
-    #cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    cd $TOPDIR/meta-ivi && git checkout 5.0.2
+    cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     
     # Known SHA for Yocto GENIVI Baseline 5.0.1
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.1
@@ -41,8 +40,8 @@ The following commands must be executed only once:
     
     # Known SHA for Yocto GENIVI Baseline 5.0.0
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.0
-    cd $TOPDIR/meta-ivi && git checkout 5.0.0
-    cd $TOPDIR/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
+    #cd $TOPDIR/meta-ivi && git checkout 5.0.0
+    #cd $TOPDIR/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
     
     cp $BUILDDIR/conf/bblayers.conf $BUILDDIR/conf/bblayers.conf.ORIG
     cat <<END >>$BUILDDIR/conf/bblayers.conf
