@@ -18,9 +18,9 @@ Adapted from [meta-ivi README.md](http://git.yoctoproject.org/cgit/cgit.cgi/meta
 
 After logging in as user "build" execute the following commands:
 
-    TOPDIR=~/genivi-baseline
-    source $TOPDIR/poky/oe-init-build-env my-genivi-build
-    BUILDDIR=$PWD
+    GENIVI=~/genivi-baseline
+    source $GENIVI/poky/oe-init-build-env my-genivi-build
+    TOPDIR=$PWD
 
 ### Building the GENIVI image
 
@@ -30,29 +30,29 @@ The following commands must be executed only once:
 
     # Known SHA for Yocto GENIVI Baseline 5.0.2
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
-    cd $TOPDIR/meta-ivi && git checkout 5.0.2
-    cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    cd $GENIVI/meta-ivi && git checkout 5.0.2
+    cd $GENIVI/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     
     # Known SHA for Yocto GENIVI Baseline 5.0.1
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.1
-    #cd $TOPDIR/meta-ivi && git checkout 5.0.1
-    #cd $TOPDIR/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    #cd $GENIVI/meta-ivi && git checkout 5.0.1
+    #cd $GENIVI/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     
     # Known SHA for Yocto GENIVI Baseline 5.0.0
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.0
-    #cd $TOPDIR/meta-ivi && git checkout 5.0.0
-    #cd $TOPDIR/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
+    #cd $GENIVI/meta-ivi && git checkout 5.0.0
+    #cd $GENIVI/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
     
-    cp $BUILDDIR/conf/bblayers.conf $BUILDDIR/conf/bblayers.conf.ORIG
-    cat <<END >>$BUILDDIR/conf/bblayers.conf
+    cp $TOPDIR/conf/bblayers.conf $TOPDIR/conf/bblayers.conf.ORIG
+    cat <<END >>$TOPDIR/conf/bblayers.conf
     BBLAYERS += " \
-      $TOPDIR/meta-ivi \
-      $TOPDIR/meta-ivi/meta-ivi-bsp \
+      $GENIVI/meta-ivi \
+      $GENIVI/meta-ivi/meta-ivi-bsp \
       "
     END
     
-    cp $BUILDDIR/conf/local.conf $BUILDDIR/conf/local.conf.ORIG
-    cat <<END >>$BUILDDIR/conf/local.conf
+    cp $TOPDIR/conf/local.conf $TOPDIR/conf/local.conf.ORIG
+    cat <<END >>$TOPDIR/conf/local.conf
     # Override config options in conf/local.conf
     BB_NUMBER_THREADS = "4"
     PARALLEL_MAKE = "-j 4"
@@ -76,12 +76,12 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 
 #### Perform build
 
-    cd $BUILDDIR
+    cd $TOPDIR
     bitbake -k gemini-image
 
 **NOTE**: This command may take a few hours to complete.
 
-If the build is successful, the following files should be created under $BUILDDIR/tmp/deploy:
+If the build is successful, the following files should be created under $TOPDIR/tmp/deploy:
 
     build@70b343514a7e:~/genivi-baseline/build$ ls -la tmp/deploy/images/qemux86/
     total 261772
@@ -109,15 +109,15 @@ then invoke `bitbake gemini-image` again.
 
 #### For QEMU vexpressa9
 
-    $TOPDIR/meta-ivi/scripts/runqemu gemini-image vexpressa9
+    $GENIVI/meta-ivi/scripts/runqemu gemini-image vexpressa9
 
 #### For QEMU x86
 
-    $TOPDIR/poky/scripts/runqemu gemini-image qemux86
+    $GENIVI/poky/scripts/runqemu gemini-image qemux86
 
 #### For QEMU x86-64
 
-    $TOPDIR/poky/scripts/runqemu gemini-image qemux86-x64
+    $GENIVI/poky/scripts/runqemu gemini-image qemux86-x64
     
 ## Committing the image with the pre-built Yocto GENIVI Baseline
 
