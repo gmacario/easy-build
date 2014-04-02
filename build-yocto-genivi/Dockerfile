@@ -18,6 +18,7 @@ RUN apt-get update
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
 RUN apt-get install -y openssh-server
+RUN apt-get install -y screen
 
 # Install the following utilities (required by poky)
 RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
