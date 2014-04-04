@@ -16,7 +16,7 @@ Several options are possible here.
 
 ## Running the Docker inside a container
 
-Prerequisite: the Docker image is already locally.
+Prerequisite: the Docker image is already available locally.
 
 As before, several options are possible.
 
