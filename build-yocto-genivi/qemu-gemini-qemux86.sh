@@ -7,6 +7,8 @@
 
 # Notice that scripts/runqemu on poky master support VM=path/to/<image>-<machine>.vmdk
 
+set -e
+
 TOPDIR=$PWD/tmp/build-gemini-5.0.0-qemux86
 
 MACHINE=qemux86
@@ -15,10 +17,10 @@ KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
 ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/gemini-image-$MACHINE.$FSTYPE
 
 if [ ! -w "$ROOTFS" ]; then
-    echo "ROOTFS is r/o, make a copy of it"
-    TEMP_IMAGE=/tmp/my_rootfs.ext3
-    cp $ROOTFS $TEMP_IMAGE
-    export ROOTFS=$TEMP_IMAGE
+    ROOTFS_COPY=/tmp/my_rootfs.ext3
+    echo "ROOTFS is r/o, make a copy as $ROOTFS_COPY"
+    cp $ROOTFS $ROOTFS_COPY
+    export ROOTFS=$ROOTFS_COPY
 fi
 
 # TODO: What is /dev/net/tun for???
