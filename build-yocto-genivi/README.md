@@ -1,25 +1,54 @@
-## Creating Docker image from Dockerfile and running it
+## Getting the Docker image locally
 
-    docker build -t my-build-yocto-genivi .
-    docker run -t -i my-build-yocto-genivi
-    su - build
+Several options are possible here.
 
-## Pulling Docker image from index.docker.io and running it
+### Using the build.sh script (quick)
+
+    ./build.sh
+    
+### Pulling Docker image from index.docker.io and running it
 
     docker pull gmacario/build-yocto-genivi
-    docker run -t -i gmacario/build-yocto-genivi
-    su - build
 
-## Using the Docker image
+### Creating Docker image from Dockerfile and running it
+
+    docker build -t my-build-yocto-genivi .
+
+## Running the Docker inside a container
+
+Prerequisite: the Docker image is already locally.
+
+As before, several options are possible.
+
+### Using the run.sh script (quick)
+
+This command will execute faster in case the container has already run previously.
+
+    ./run.sh
+
+### Running docker manually
+
+This command will create and start a new container
+
+    docker run -t -i gmacario/build-yocto-genivi
+
+## Using build-yocto-genivi
 
 Adapted from [meta-ivi README.md](http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md)
+
+Prerequisite: the container is already running.
+
+### Switching to build user
+
+    chown build.build /home/build/tmp
+    su - build
 
 ### Initialize build environment
 
 After logging in as user "build" execute the following commands:
 
     GENIVI=~/genivi-baseline
-    source $GENIVI/poky/oe-init-build-env my-genivi-build
+    source $GENIVI/poky/oe-init-build-env ~/tmp/my-genivi-build
     TOPDIR=$PWD
 
 ### Building the GENIVI image
