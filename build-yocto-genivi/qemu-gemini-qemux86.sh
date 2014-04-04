@@ -17,7 +17,7 @@ KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
 ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/gemini-image-$MACHINE.$FSTYPE
 
 if [ ! -w "$ROOTFS" ]; then
-    ROOTFS_COPY=/tmp/my_rootfs.ext3
+    ROOTFS_COPY=./my_rootfs.ext3
     echo "ROOTFS is r/o, make a copy as $ROOTFS_COPY"
     cp $ROOTFS $ROOTFS_COPY
     export ROOTFS=$ROOTFS_COPY
