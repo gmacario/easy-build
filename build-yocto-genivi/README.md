@@ -72,6 +72,8 @@ The following commands must be executed only once:
     #cd $GENIVI/meta-ivi && git checkout 5.0.0
     #cd $GENIVI/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
     
+    cd $TOPDIR
+    
     cp $TOPDIR/conf/bblayers.conf $TOPDIR/conf/bblayers.conf.ORIG
     cat <<END >>$TOPDIR/conf/bblayers.conf
     BBLAYERS += " \
