@@ -17,6 +17,7 @@ RUN apt-get update
 # Install essential packages
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
+RUN apt-get install -y screen
 
 # Install required packages
 # See https://source.android.com/source/building.html
