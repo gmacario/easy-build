@@ -49,15 +49,17 @@ END
 #sfdisk -l $RAW_IMAGE
 fdisk -l $RAW_IMAGE
 
-# See http://stackoverflow.com/questions/1419489/loopback-mounting-individual-partitions-from-within-a-file-that-contains-a-parti
-sudo kpartx -v -a $RAW_IMAGE >kpartx.tmp
+TMPFILE1=/tmp/kpartx-$$.tmp
 
-echo "DBG: Contents of kpartx.tmp:"
-cat kpartx.tmp
+# See http://stackoverflow.com/questions/1419489/loopback-mounting-individual-partitions-from-within-a-file-that-contains-a-parti
+sudo kpartx -v -a $RAW_IMAGE >$TMPFILE1
+
+#echo "DBG: Contents of $TMPFILE1:"
+#cat $TMPFILE1
 
 # loop0p1
-ROOTPART=`cut -d' ' -f3 kpartx.tmp`
-BLOCKDEV=`cut -d' ' -f8 kpartx.tmp`
+ROOTPART=`cut -d' ' -f3 $TMPFILE1`
+BLOCKDEV=`cut -d' ' -f8 $TMPFILE1`
 echo "DBG: ROOTPART=$ROOTPART"
 echo "DBG: BLOCKDEV=$BLOCKDEV"
 
@@ -66,16 +68,16 @@ sudo mkfs -t ext3 /dev/mapper/$ROOTPART
 mkdir -p $MNT_ROOTFS
 sudo mount -o loop /dev/mapper/$ROOTPART $MNT_ROOTFS
 
-sudo losetup -av >losetup.tmp
+TMPFILE2=/tmp/losetup-$$.tmp
 
-echo "DBG: Contents of losetup.tmp:"
-cat losetup.tmp
+sudo losetup -av >$TMPFILE2
+
+#echo "DBG: Contents of $TMPFILE2:"
+#cat $TMPFILE2
 
 # TODO: Copy kernel to $MNT_ROOTFS/boot
 sudo install -m755 -d $MNT_ROOTFS/boot
-sudo install -m644 -o 0-v $KERNEL $MNT_ROOTFS/boot
-
-ls -laR $MNT_ROOTFS/boot
+sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
 # Extract rootfs
 #sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
@@ -85,6 +87,17 @@ ls -laR $MNT_ROOTFS/boot
 # grub-mkimage ???
 
 sudo grub-install --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV
+
+echo "DBG: Contents of $MNT_ROOTFS:"
+ls -la $MNT_ROOTFS
+
+echo "DBG: Contents of $MNT_ROOTFS/boot:"
+du -sh $MNT_ROOTFS/boot
+ls -la $MNT_ROOTFS/boot
+#ls -laR $MNT_ROOTFS/boot
+
+echo "DBG: Disk space on $MNT_ROOTFS:"
+df -h $MNT_ROOTFS
 
 sudo umount $MNT_ROOTFS
 
@@ -98,6 +111,9 @@ qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 sudo losetup -av
 
 # See also: http://libguestfs.org/
+
+rm $TMPFILE1
+rm $TMPFILE2
 
 exit 0;
 
