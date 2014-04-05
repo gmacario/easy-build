@@ -7,7 +7,14 @@
 # A few dangerous commands are executed as sudo and may destroy your host filesystem if buggy.
 # USE AT YOUR OWN RISK - YOU HAVE BEEN WARNED!!!
 
-TOPDIR=$PWD/tmp/build-gemini-5.0.0-qemux86
+# Prerequisites:
+#    qemu-img
+#    kpartx
+#    grub-install
+#    fdisk
+#    sudo
+
+TOPDIR=$PWD/tmp/build-gemini-5.0.2-qemux86
 
 MACHINE=qemux86
 FSTYPE=tar.bz2
@@ -20,14 +27,12 @@ VDI_IMAGE=test.vdi
 MNT_ROOTFS=/tmp/rootfs
 
 set -e
-set -x
+#set -x
 
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
 qemu-img create -f raw $RAW_IMAGE 256M
-
-# TODO: Also need to make part1 bootable?
 
 fdisk $RAW_IMAGE <<END
 n
@@ -35,30 +40,51 @@ p
 1
 
 
+a
+1
+p
 w
 END
 
 #sfdisk -l $RAW_IMAGE
-
-#fdisk -l $RAW_IMAGE
-# ==> Partition 1 starts at sector 2048
+fdisk -l $RAW_IMAGE
 
 # See http://stackoverflow.com/questions/1419489/loopback-mounting-individual-partitions-from-within-a-file-that-contains-a-parti
-sudo kpartx -v -a $RAW_IMAGE | tee kpartx.tmp
+sudo kpartx -v -a $RAW_IMAGE >kpartx.tmp
+
+echo "DBG: Contents of kpartx.tmp:"
+cat kpartx.tmp
 
 # loop0p1
 ROOTPART=`cut -d' ' -f3 kpartx.tmp`
+BLOCKDEV=`cut -d' ' -f8 kpartx.tmp`
 echo "DBG: ROOTPART=$ROOTPART"
+echo "DBG: BLOCKDEV=$BLOCKDEV"
 
 sudo mkfs -t ext3 /dev/mapper/$ROOTPART
 
 mkdir -p $MNT_ROOTFS
 sudo mount -o loop /dev/mapper/$ROOTPART $MNT_ROOTFS
 
-sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+sudo losetup -av >losetup.tmp
 
-# TODO: Should copy /boot/grub.conf to MNT_ROOTFS
-# TODO: Grub install on /dev/mapper/$ROOTPART
+echo "DBG: Contents of losetup.tmp:"
+cat losetup.tmp
+
+# TODO: Copy kernel to $MNT_ROOTFS/boot
+sudo install -m755 -d $MNT_ROOTFS/boot
+sudo install -m644 -o 0-v $KERNEL $MNT_ROOTFS/boot
+
+ls -laR $MNT_ROOTFS/boot
+
+# Extract rootfs
+#sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+
+#echo "TODO:"
+# TODO: Create grub.cfg to MNT_ROOTFS/boot/grub
+# grub-mkimage ???
+
+sudo grub-install --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV
 
 sudo umount $MNT_ROOTFS
 
@@ -69,7 +95,7 @@ qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 # TODO: Test: Run QEMU against VDI_IMAGE
 # TODO: Test: Run VirtualBox against VDI_IMAGE
 
-#sudo losetup -a
+sudo losetup -av
 
 # See also: http://libguestfs.org/
 
