@@ -9,8 +9,7 @@
 
 set -e
 
-TOPDIR=$PWD/tmp/build-gemini-5.0.0-qemux86
-#TOPDIR=$PWD/tmp/build-gemini-5.0.2-qemux86
+TOPDIR=$PWD/tmp/build-gemini-5.0.2-qemux86
 
 MACHINE=qemux86
 FSTYPE=ext3
