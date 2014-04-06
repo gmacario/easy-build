@@ -87,9 +87,9 @@ sudo losetup -av >$TMPFILE2
 #echo "DBG: Contents of $TMPFILE2:"
 #cat $TMPFILE2
 
-# TODO: Copy kernel to $MNT_ROOTFS/boot
-#sudo install -m755 -d $MNT_ROOTFS/boot
-#sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
+# Copy kernel to $MNT_ROOTFS/boot
+sudo install -m755 -d $MNT_ROOTFS/boot
+sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
 # Extract rootfs
 #sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
@@ -107,11 +107,12 @@ cat > $TMPFILE3 <<END
 set default=0
 set timeout=5
 
-insmod ext2
+set prefix=(hd0,1)/boot/grub
 set root=(hd0,1)
+insmod ext2
 
 menuentry "Yocto-GENIVI, Linux" {
-        linux   /boot/bzImage-qemux86.bin root=/dev/sda1
+        linux   /boot/bzImage-qemux86.bin root=/dev/hda1
 }
 
 #menuentry "GNU/Linux, Linux 3.13.6-lfs-SVN-20140404" {
@@ -119,36 +120,39 @@ menuentry "Yocto-GENIVI, Linux" {
 #}
 END
 
-set -x
+#set -x
 
-echo "DBG: Listing all disks IDs"
-ls -la /dev/disk/by-id/
+#echo "DBG: Listing all disks IDs"
+#ls -la /dev/disk/by-id/
 
-echo "DBG: Listing all disks labels"
-ls -la /dev/disk/by-label/
+#echo "DBG: Listing all disks labels"
+#ls -la /dev/disk/by-label/
 
-echo "DBG: Listing all disks UUIDs"
-ls -la /dev/disk/by-uuid/
+#echo "DBG: Listing all disks UUIDs"
+#ls -la /dev/disk/by-uuid/
 
-#sudo install -m755 -d $MNT_ROOTFS/boot/grub
+#echo "DBG: Result from grub-probe:"
+#grub-probe $RAW_IMAGE
+#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $MNT_ROOTFS/boot/grub || true
+
+sudo install -m755 -d $MNT_ROOTFS/boot/grub
+#
 #sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
 cat <<END >device.map
-(hd0) /dev/sda
+(hd0) /dev/hda
+(hd0,1) /dev/hda1
 #(hd0) $BLOCKDEV
 #(hd0) $ROOTPART
 END
-#sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
-#grub-probe $RAW_IMAGE
-#sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
+sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
+#
+sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
 #
 sudo grub-install --force --recheck $BLOCKDEV || true
 #sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
 #sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
 #sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $RAW_IMAGE || true
 #sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $ROOTPART || true
-
-echo "DBG: Result from grub-probe:"
-sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $MNT_ROOTFS/boot/grub || true
 
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
