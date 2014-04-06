@@ -34,16 +34,29 @@ set -e
 
 qemu-img create -f raw $RAW_IMAGE 256M
 
-# Create partition table and partitions on RAW_IMAGE
-parted $RAW_IMAGE mklabel msdos
-parted $RAW_IMAGE print free
-parted $RAW_IMAGE mkpart primary ext3 1 220
-parted $RAW_IMAGE set 1 boot on
-parted $RAW_IMAGE print free
+# Use fdisk to create partition table and partition(s) on RAW_IMAGE
+fdisk $RAW_IMAGE <<END
+n
+p
+1
 
-#echo "DBG: Checking $RAW_IMAGE:"
+
+a
+1
+p
+w
+END
+
+# Use parted to create partition table and partition(s) on RAW_IMAGE
+#parted $RAW_IMAGE mklabel msdos
+#parted $RAW_IMAGE print free
+#parted $RAW_IMAGE mkpart primary ext3 1 220
+#parted $RAW_IMAGE set 1 boot on
+
+echo "DBG: Checking $RAW_IMAGE:"
 #sfdisk -l $RAW_IMAGE
-#fdisk -l $RAW_IMAGE
+fdisk -l $RAW_IMAGE
+#parted $RAW_IMAGE print free
 
 TMPFILE1=/tmp/kpartx-$$.tmp
 
@@ -58,8 +71,8 @@ ROOTPART=/dev/mapper/`cut -d' ' -f3 $TMPFILE1`
 echo "DBG: BLOCKDEV=$BLOCKDEV"
 echo "DBG: ROOTPART=$ROOTPART"
 
-#echo "DBG: Checking $BLOCKDEV:"
-#sudo fdisk -l $BLOCKDEV
+echo "DBG: Checking $BLOCKDEV:"
+sudo fdisk -l $BLOCKDEV
 
 sudo mkfs -t ext3 -L "GENIVI" $ROOTPART
 
@@ -75,8 +88,8 @@ sudo losetup -av >$TMPFILE2
 #cat $TMPFILE2
 
 # TODO: Copy kernel to $MNT_ROOTFS/boot
-sudo install -m755 -d $MNT_ROOTFS/boot
-sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
+#sudo install -m755 -d $MNT_ROOTFS/boot
+#sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
 # Extract rootfs
 #sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
@@ -108,20 +121,40 @@ END
 
 set -x
 
-sudo install -m755 -d $MNT_ROOTFS/boot/grub
+echo "DBG: Listing all disks IDs"
+ls -la /dev/disk/by-id/
+
+echo "DBG: Listing all disks labels"
+ls -la /dev/disk/by-label/
+
+echo "DBG: Listing all disks UUIDs"
+ls -la /dev/disk/by-uuid/
+
+#sudo install -m755 -d $MNT_ROOTFS/boot/grub
 #sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
+cat <<END >device.map
+(hd0) /dev/sda
+#(hd0) $BLOCKDEV
+#(hd0) $ROOTPART
+END
+#sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
 #grub-probe $RAW_IMAGE
 #sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
-#sudo grub-install --force --root-directory=$MNT_ROOTFS $BLOCKDEV || true
+#
+sudo grub-install --force --recheck $BLOCKDEV || true
+#sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
 #sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
 #sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $RAW_IMAGE || true
-sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $ROOTPART || true
+#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $ROOTPART || true
+
+echo "DBG: Result from grub-probe:"
+sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $MNT_ROOTFS/boot/grub || true
 
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
 
 echo "DBG: Contents of $MNT_ROOTFS/boot:"
-du -sh $MNT_ROOTFS/boot
+#du -sh $MNT_ROOTFS/boot
 #ls -la $MNT_ROOTFS/boot
 ls -laR $MNT_ROOTFS/boot
 
