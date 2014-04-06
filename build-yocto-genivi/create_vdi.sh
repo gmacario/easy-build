@@ -153,10 +153,10 @@ sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
 
-echo "DBG: Contents of $MNT_ROOTFS/boot:"
+#echo "DBG: Contents of $MNT_ROOTFS/boot:"
 #du -sh $MNT_ROOTFS/boot
 #ls -la $MNT_ROOTFS/boot
-ls -laR $MNT_ROOTFS/boot
+#ls -laR $MNT_ROOTFS/boot
 
 if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot/grub/device.map:"
