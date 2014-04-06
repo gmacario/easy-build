@@ -53,10 +53,10 @@ sudo kpartx -v -a $RAW_IMAGE >$TMPFILE1
 echo "DBG: Contents of $TMPFILE1:"
 cat $TMPFILE1
 
-ROOTPART=/dev/mapper/`cut -d' ' -f3 $TMPFILE1`
 BLOCKDEV=`cut -d' ' -f8 $TMPFILE1`
-echo "DBG: ROOTPART=$ROOTPART"
+ROOTPART=/dev/mapper/`cut -d' ' -f3 $TMPFILE1`
 echo "DBG: BLOCKDEV=$BLOCKDEV"
+echo "DBG: ROOTPART=$ROOTPART"
 
 #echo "DBG: Checking $BLOCKDEV:"
 #sudo fdisk -l $BLOCKDEV
@@ -106,19 +106,29 @@ menuentry "Yocto-GENIVI, Linux" {
 #}
 END
 
-sudo mkdir -p $MNT_ROOTFS/boot/grub
-sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
+set -x
+
+sudo install -m755 -d $MNT_ROOTFS/boot/grub
+#sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
 #grub-probe $RAW_IMAGE
 #sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
-sudo grub-install --force --root-directory=$MNT_ROOTFS $BLOCKDEV || true
+#sudo grub-install --force --root-directory=$MNT_ROOTFS $BLOCKDEV || true
+#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
+#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $RAW_IMAGE || true
+sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $ROOTPART || true
 
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
 
 echo "DBG: Contents of $MNT_ROOTFS/boot:"
 du -sh $MNT_ROOTFS/boot
-ls -la $MNT_ROOTFS/boot
-#ls -laR $MNT_ROOTFS/boot
+#ls -la $MNT_ROOTFS/boot
+ls -laR $MNT_ROOTFS/boot
+
+if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
+    echo "DBG: Contents of $MNT_ROOTFS/boot/grub/device.map:"
+    cat $MNT_ROOTFS/boot/grub/device.map
+fi
 
 echo "DBG: Disk space on $MNT_ROOTFS:"
 df -h $MNT_ROOTFS
