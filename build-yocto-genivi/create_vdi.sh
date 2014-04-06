@@ -77,8 +77,7 @@ sudo fdisk -l $BLOCKDEV
 sudo mkfs -t ext3 -L "GENIVI" $ROOTPART
 
 mkdir -p $MNT_ROOTFS
-#sudo mount -o loop $ROOTPART $MNT_ROOTFS
-sudo mount $ROOTPART $MNT_ROOTFS
+sudo mount -o loop $ROOTPART $MNT_ROOTFS
 
 TMPFILE2=/tmp/losetup-$$.tmp
 
@@ -94,10 +93,6 @@ sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 # Extract rootfs
 #sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
 
-#echo "TODO:"
-# TODO: Create grub.cfg to MNT_ROOTFS/boot/grub
-# grub-mkimage ???
-
 # Create simple /boot/grub/grub.cfg on $ROOTPART
 # See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
 
@@ -111,7 +106,7 @@ set prefix=(hd0,1)/boot/grub
 set root=(hd0,1)
 insmod ext2
 
-menuentry "Yocto-GENIVI, Linux" {
+menuentry "Yocto-GENIVI baseline (qemux86)" {
         linux   /boot/bzImage-qemux86.bin root=/dev/hda1
 }
 
@@ -139,10 +134,10 @@ sudo install -m755 -d $MNT_ROOTFS/boot/grub
 #
 #sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
 cat <<END >device.map
-(hd0) /dev/hda
-(hd0,1) /dev/hda1
-#(hd0) $BLOCKDEV
-#(hd0) $ROOTPART
+#(hd0) /dev/hda
+#(hd0,1) /dev/hda1
+(hd0) $BLOCKDEV
+(hd0,1) $ROOTPART
 END
 sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
 #
@@ -151,16 +146,14 @@ sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
 sudo grub-install --force --recheck $BLOCKDEV || true
 #sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
 #sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
-#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $RAW_IMAGE || true
-#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $ROOTPART || true
 
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
 
-#echo "DBG: Contents of $MNT_ROOTFS/boot:"
+echo "DBG: Contents of $MNT_ROOTFS/boot:"
 #du -sh $MNT_ROOTFS/boot
 #ls -la $MNT_ROOTFS/boot
-#ls -laR $MNT_ROOTFS/boot
+ls -laR $MNT_ROOTFS/boot
 
 if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot/grub/device.map:"
