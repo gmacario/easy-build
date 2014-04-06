@@ -34,24 +34,24 @@ set -e
 
 qemu-img create -f raw $RAW_IMAGE 256M
 
-# Use fdisk to create partition table and partition(s) on RAW_IMAGE
-fdisk $RAW_IMAGE <<END
-n
-p
-1
-
-
-a
-1
-p
-w
-END
+## Use fdisk to create partition table and partition(s) on RAW_IMAGE
+#fdisk $RAW_IMAGE <<END
+#n
+#p
+#1
+#
+#
+#a
+#1
+#p
+#w
+#END
 
 # Use parted to create partition table and partition(s) on RAW_IMAGE
-#parted $RAW_IMAGE mklabel msdos
-#parted $RAW_IMAGE print free
-#parted $RAW_IMAGE mkpart primary ext3 1 220
-#parted $RAW_IMAGE set 1 boot on
+parted $RAW_IMAGE mklabel msdos
+parted $RAW_IMAGE print free
+parted $RAW_IMAGE mkpart primary ext3 1 220
+parted $RAW_IMAGE set 1 boot on
 
 echo "DBG: Checking $RAW_IMAGE:"
 #sfdisk -l $RAW_IMAGE
