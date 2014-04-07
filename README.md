@@ -30,7 +30,7 @@ Execute the following commands:
 
     docker run -i -t mybuild
     su - build
-    # TODO
+    # (depends on the specialized image being run)
 
 
 Running pre-built image available at the public Docker index
@@ -40,4 +40,4 @@ Execute the following commands:
 
     docker run -i -t gmacario/<build-something>
     su - build
-    # TODO
+    # (depends on the specialized image being run)
