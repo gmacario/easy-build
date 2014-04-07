@@ -14,6 +14,8 @@
 #    grub-install
 #    sudo
 
+# CONFIGURATION ITEMS
+
 TOPDIR=$PWD/tmp/build-gemini-5.0.2-qemux86
 
 MACHINE=qemux86
@@ -26,6 +28,15 @@ VDI_IMAGE=$PWD/test.vdi
 
 MNT_ROOTFS=/tmp/rootfs
 
+partmgr_use_fdisk=1
+partmgr_use_parted=0
+
+bootldr_use_grub=0
+bootldr_use_syslinux=1
+
+echo "DBG: partmgr_use_fdisk=$partmgr_use_fdisk; partmgr_use_parted=$partmgr_use_parted"
+echo "DBG: bootldr_use_grub=$bootldr_use_grub; bootldr_use_syslinux=$bootldr_use_syslinux"
+
 set -e
 #set -x
 
@@ -34,9 +45,10 @@ set -e
 
 qemu-img create -f raw $RAW_IMAGE 200M
 
-# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sec = ???
 
-# Use fdisk to create partition table and partition(s) on RAW_IMAGE
+if [ $partmgr_use_fdisk != 0 ]; then
+echo "DBG: Use fdisk to create partition table and partition(s) on RAW_IMAGE"
+# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sec = ???
 fdisk $RAW_IMAGE <<END
 x
 c
@@ -56,12 +68,17 @@ a
 p
 w
 END
+fi	# [ $partmgr_use_fdisk != 0 ]
 
-# Use parted to create partition table and partition(s) on RAW_IMAGE
-#parted $RAW_IMAGE mklabel msdos
-#parted $RAW_IMAGE print free
-#parted $RAW_IMAGE mkpart primary ext3 1 220
-#parted $RAW_IMAGE set 1 boot on
+
+if [ $partmgr_use_parted != 0 ]; then
+echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
+parted $RAW_IMAGE mklabel msdos
+parted $RAW_IMAGE print free
+parted $RAW_IMAGE mkpart primary ext3 1 220
+parted $RAW_IMAGE set 1 boot on
+fi	# [ $partmgr_use_parted != 0 ]
+
 
 echo "DBG: Checking $RAW_IMAGE:"
 #sfdisk -l $RAW_IMAGE
@@ -101,7 +118,19 @@ sudo install -m755 -d $MNT_ROOTFS/boot
 sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
 # Extract rootfs
-#sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+# TODO: sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+
+#echo "DBG: Listing all disks IDs"
+#ls -la /dev/disk/by-id/
+
+#echo "DBG: Listing all disks labels"
+#ls -la /dev/disk/by-label/
+
+#echo "DBG: Listing all disks UUIDs"
+#ls -la /dev/disk/by-uuid/
+
+
+if [ $bootldr_use_grub != 0 ]; then
 
 # Create simple /boot/grub/grub.cfg on $ROOTPART
 # See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
@@ -124,17 +153,6 @@ menuentry "Yocto-GENIVI baseline (qemux86)" {
 #        linux   /boot/vmlinuz-3.13.6-lfs-SVN-20140404 root=/dev/sda2 ro
 #}
 END
-
-#set -x
-
-#echo "DBG: Listing all disks IDs"
-#ls -la /dev/disk/by-id/
-
-#echo "DBG: Listing all disks labels"
-#ls -la /dev/disk/by-label/
-
-#echo "DBG: Listing all disks UUIDs"
-#ls -la /dev/disk/by-uuid/
 
 #echo "DBG: Result from grub-probe:"
 #grub-probe $RAW_IMAGE
@@ -166,8 +184,49 @@ sudo install -m755 -d $MNT_ROOTFS/boot/grub
 #quit
 #END
 
+# Create simple /boot/grub/grub.cfg on $ROOTPART
+# See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
+
+TMPFILE3=/tmp/grubcfg-$$.tmp
+cat > $TMPFILE3 <<END
+# Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+set prefix=(hd0,1)/boot/grub
+set root=(hd0,1)
+insmod ext2
+
+menuentry "Yocto-GENIVI baseline (qemux86)" {
+        linux   /boot/bzImage-qemux86.bin root=/dev/hda1
+}
+
+#menuentry "GNU/Linux, Linux 3.13.6-lfs-SVN-20140404" {
+#        linux   /boot/vmlinuz-3.13.6-lfs-SVN-20140404 root=/dev/sda2 ro
+#}
+END
+
+#echo "DBG: Result from grub-probe:"
+#grub-probe $RAW_IMAGE
+#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $MNT_ROOTFS/boot/grub || true
+
+sudo install -m755 -d $MNT_ROOTFS/boot/grub
+#
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
+
+fi	# [ $bootldr_use_grub != 0 ]
+
+
+if [ $bootldr_use_syslinux != 0 ]; then
+echo "TODO: case bootldr_use_syslinux"
+fi	# [ $bootldr_use_syslinux != 0 ]
+
+
+echo "DBG: Reviewing contents of $RAW_IMAGE"
+
+echo "DBG: Disk space on $MNT_ROOTFS:"
+df -h $MNT_ROOTFS
 
 if [ -e $MNT_ROOTFS/boot ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot:"
@@ -181,8 +240,6 @@ if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     cat $MNT_ROOTFS/boot/grub/device.map
 fi
 
-echo "DBG: Disk space on $MNT_ROOTFS:"
-df -h $MNT_ROOTFS
 
 sudo umount $MNT_ROOTFS
 
@@ -190,9 +247,9 @@ sudo kpartx -d $RAW_IMAGE
 
 sudo losetup -av
 
-rm $TMPFILE1
-rm $TMPFILE2
-rm $TMPFILE3
+rm -f $TMPFILE1
+rm -f $TMPFILE2
+rm -f $TMPFILE3
 
 echo "DBG: Checking $RAW_IMAGE:"
 parted $RAW_IMAGE print free
