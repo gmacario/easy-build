@@ -21,8 +21,8 @@ FSTYPE=tar.bz2
 KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
 ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/gemini-image-$MACHINE.$FSTYPE
 
-RAW_IMAGE=test.raw
-VDI_IMAGE=test.vdi
+RAW_IMAGE=$PWD/test.raw
+VDI_IMAGE=$PWD/test.vdi
 
 MNT_ROOTFS=/tmp/rootfs
 
@@ -32,26 +32,36 @@ set -e
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
-qemu-img create -f raw $RAW_IMAGE 256M
+qemu-img create -f raw $RAW_IMAGE 200M
 
-## Use fdisk to create partition table and partition(s) on RAW_IMAGE
-#fdisk $RAW_IMAGE <<END
-#n
-#p
-#1
-#
-#
-#a
-#1
-#p
-#w
-#END
+# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sec = ???
+
+# Use fdisk to create partition table and partition(s) on RAW_IMAGE
+fdisk $RAW_IMAGE <<END
+x
+c
+400
+h
+16
+s
+63
+r
+n
+p
+1
+
+
+a
+1
+p
+w
+END
 
 # Use parted to create partition table and partition(s) on RAW_IMAGE
-parted $RAW_IMAGE mklabel msdos
-parted $RAW_IMAGE print free
-parted $RAW_IMAGE mkpart primary ext3 1 220
-parted $RAW_IMAGE set 1 boot on
+#parted $RAW_IMAGE mklabel msdos
+#parted $RAW_IMAGE print free
+#parted $RAW_IMAGE mkpart primary ext3 1 220
+#parted $RAW_IMAGE set 1 boot on
 
 echo "DBG: Checking $RAW_IMAGE:"
 #sfdisk -l $RAW_IMAGE
@@ -132,28 +142,39 @@ END
 
 sudo install -m755 -d $MNT_ROOTFS/boot/grub
 #
-#sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
-cat <<END >device.map
-#(hd0) /dev/hda
-#(hd0,1) /dev/hda1
-(hd0) $BLOCKDEV
-(hd0,1) $ROOTPART
-END
-sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
+##sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
+#cat <<END >device.map
+##(hd0) /dev/hda
+##(hd0,1) /dev/hda1
+#(hd0) $BLOCKDEV
+#(hd0,1) $ROOTPART
+#END
+#sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
 #
-sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
-#
-sudo grub-install --force --recheck $BLOCKDEV || true
-#sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
-#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
+#sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
+##
+#sudo grub-install --force --recheck $BLOCKDEV || true
+##sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
+##sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
+
+# From http://samypesse.github.io/How-to-Make-a-Computer-Operating-System/Chapter-3/README.html
+#sudo grub --device-map=/dev/null <<END
+#device (hd0) $RAW_IMAGE
+#geometry (hd0) 400 16 63
+#root (hd0,1)
+#setup (hd0)
+#quit
+#END
 
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
 
-echo "DBG: Contents of $MNT_ROOTFS/boot:"
-#du -sh $MNT_ROOTFS/boot
-#ls -la $MNT_ROOTFS/boot
-ls -laR $MNT_ROOTFS/boot
+if [ -e $MNT_ROOTFS/boot ]; then
+    echo "DBG: Contents of $MNT_ROOTFS/boot:"
+    #du -sh $MNT_ROOTFS/boot
+    #ls -la $MNT_ROOTFS/boot
+    ls -laR $MNT_ROOTFS/boot
+fi
 
 if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot/grub/device.map:"
