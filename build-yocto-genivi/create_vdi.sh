@@ -31,11 +31,11 @@ MNT_ROOTFS=/tmp/rootfs
 partmgr_use_fdisk=1
 partmgr_use_parted=0
 
-bootldr_use_grub=0
-bootldr_use_syslinux=1
+bootldr_use_grub2=1
+bootldr_use_syslinux=0
 
 echo "DBG: partmgr_use_fdisk=$partmgr_use_fdisk; partmgr_use_parted=$partmgr_use_parted"
-echo "DBG: bootldr_use_grub=$bootldr_use_grub; bootldr_use_syslinux=$bootldr_use_syslinux"
+echo "DBG: bootldr_use_grub2=$bootldr_use_grub2; bootldr_use_syslinux=$bootldr_use_syslinux"
 
 set -e
 #set -x
@@ -130,7 +130,25 @@ sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 #ls -la /dev/disk/by-uuid/
 
 
-if [ $bootldr_use_grub != 0 ]; then
+if [ $bootldr_use_grub2 != 0 ]; then
+
+sudo install -m755 -d $MNT_ROOTFS/boot/grub
+
+#sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
+
+cat <<END >device.map
+#(hd0) /dev/hda
+#(hd0,1) /dev/hda1
+(hd0) $BLOCKDEV
+(hd0,1) $ROOTPART
+END
+sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
+
+echo "DBG: Result from grub-probe:"
+#grub-probe $RAW_IMAGE
+#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $MNT_ROOTFS/boot/grub || true
+sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $RAW_IMAGE || true
+sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $ROOTPART || true
 
 # Create simple /boot/grub/grub.cfg on $ROOTPART
 # See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
@@ -153,27 +171,11 @@ menuentry "Yocto-GENIVI baseline (qemux86)" {
 #        linux   /boot/vmlinuz-3.13.6-lfs-SVN-20140404 root=/dev/sda2 ro
 #}
 END
-
-#echo "DBG: Result from grub-probe:"
-#grub-probe $RAW_IMAGE
-#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $MNT_ROOTFS/boot/grub || true
-
-sudo install -m755 -d $MNT_ROOTFS/boot/grub
-#
-##sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
-#cat <<END >device.map
-##(hd0) /dev/hda
-##(hd0,1) /dev/hda1
-#(hd0) $BLOCKDEV
-#(hd0,1) $ROOTPART
-#END
-#sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
-#
 #sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
-##
+
 #sudo grub-install --force --recheck $BLOCKDEV || true
-##sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
-##sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
+sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
+#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
 
 # From http://samypesse.github.io/How-to-Make-a-Computer-Operating-System/Chapter-3/README.html
 #sudo grub --device-map=/dev/null <<END
@@ -184,38 +186,7 @@ sudo install -m755 -d $MNT_ROOTFS/boot/grub
 #quit
 #END
 
-# Create simple /boot/grub/grub.cfg on $ROOTPART
-# See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
-
-TMPFILE3=/tmp/grubcfg-$$.tmp
-cat > $TMPFILE3 <<END
-# Begin /boot/grub/grub.cfg
-set default=0
-set timeout=5
-
-set prefix=(hd0,1)/boot/grub
-set root=(hd0,1)
-insmod ext2
-
-menuentry "Yocto-GENIVI baseline (qemux86)" {
-        linux   /boot/bzImage-qemux86.bin root=/dev/hda1
-}
-
-#menuentry "GNU/Linux, Linux 3.13.6-lfs-SVN-20140404" {
-#        linux   /boot/vmlinuz-3.13.6-lfs-SVN-20140404 root=/dev/sda2 ro
-#}
-END
-
-#echo "DBG: Result from grub-probe:"
-#grub-probe $RAW_IMAGE
-#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs -v $MNT_ROOTFS/boot/grub || true
-
-sudo install -m755 -d $MNT_ROOTFS/boot/grub
-#
-echo "DBG: Contents of $MNT_ROOTFS:"
-ls -la $MNT_ROOTFS
-
-fi	# [ $bootldr_use_grub != 0 ]
+fi	# [ $bootldr_use_grub2 != 0 ]
 
 
 if [ $bootldr_use_syslinux != 0 ]; then
@@ -227,6 +198,9 @@ echo "DBG: Reviewing contents of $RAW_IMAGE"
 
 echo "DBG: Disk space on $MNT_ROOTFS:"
 df -h $MNT_ROOTFS
+
+echo "DBG: Contents of $MNT_ROOTFS:"
+ls -la $MNT_ROOTFS
 
 if [ -e $MNT_ROOTFS/boot ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot:"
@@ -240,6 +214,11 @@ if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     cat $MNT_ROOTFS/boot/grub/device.map
 fi
 
+if [ -e $MNT_ROOTFS/boot/grub/grub.cfg ]; then
+    echo "DBG: Contents of $MNT_ROOTFS/boot/grub/grub.cfg:"
+    cat $MNT_ROOTFS/boot/grub/grub.cfg
+fi
+
 
 sudo umount $MNT_ROOTFS
 
@@ -251,8 +230,8 @@ rm -f $TMPFILE1
 rm -f $TMPFILE2
 rm -f $TMPFILE3
 
-echo "DBG: Checking $RAW_IMAGE:"
-parted $RAW_IMAGE print free
+#echo "DBG: Checking $RAW_IMAGE:"
+#parted $RAW_IMAGE print free
 
 qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 
