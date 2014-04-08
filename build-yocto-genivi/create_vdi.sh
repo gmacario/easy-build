@@ -28,8 +28,8 @@ VDI_IMAGE=$PWD/test.vdi
 
 MNT_ROOTFS=/tmp/rootfs
 
-partmgr_use_fdisk=1
-partmgr_use_parted=0
+partmgr_use_fdisk=0
+partmgr_use_parted=1
 
 bootldr_use_grub2=1
 bootldr_use_syslinux=0
@@ -75,8 +75,8 @@ if [ $partmgr_use_parted != 0 ]; then
 echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
 parted $RAW_IMAGE mklabel msdos
 parted $RAW_IMAGE print free
-parted $RAW_IMAGE mkpart primary ext3 1 220
-parted $RAW_IMAGE set 1 boot on
+parted $RAW_IMAGE mkpart primary ext3 1 200
+#parted $RAW_IMAGE set 1 boot on
 fi	# [ $partmgr_use_parted != 0 ]
 
 
@@ -107,7 +107,6 @@ mkdir -p $MNT_ROOTFS
 sudo mount -o loop $ROOTPART $MNT_ROOTFS
 
 TMPFILE2=/tmp/losetup-$$.tmp
-
 sudo losetup -av >$TMPFILE2
 
 #echo "DBG: Contents of $TMPFILE2:"
@@ -117,74 +116,122 @@ sudo losetup -av >$TMPFILE2
 sudo install -m755 -d $MNT_ROOTFS/boot
 sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
-# Extract rootfs
-# TODO: sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+## Extract rootfs
+#sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
 
-#echo "DBG: Listing all disks IDs"
-#ls -la /dev/disk/by-id/
+echo "DBG: Listing all disks IDs"
+ls -la /dev/disk/by-id/
 
-#echo "DBG: Listing all disks labels"
-#ls -la /dev/disk/by-label/
+echo "DBG: Listing all disks labels"
+ls -la /dev/disk/by-label/
 
-#echo "DBG: Listing all disks UUIDs"
-#ls -la /dev/disk/by-uuid/
+echo "DBG: Listing all disks UUIDs"
+ls -la /dev/disk/by-uuid/
 
 
 if [ $bootldr_use_grub2 != 0 ]; then
 
-sudo install -m755 -d $MNT_ROOTFS/boot/grub
+sudo install -m 755 -d $MNT_ROOTFS/boot/grub
 
+# See http://blog.worldturner.com/worldturner/entry/creating_a_bootable_virtual_appliance
+
+# Copy Grub2 modules from host to target
+sudo cp /usr/lib/grub/i386-pc/* $MNT_ROOTFS/boot/grub/
+
+# Create Grub2 device.map
+#
 #sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
+TMPFILE4=device.map
+cat >$TMPFILE4 <<__END__
+# Begin /boot/grub/device.map
 
-cat <<END >device.map
-#(hd0) /dev/hda
-#(hd0,1) /dev/hda1
 (hd0) $BLOCKDEV
-(hd0,1) $ROOTPART
-END
-sudo install -m644 -o 0 -v device.map $MNT_ROOTFS/boot/grub/device.map
+#(hd0,msdos1) $BLOCKDEV
+#(hd0,1) $ROOTPART
+__END__
+sudo install -m644 -o 0 -v $TMPFILE4 $MNT_ROOTFS/boot/grub/device.map
 
-echo "DBG: Result from grub-probe:"
-#grub-probe $RAW_IMAGE
-#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $MNT_ROOTFS/boot/grub || true
-sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $RAW_IMAGE || true
-sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $ROOTPART || true
+echo "DBG: Result from blkid $BLOCKDEV"
+sudo blkid $BLOCKDEV || true
 
-# Create simple /boot/grub/grub.cfg on $ROOTPART
-# See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
+echo "DBG: Result from blkid $ROOTPART"
+sudo blkid $ROOTPART || true
 
-TMPFILE3=/tmp/grubcfg-$$.tmp
-cat > $TMPFILE3 <<END
-# Begin /boot/grub/grub.cfg
-set default=0
-set timeout=5
+eval `sudo blkid -o udev $ROOTPART`
+export UUID_ROOTPART=$ID_FS_UUID
+echo "DBG: UUID_ROOTPART=$UIID_ROOTPART"
 
-set prefix=(hd0,1)/boot/grub
+
+echo "DBG: Create Grub2 load.cfg"
+
+TMPFILE5=load.cfg
+cat >$TMPFILE5 <<__END__
+# Begin /boot/grub/load.cfg
+
+search.fs_uuid $UUID_ROOTPART root
+set prefix=($root)/boot/grub
 set root=(hd0,1)
+__END__
+sudo install -m644 -o 0 -v $TMPFILE5 $MNT_ROOTFS/boot/grub/load.cfg
+
+
+#echo "DBG: Result from grub-probe:"
+##grub-probe $RAW_IMAGE
+##sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $MNT_ROOTFS/boot/grub || true
+#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $RAW_IMAGE || true
+#sudo grub-probe --device-map="$MNT_ROOTFS/boot/grub/device.map" --target=fs_uuid $ROOTPART || true
+
+echo "DBG: Create Grub2 /boot/grub/grub.cfg on $ROOTPART"
+
+TMPFILE6=grub.cfg
+cat >$TMPFILE6 <<__END__
+# Begin /boot/grub/grub.cfg
+
+#set default=0
+#set timeout=5
+
 insmod ext2
+#set prefix=(hd0,1)/boot/grub
+set root=(hd0,1)
+
+search --no-floppy -fs-uuid --set $UUID_ROOTPART
 
 menuentry "Yocto-GENIVI baseline (qemux86)" {
-        linux   /boot/bzImage-qemux86.bin root=/dev/hda1
+       	#linux   /boot/bzImage-qemux86.bin root=/dev/hda1
+       	linux   /boot/bzImage-qemux86.bin root=UUID=$UUID_ROOTPART ro quiet splash
+	#initrd /boot/initrd.img-$KERNEL
+	#boot
 }
-
+#
 #menuentry "GNU/Linux, Linux 3.13.6-lfs-SVN-20140404" {
 #        linux   /boot/vmlinuz-3.13.6-lfs-SVN-20140404 root=/dev/sda2 ro
 #}
-END
-#sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
+__END__
+sudo install -m644 -o 0 -v $TMPFILE6 $MNT_ROOTFS/boot/grub/grub.cfg
 
 #sudo grub-install --force --recheck $BLOCKDEV || true
-sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
-#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
+#sudo grub-install --force --recheck --root-directory=$MNT_ROOTFS $BLOCKDEV || true
+#sudo grub-install --grub-mkdevicemap=/dev/true --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
 
 # From http://samypesse.github.io/How-to-Make-a-Computer-Operating-System/Chapter-3/README.html
-#sudo grub --device-map=/dev/null <<END
+##sudo grub --device-map=/dev/null <<END
 #device (hd0) $RAW_IMAGE
 #geometry (hd0) 400 16 63
 #root (hd0,1)
 #setup (hd0)
 #quit
 #END
+
+#sudo grub-setup \
+#	--directory=$MNT_ROOTFS/boot/grub \
+#	--device-map=$MNT_ROOTFS/boot/grub/device.map \
+#	--root-device=/dev/hda \
+#	--verbose \
+#	$BLOCKDEV || true
+
+#sudo grub-mkimage \
+#	--format=i386-pc \
+#	| hexdump -Cv
 
 fi	# [ $bootldr_use_grub2 != 0 ]
 
@@ -214,6 +261,10 @@ if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     cat $MNT_ROOTFS/boot/grub/device.map
 fi
 
+if [ -e $MNT_ROOTFS/boot/grub/load.cfg ]; then
+    echo "DBG: Contents of $MNT_ROOTFS/boot/grub/load.cfg:"
+    cat $MNT_ROOTFS/boot/grub/load.cfg
+fi
 if [ -e $MNT_ROOTFS/boot/grub/grub.cfg ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot/grub/grub.cfg:"
     cat $MNT_ROOTFS/boot/grub/grub.cfg
@@ -229,14 +280,15 @@ sudo losetup -av
 rm -f $TMPFILE1
 rm -f $TMPFILE2
 rm -f $TMPFILE3
+rm -f $TMPFILE4
 
 #echo "DBG: Checking $RAW_IMAGE:"
 #parted $RAW_IMAGE print free
 
 qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 
-# TODO: Test: Run QEMU against VDI_IMAGE
-echo "TODO:" qemu-system-i386 -hda $RAW_IMAGE
+## TODO: Test: Run QEMU against VDI_IMAGE
+#echo "TODO:" qemu-system-i386 -hda $RAW_IMAGE
 
 # TODO: Test: Run VirtualBox against VDI_IMAGE
 
