@@ -14,6 +14,8 @@
 #    grub-install
 #    sudo
 
+# CONFIGURATION ITEMS
+
 TOPDIR=$PWD/tmp/build-gemini-5.0.2-qemux86
 
 MACHINE=qemux86
@@ -21,10 +23,12 @@ FSTYPE=tar.bz2
 KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
 ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/gemini-image-$MACHINE.$FSTYPE
 
-RAW_IMAGE=test.raw
-VDI_IMAGE=test.vdi
+RAW_IMAGE=$PWD/test.raw
+VDI_IMAGE=$PWD/test.vdi
 
 MNT_ROOTFS=/tmp/rootfs
+
+DISK_SIZE=256M
 
 set -e
 #set -x
@@ -32,7 +36,7 @@ set -e
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
-qemu-img create -f raw $RAW_IMAGE 256M
+qemu-img create -f raw $RAW_IMAGE $DISK_SIZE
 
 # Create partition table and partitions on RAW_IMAGE
 parted $RAW_IMAGE mklabel msdos
@@ -47,8 +51,18 @@ parted $RAW_IMAGE print free
 
 TMPFILE1=/tmp/kpartx-$$.tmp
 
-# See http://stackoverflow.com/questions/1419489/loopback-mounting-individual-partitions-from-within-a-file-that-contains-a-parti
-sudo kpartx -v -a $RAW_IMAGE >$TMPFILE1
+LOOP_IMAGE=`sudo losetup -f --show $RAW_IMAGE`
+
+TEMP_MAJ=`ls -l $LOOP_IMAGE | cut -d ' ' -f 5`
+
+MAJOR=${TEMP_MAJ%?} #remove comma from major
+MINOR=`ls -l $LOOP_IMAGE | cut -d ' ' -f 6`
+SIZE=$((`ls -l $RAW_IMAGE | cut -d ' ' -f 5`/512))
+
+echo "0 $SIZE linear $MAJOR:$MINOR 0" | sudo dmsetup create hda # this creates /dev/mapper/hda
+
+
+sudo kpartx -v -a /dev/mapper/hda >$TMPFILE1
 
 echo "DBG: Contents of $TMPFILE1:"
 cat $TMPFILE1
@@ -61,15 +75,17 @@ echo "DBG: ROOTPART=$ROOTPART"
 #echo "DBG: Checking $BLOCKDEV:"
 #sudo fdisk -l $BLOCKDEV
 
+sleep 1 #wait for node creation
+
 sudo mkfs -t ext3 -L "GENIVI" $ROOTPART
 
 mkdir -p $MNT_ROOTFS
 #sudo mount -o loop $ROOTPART $MNT_ROOTFS
 sudo mount $ROOTPART $MNT_ROOTFS
 
-TMPFILE2=/tmp/losetup-$$.tmp
+#TMPFILE2=/tmp/losetup-$$.tmp
 
-sudo losetup -av >$TMPFILE2
+#sudo losetup -av >$TMPFILE2
 
 #echo "DBG: Contents of $TMPFILE2:"
 #cat $TMPFILE2
@@ -79,7 +95,7 @@ sudo install -m755 -d $MNT_ROOTFS/boot
 sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
 # Extract rootfs
-#sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
 
 #echo "TODO:"
 # TODO: Create grub.cfg to MNT_ROOTFS/boot/grub
@@ -88,17 +104,35 @@ sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 # Create simple /boot/grub/grub.cfg on $ROOTPART
 # See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
 
+sudo install -m 755 -d $MNT_ROOTFS/boot/grub
+
+REAL_DEVICE=`readlink -f /dev/mapper/hda`
+TMPFILE4=device.map
+cat >$TMPFILE4 <<__END__
+# Begin /boot/grub/device.map
+
+(hd0) $REAL_DEVICE
+#(hd0,msdos1) $BLOCKDEV
+#(hd0,1) $ROOTPART
+__END__
+sudo install -m644 -o 0 -v $TMPFILE4 $MNT_ROOTFS/boot/grub/device.map
+
+echo "DBG: Installing grub"
+
+sudo grub-install --root-directory=$MNT_ROOTFS $REAL_DEVICE
+
+
 TMPFILE3=/tmp/grubcfg-$$.tmp
 cat > $TMPFILE3 <<END
 # Begin /boot/grub/grub.cfg
 set default=0
-set timeout=5
+set timeout=1
 
 insmod ext2
 set root=(hd0,1)
 
 menuentry "Yocto-GENIVI, Linux" {
-        linux   /boot/bzImage-qemux86.bin root=/dev/sda1
+        linux   /boot/bzImage-qemux86.bin root=/dev/hda1
 }
 
 #menuentry "GNU/Linux, Linux 3.13.6-lfs-SVN-20140404" {
@@ -106,24 +140,17 @@ menuentry "Yocto-GENIVI, Linux" {
 #}
 END
 
-set -x
-
-sudo install -m755 -d $MNT_ROOTFS/boot/grub
-#sudo grub-mkdevicemap -m $MNT_ROOTFS/boot/grub/device.map
-#grub-probe $RAW_IMAGE
-#sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
-#sudo grub-install --force --root-directory=$MNT_ROOTFS $BLOCKDEV || true
-#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $BLOCKDEV || true
-#sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $RAW_IMAGE || true
-sudo grub-install --force --boot-directory=$MNT_ROOTFS/boot $ROOTPART || true
+sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
 
 echo "DBG: Contents of $MNT_ROOTFS:"
 ls -la $MNT_ROOTFS
 
-echo "DBG: Contents of $MNT_ROOTFS/boot:"
-du -sh $MNT_ROOTFS/boot
-#ls -la $MNT_ROOTFS/boot
-ls -laR $MNT_ROOTFS/boot
+if [ -e $MNT_ROOTFS/boot ]; then
+    echo "DBG: Contents of $MNT_ROOTFS/boot:"
+    #du -sh $MNT_ROOTFS/boot
+    #ls -la $MNT_ROOTFS/boot
+    ls -laR $MNT_ROOTFS/boot
+fi
 
 if [ -e $MNT_ROOTFS/boot/grub/device.map ]; then
     echo "DBG: Contents of $MNT_ROOTFS/boot/grub/device.map:"
@@ -133,18 +160,23 @@ fi
 echo "DBG: Disk space on $MNT_ROOTFS:"
 df -h $MNT_ROOTFS
 
+echo "DBG: Cleanup"
+
 sudo umount $MNT_ROOTFS
 
-sudo kpartx -d $RAW_IMAGE
+sudo kpartx -d $BLOCKDEV
 
-sudo losetup -av
+sudo dmsetup remove hda
 
-rm $TMPFILE1
-rm $TMPFILE2
-rm $TMPFILE3
+sudo losetup -d $LOOP_IMAGE
 
-echo "DBG: Checking $RAW_IMAGE:"
-parted $RAW_IMAGE print free
+rm -f $TMPFILE1
+rm -f $TMPFILE2
+rm -f $TMPFILE3
+rm -f $TMPFILE4
+
+#echo "DBG: Checking $RAW_IMAGE:"
+#parted $RAW_IMAGE print free
 
 qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 
