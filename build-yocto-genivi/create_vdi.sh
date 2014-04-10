@@ -30,24 +30,62 @@ MNT_ROOTFS=/tmp/rootfs
 
 DISK_SIZE=256M
 
+partmgr_use_fdisk=0
+partmgr_use_parted=1
+
+bootldr_use_grub2=1
+bootldr_use_syslinux=0
+
+echo "DBG: partmgr_use_fdisk=$partmgr_use_fdisk; partmgr_use_parted=$partmgr_use_parted"
+echo "DBG: bootldr_use_grub2=$bootldr_use_grub2; bootldr_use_syslinux=$bootldr_use_syslinux"
+
 set -e
 #set -x
 
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
+
 qemu-img create -f raw $RAW_IMAGE $DISK_SIZE
 
-# Create partition table and partitions on RAW_IMAGE
+
+if [ $partmgr_use_fdisk != 0 ]; then
+echo "DBG: Use fdisk to create partition table and partition(s) on RAW_IMAGE"
+# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sec = ???
+fdisk $RAW_IMAGE <<END
+x
+c
+400
+h
+16
+s
+63
+r
+n
+p
+1
+
+
+a
+1
+p
+w
+END
+fi	# [ $partmgr_use_fdisk != 0 ]
+
+if [ $partmgr_use_parted != 0 ]; then
+echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
 parted $RAW_IMAGE mklabel msdos
 parted $RAW_IMAGE print free
-parted $RAW_IMAGE mkpart primary ext3 1 220
+parted $RAW_IMAGE mkpart primary ext3 1 200
 parted $RAW_IMAGE set 1 boot on
-parted $RAW_IMAGE print free
+fi	# [ $partmgr_use_parted != 0 ]
 
-#echo "DBG: Checking $RAW_IMAGE:"
+
+echo "DBG: Checking $RAW_IMAGE:"
 #sfdisk -l $RAW_IMAGE
 #fdisk -l $RAW_IMAGE
+#parted $RAW_IMAGE print free
 
 TMPFILE1=/tmp/kpartx-$$.tmp
 
@@ -80,7 +118,6 @@ sleep 1 #wait for node creation
 sudo mkfs -t ext3 -L "GENIVI" $ROOTPART
 
 mkdir -p $MNT_ROOTFS
-#sudo mount -o loop $ROOTPART $MNT_ROOTFS
 sudo mount $ROOTPART $MNT_ROOTFS
 
 #TMPFILE2=/tmp/losetup-$$.tmp
@@ -90,19 +127,19 @@ sudo mount $ROOTPART $MNT_ROOTFS
 #echo "DBG: Contents of $TMPFILE2:"
 #cat $TMPFILE2
 
-# TODO: Copy kernel to $MNT_ROOTFS/boot
+# Copy kernel to $MNT_ROOTFS/boot
 sudo install -m755 -d $MNT_ROOTFS/boot
 sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
 # Extract rootfs
 sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
 
-#echo "TODO:"
-# TODO: Create grub.cfg to MNT_ROOTFS/boot/grub
-# grub-mkimage ???
+#echo "DBG: Listing all disks IDs"
+#ls -la /dev/disk/by-id/
 
-# Create simple /boot/grub/grub.cfg on $ROOTPART
-# See http://www.linuxfromscratch.org/lfs/view/development/chapter08/grub.html
+#echo "DBG: Listing all disks labels"
+#ls -la /dev/disk/by-label/
+
 
 sudo install -m 755 -d $MNT_ROOTFS/boot/grub
 
@@ -129,6 +166,7 @@ set default=0
 set timeout=1
 
 insmod ext2
+#set prefix=(hd0,1)/boot/grub
 set root=(hd0,1)
 
 menuentry "Yocto-GENIVI, Linux" {
@@ -180,8 +218,8 @@ rm -f $TMPFILE4
 
 qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 
-# TODO: Test: Run QEMU against VDI_IMAGE
-echo "TODO:" qemu-system-i386 -hda $RAW_IMAGE
+## TODO: Test: Run QEMU against VDI_IMAGE
+#echo "TODO:" qemu-system-i386 -hda $RAW_IMAGE
 
 # TODO: Test: Run VirtualBox against VDI_IMAGE
 
