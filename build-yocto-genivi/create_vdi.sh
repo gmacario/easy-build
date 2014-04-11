@@ -8,10 +8,10 @@
 # USE AT YOUR OWN RISK - YOU HAVE BEEN WARNED!!!
 
 # Prerequisites:
-#    qemu-img
-#    parted
-#    kpartx
 #    grub-install
+#    kpartx
+#    parted
+#    qemu-img
 #    sudo
 
 # CONFIGURATION ITEMS
@@ -45,13 +45,12 @@ set -e
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
-
 qemu-img create -f raw $RAW_IMAGE $DISK_SIZE
 
 
 if [ $partmgr_use_fdisk != 0 ]; then
 echo "DBG: Use fdisk to create partition table and partition(s) on RAW_IMAGE"
-# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sec = ???
+# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sector
 fdisk $RAW_IMAGE <<END
 x
 c
@@ -73,6 +72,7 @@ w
 END
 fi	# [ $partmgr_use_fdisk != 0 ]
 
+
 if [ $partmgr_use_parted != 0 ]; then
 echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
 parted $RAW_IMAGE mklabel msdos
@@ -82,15 +82,13 @@ parted $RAW_IMAGE set 1 boot on
 fi	# [ $partmgr_use_parted != 0 ]
 
 
-echo "DBG: Checking $RAW_IMAGE:"
+#echo "DBG: Checking $RAW_IMAGE:"
 #sfdisk -l $RAW_IMAGE
 #fdisk -l $RAW_IMAGE
 #parted $RAW_IMAGE print free
 
-TMPFILE1=/tmp/kpartx-$$.tmp
 
 LOOP_IMAGE=`sudo losetup -f --show $RAW_IMAGE`
-
 TEMP_MAJ=`ls -l $LOOP_IMAGE | cut -d ' ' -f 5`
 
 MAJOR=${TEMP_MAJ%?} #remove comma from major
@@ -100,8 +98,8 @@ SIZE=$((`ls -l $RAW_IMAGE | cut -d ' ' -f 5`/512))
 echo "0 $SIZE linear $MAJOR:$MINOR 0" | sudo dmsetup create hda # this creates /dev/mapper/hda
 
 
+TMPFILE1=/tmp/kpartx-$$.tmp
 sudo kpartx -v -a /dev/mapper/hda >$TMPFILE1
-
 echo "DBG: Contents of $TMPFILE1:"
 cat $TMPFILE1
 
@@ -131,7 +129,7 @@ sudo mount $ROOTPART $MNT_ROOTFS
 sudo install -m755 -d $MNT_ROOTFS/boot
 sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
 
-# Extract rootfs
+echo "DBG: Extracting rootfs to $MNT_ROOTFS"
 sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
 
 #echo "DBG: Listing all disks IDs"
@@ -147,7 +145,7 @@ REAL_DEVICE=`readlink -f /dev/mapper/hda`
 TMPFILE4=device.map
 cat >$TMPFILE4 <<__END__
 # Begin /boot/grub/device.map
-
+#
 (hd0) $REAL_DEVICE
 #(hd0,msdos1) $BLOCKDEV
 #(hd0,1) $ROOTPART
@@ -155,29 +153,28 @@ __END__
 sudo install -m644 -o 0 -v $TMPFILE4 $MNT_ROOTFS/boot/grub/device.map
 
 echo "DBG: Installing grub"
-
 sudo grub-install --root-directory=$MNT_ROOTFS $REAL_DEVICE
 
 
 TMPFILE3=/tmp/grubcfg-$$.tmp
-cat > $TMPFILE3 <<END
+cat > $TMPFILE3 <<__END__
 # Begin /boot/grub/grub.cfg
+#
 set default=0
 set timeout=1
-
+#
 insmod ext2
 #set prefix=(hd0,1)/boot/grub
 set root=(hd0,1)
-
+#
 menuentry "Yocto-GENIVI, Linux" {
         linux   /boot/bzImage-qemux86.bin root=/dev/hda1
 }
-
+#
 #menuentry "GNU/Linux, Linux 3.13.6-lfs-SVN-20140404" {
 #        linux   /boot/vmlinuz-3.13.6-lfs-SVN-20140404 root=/dev/sda2 ro
 #}
-END
-
+__END__
 sudo install -m644 -o 0 -v $TMPFILE3 $MNT_ROOTFS/boot/grub/grub.cfg
 
 echo "DBG: Contents of $MNT_ROOTFS:"
