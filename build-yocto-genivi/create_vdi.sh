@@ -216,12 +216,14 @@ rm -f $TMPFILE4
 qemu-img convert -f raw -O vdi $RAW_IMAGE $VDI_IMAGE
 
 cat <<__END__
+
 INFO: To execute the VDI_IMAGE under QEMU:
 
 $ qemu-system-i386 -hda $VDI_IMAGE
 __END__
 
 cat <<__END__
+
 INFO: To execute the VDI_IMAGE under VirtualBox:
 
 $ virtualbox
@@ -236,7 +238,7 @@ VirtualBox: File > New Virtual Machine
   Memory size: 1024 MB
 
   Hard drive
-    * Use an existing virutal hard drive file
+    * Use an existing virtual hard drive file
       file:$VDI_IMAGE
     then select "Create"
 
