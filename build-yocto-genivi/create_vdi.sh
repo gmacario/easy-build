@@ -34,11 +34,7 @@ DISK_SIZE=256M
 partmgr_use_fdisk=0
 partmgr_use_parted=1
 
-bootldr_use_grub2=1
-bootldr_use_syslinux=0
-
 echo "DBG: partmgr_use_fdisk=$partmgr_use_fdisk; partmgr_use_parted=$partmgr_use_parted"
-echo "DBG: bootldr_use_grub2=$bootldr_use_grub2; bootldr_use_syslinux=$bootldr_use_syslinux"
 
 set -e
 #set -x
