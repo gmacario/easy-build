@@ -16,12 +16,13 @@
 
 # CONFIGURATION ITEMS
 
-TOPDIR=$PWD/tmp/build-gemini-5.0.2-qemux86
+TOPDIR=$PWD/tmp/build-horizon-6.0.0-qemux86
 
+IMAGENAME=horizon-image
 MACHINE=qemux86
 FSTYPE=tar.bz2
 KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
-ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/gemini-image-$MACHINE.$FSTYPE
+ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/${IMAGENAME}-${MACHINE}.${FSTYPE}
 
 RAW_IMAGE=$PWD/test.raw
 VDI_IMAGE=$PWD/test.vdi
