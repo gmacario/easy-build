@@ -227,23 +227,25 @@ cat <<__END__
 
 INFO: To execute the VDI_IMAGE under VirtualBox:
 
-$ virtualbox
+Launch Oracle VM VirtualBox Manager
 
-VirtualBox: File > New Virtual Machine
+VirtualBox: Machine > New...
 
   Name and operating system
   * Name: My GENIVI baseline
   * Type: Linux
   * Version: Other Linux (32 bit)
+    then select "Next"
 
   Memory size: 1024 MB
+    then select "Next"
 
   Hard drive
     * Use an existing virtual hard drive file
       file:$VDI_IMAGE
     then select "Create"
 
-VirtualBox: Start VM
+VirtualBox: Machine > Start
 __END__
 
 exit 0;
