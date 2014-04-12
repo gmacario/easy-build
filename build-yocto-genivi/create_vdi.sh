@@ -39,6 +39,27 @@ echo "DBG: partmgr_use_fdisk=$partmgr_use_fdisk; partmgr_use_parted=$partmgr_use
 set -e
 #set -x
 
+#Check if all required commands exist
+cmd_exists() {
+    while [ -n "$1" ]
+    do
+	#echo "DBG: Checking for $1"
+        command -v $1 >/dev/null 2>&1 || { \
+	    echo >&2 "ERROR: command '$1' is required but not installed"; \
+	    notOK=1; \
+	}
+        shift
+    done
+    if [ -n "$notOK" ]; then
+	echo "Aborting."
+        exit 1
+    fi
+}
+cmd_exists grub-install kpartx qemu-img sudo
+[ $partmgr_use_fdisk != 0 ] && cmd_exists fdisk
+[ $partmgr_use_parted != 0 ] && cmd_exists parted
+
+
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
