@@ -58,14 +58,14 @@ After logging in as user "build" execute the following commands:
 The following commands must be executed only once:
 
     # Known SHA for Yocto GENIVI Baseline 6.0.0
-    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
-    #cd $GENIVI/meta-ivi && git checkout 6.0.0
-    #cd $GENIVI/poky     && git checkout bf8dcb43432004328162ddad3c8b38eaab6ab5ce
+    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=6.0.0
+    cd $GENIVI/meta-ivi && git checkout 6.0.0
+    cd $GENIVI/poky     && git checkout bf8dcb43432004328162ddad3c8b38eaab6ab5ce
     
     # Known SHA for Yocto GENIVI Baseline 5.0.2
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
-    cd $GENIVI/meta-ivi && git checkout 5.0.2
-    cd $GENIVI/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
+    #cd $GENIVI/meta-ivi && git checkout 5.0.2
+    #cd $GENIVI/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
     
     # Known SHA for Yocto GENIVI Baseline 5.0.1
     # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.1
@@ -113,7 +113,7 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 #### Perform build
 
     cd $TOPDIR
-    bitbake -k gemini-image
+    bitbake -k horizon-image
 
 **NOTE**: This command may take a few hours to complete.
 
