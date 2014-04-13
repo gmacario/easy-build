@@ -38,9 +38,15 @@ Adapted from [meta-ivi README.md](http://git.yoctoproject.org/cgit/cgit.cgi/meta
 
 Prerequisite: the container is already running.
 
-### Switching to build user
+### Preparation
 
+    # Ensure that /dev/shm is world writeble (???)
+    chmod a+w /dev/shm
+    
+    # Ensure ~build/tmp directory is owned by user "build"
     chown build.build /home/build/tmp
+    
+    # Switch to user 'build'
     su - build
 
 ### Initialize build environment
