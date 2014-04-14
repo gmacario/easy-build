@@ -63,56 +63,18 @@ After logging in as user "build" execute the following commands:
 
 The following commands must be executed only once:
 
-    # Known SHA for Yocto GENIVI Baseline 6.0.0
-    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=6.0.0
-    cd $GENIVI/meta-ivi && git checkout 6.0.0
-    cd $GENIVI/poky     && git checkout bf8dcb43432004328162ddad3c8b38eaab6ab5ce
-    
-    # Known SHA for Yocto GENIVI Baseline 5.0.2
-    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
-    #cd $GENIVI/meta-ivi && git checkout 5.0.2
-    #cd $GENIVI/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
-    
-    # Known SHA for Yocto GENIVI Baseline 5.0.1
-    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.1
-    #cd $GENIVI/meta-ivi && git checkout 5.0.1
-    #cd $GENIVI/poky     && git checkout 53d2563ff13fcec74d4250bef5419e36169e55cc
-    
-    # Known SHA for Yocto GENIVI Baseline 5.0.0
-    # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.0
-    #cd $GENIVI/meta-ivi && git checkout 5.0.0
-    #cd $GENIVI/poky     && git checkout 56f39bcf2237c11508d82238b6292e4bfbfed764
-    
+See `configure_build.sh` for details
+
     cd $TOPDIR
-    
-    cp $TOPDIR/conf/bblayers.conf $TOPDIR/conf/bblayers.conf.ORIG
-    cat <<END >>$TOPDIR/conf/bblayers.conf
-    BBLAYERS += " \
-      $GENIVI/meta-ivi \
-      $GENIVI/meta-ivi/meta-ivi-bsp \
-      "
-    END
-    
-    cp $TOPDIR/conf/local.conf $TOPDIR/conf/local.conf.ORIG
-    cat <<END >>$TOPDIR/conf/local.conf
-    # Override config options in conf/local.conf
-    BB_NUMBER_THREADS = "4"
-    PARALLEL_MAKE = "-j 4"
-    #
-    DISTRO = "poky-ivi-systemd"
-    #DISTRO_FEATURES_append = " opengl"
-    #DISTRO_FEATURES_append = " pam"
-    #DISTRO_FEATURES_append = " systemd"
-    #DISTRO_FEATURES_append = " x11"
-    #
-    #MACHINE ?= "vexpressa9"
-    MACHINE ?= "qemux86"
-    #MACHINE ?= "qemux86-64"
-    #
-    #PREFERRED_VERSION_linux-yocto_vexpressa9 = "3.10.11"
-    #
-    INCOMPATIBLE_LICENSE = "GPLv3"
-    END
+    curl \
+	https://raw.githubusercontent.com/gmacario/easy-build/master/build-yocto-genivi/configure_build.sh \
+	>configure_build.sh
+
+    # Review script and make any modifications if needed
+    vi configure_build.sh
+
+    # invoke the script
+    sh configure_build.sh
 
 For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
 
