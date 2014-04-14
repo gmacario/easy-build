@@ -40,7 +40,7 @@ Prerequisite: the container is already running.
 
 ### Preparation
 
-    # Ensure that /dev/shm is world writeble (???)
+    # Ensure that /dev/shm is writable (TODO: why???)
     chmod a+w /dev/shm
     
     # Ensure ~build/tmp directory is owned by user "build"
