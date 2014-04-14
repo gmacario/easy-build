@@ -161,15 +161,7 @@ then invoke `bitbake gemini-image` again.
 
     $GENIVI/poky/scripts/runqemu gemini-image qemux86-x64
     
-## Creating a .VDI image for QEMU and VirtualBox
-
-This works only for `MACHINE=qemux86`
-
-Review the `create_vdi.sh` script to adjust the configurable parameters, then run
-
-    ./create_vdi.sh
-
-## Committing the image after building the Yocto GENIVI Baseline
+## (Optional) Committing the image after building the Yocto GENIVI Baseline
 
 If the previous commands were successful, exit the container, then execute the following commands to persist the container into a Docker image:
 
@@ -179,3 +171,11 @@ If the previous commands were successful, exit the container, then execute the f
 You may optionally push the image to a public Docker repository, like
 
     docker push <repository>
+
+## Creating a .VDI image for QEMU and VirtualBox
+
+This works only for `MACHINE=qemux86`
+
+Review the `create_vdi.sh` script to adjust the configurable parameters, then run
+
+    ./create_vdi.sh
