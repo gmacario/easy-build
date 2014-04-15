@@ -148,6 +148,6 @@ Review the `create_standalone_images.sh` script to adjust the configurable param
 
 Follow the instructions displayed by the script for loading and running the images under:
 
-* [qemu-system-i386](http://www.qemu.org/) (tested with qemu-kvm 1.0 under on 12.04.4 LTS)
-* [Oracle VM VirtualBox](https://www.virtualbox.org/) (tested with VirtualBox 4.3.10 on MS Windows)
-* [VMware Player](http://www.vmware.com/products/player) (tested with VMware Player 6.0.1 on MS Windows)
+* [qemu-system-i386](http://www.qemu.org/) (tested with qemu-kvm 1.0 under on Ubuntu 12.04.4 LTS)
+* [Oracle VM VirtualBox](https://www.virtualbox.org/) (tested with VirtualBox 4.3.10 on MS Windows 7 and Ubuntu 12.04.4 LTS)
+* [VMware Player](http://www.vmware.com/products/player) (tested with VMware Player 6.0.1 on MS Windows 7)
