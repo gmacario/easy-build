@@ -34,11 +34,6 @@ MNT_ROOTFS=/tmp/rootfs
 
 DISK_SIZE=256M
 
-partmgr_use_fdisk=0
-partmgr_use_parted=1
-
-echo "DBG: partmgr_use_fdisk=$partmgr_use_fdisk; partmgr_use_parted=$partmgr_use_parted"
-
 set -e
 #set -x
 
@@ -58,9 +53,7 @@ cmd_exists() {
         exit 1
     fi
 }
-cmd_exists grub-install kpartx qemu-img sudo
-[ $partmgr_use_fdisk != 0 ] && cmd_exists fdisk
-[ $partmgr_use_parted != 0 ] && cmd_exists parted
+cmd_exists grub-install kpartx parted qemu-img sudo
 
 
 # Create QEMU image
@@ -69,44 +62,11 @@ cmd_exists grub-install kpartx qemu-img sudo
 qemu-img create -f raw $RAW_IMAGE $DISK_SIZE
 
 
-if [ $partmgr_use_fdisk != 0 ]; then
-echo "DBG: Use fdisk to create partition table and partition(s) on RAW_IMAGE"
-# Disk geometry: 400 cylinders * 16 heads * 63 sec/track * 512 byte/sector
-fdisk $RAW_IMAGE <<END
-x
-c
-400
-h
-16
-s
-63
-r
-n
-p
-1
-
-
-a
-1
-p
-w
-END
-fi	# [ $partmgr_use_fdisk != 0 ]
-
-
-if [ $partmgr_use_parted != 0 ]; then
 echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
 parted $RAW_IMAGE mklabel msdos
-parted $RAW_IMAGE print free
 parted $RAW_IMAGE mkpart primary ext3 1 200
 parted $RAW_IMAGE set 1 boot on
-fi	# [ $partmgr_use_parted != 0 ]
-
-
-#echo "DBG: Checking $RAW_IMAGE:"
-#sfdisk -l $RAW_IMAGE
-#fdisk -l $RAW_IMAGE
-#parted $RAW_IMAGE print free
+parted $RAW_IMAGE print free
 
 
 LOOP_IMAGE=`sudo losetup -f --show $RAW_IMAGE`
@@ -129,22 +89,13 @@ ROOTPART=/dev/mapper/`cut -d' ' -f3 $TMPFILE1`
 echo "DBG: BLOCKDEV=$BLOCKDEV"
 echo "DBG: ROOTPART=$ROOTPART"
 
-#echo "DBG: Checking $BLOCKDEV:"
-#sudo fdisk -l $BLOCKDEV
-
-sleep 1 #wait for node creation
+sleep 1 # wait for node creation
 
 sudo mkfs -t ext3 -L "GENIVI" $ROOTPART
 
 mkdir -p $MNT_ROOTFS
 sudo mount $ROOTPART $MNT_ROOTFS
 
-#TMPFILE2=/tmp/losetup-$$.tmp
-
-#sudo losetup -av >$TMPFILE2
-
-#echo "DBG: Contents of $TMPFILE2:"
-#cat $TMPFILE2
 
 # Copy kernel to $MNT_ROOTFS/boot
 sudo install -m755 -d $MNT_ROOTFS/boot
