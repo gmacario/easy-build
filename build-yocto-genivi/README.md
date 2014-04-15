@@ -138,16 +138,16 @@ You may optionally push the image to a public Docker repository, like
 
     docker push <repository>
 
-## Creating images for external execution under QEMU, VirtualBox and VMware Player
+## Creating standalone images for execution under QEMU, VirtualBox and VMware Player
 
 This works only for `MACHINE=qemux86`
 
-Review the `create_vdi.sh` script to adjust the configurable parameters, then run
+Review the `create_standalone_images.sh` script to adjust the configurable parameters, then run
 
-    ./create_vdi.sh
+    ./create_standalone_images.sh
 
 Follow the instructions displayed by the script for loading and running the images under:
 
-* qemu-system-i386
-* Oracle VirtualBox
-* VMware Player
+* [qemu-system-i386](http://www.qemu.org/) (tested with qemu-kvm 1.0 under on 12.04.4 LTS)
+* [Oracle VM VirtualBox](https://www.virtualbox.org/) (tested with VirtualBox 4.3.10 on MS Windows)
+* [VMware Player](http://www.vmware.com/products/player) (tested with VMware Player 6.0.1 on MS Windows)
