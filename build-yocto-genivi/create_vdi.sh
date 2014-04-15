@@ -26,6 +26,7 @@ ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/${IMAGENAME}-${MACHINE}.${FSTYPE}
 
 RAW_IMAGE=$PWD/test.raw
 VDI_IMAGE=$PWD/test.vdi
+VMDK_IMAGE=$PWD/test.vmdk
 
 MNT_ROOTFS=/tmp/rootfs
 
@@ -249,7 +250,7 @@ Launch Oracle VM VirtualBox Manager
 VirtualBox: Machine > New...
 
   Name and operating system
-  * Name: My GENIVI baseline
+  * Name: <choose a name for your VM>
   * Type: Linux
   * Version: Other Linux (32 bit)
     then select "Next"
@@ -263,6 +264,63 @@ VirtualBox: Machine > New...
     then select "Create"
 
 VirtualBox: Machine > Start
+__END__
+
+qemu-img convert -f raw -O vmdk $RAW_IMAGE $VMDK_IMAGE
+
+cat <<__END__
+
+INFO: To execute the VMDK_IMAGE under VMware Player:
+
+Download VMware Player 6.0 from https://www.vmware.com/
+
+Install VMware Player on your host OS
+
+Player: File > New Virtual Machine...
+
+Welcome to the New Virtual Machine Wizard
+
+  Install from: I will install the operating system later.
+  then select "Next >"
+
+Select a Guest Operating System
+
+* Guest operating system: Linux
+* Version: Other Linux 3.x kernel
+
+Name the Virtual Macine
+
+* Virtual machine name: <choose a name for your VM>
+* Location: <choose directory or accept defaults>
+
+Specify Disk Capacity
+
+* Maximum disk size: 1.0 GB
+* Store virtual disk as a single file
+
+Customize Hardware... (none so far)
+
+Select "Finish"
+
+Edit virtual machine settings
+
+* Hard Disk (SCSI) > Remove
+
+Add > Hard Disk
+
+* Virtual disk type: SCSI
+* Disk: Use an existing virtual disk
+
+Disk file: $VMDK_IMAGE
+
+If the question "Convert existing virtual disk to newer format?" is asked,
+select "Keep existing format"
+
+Select "OK"
+
+Start VM
+
+# FIXME: Got "VFS: Unable to mount root fs on unknown-block(0,0)
 __END__
 
 exit 0;
