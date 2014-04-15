@@ -23,6 +23,9 @@ RUN apt-get install -y screen
 # Install the following utilities (required by poky)
 RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
 
+# Install the following utilities (required by create_vdi.sh)
+RUN apt-get install -y curl
+
 ## Create non-root user that will perform the build of the images
 #RUN useradd --shell /bin/bash build
 #RUN mkdir -p /home/build
