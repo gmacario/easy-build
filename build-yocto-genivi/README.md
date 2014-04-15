@@ -40,11 +40,11 @@ Prerequisite: the container is already running.
 
 ### Preparation
 
-    # Ensure that /dev/shm is writable (TODO: why???)
+    # Make sure that /dev/shm is writable (TODO: why???)
     chmod a+w /dev/shm
     
-    # Ensure ~build/tmp directory is owned by user "build"
-    chown build.build /home/build/tmp
+    # Make sure that ~build/tmp directory is owned by user "build"
+    chown build.build ~build/tmp
     
     # Switch to user 'build'
     su - build
@@ -87,21 +87,23 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 
 If the build is successful, the following files should be created under $TOPDIR/tmp/deploy:
 
-    build@70b343514a7e:~/genivi-baseline/build$ ls -la tmp/deploy/images/qemux86/
-    total 261772
-    drwxrwxr-x 2 build build      4096 Mar 30 15:54 .
-    drwxrwxr-x 3 build build      4096 Mar 30 15:35 ..
-    -rw-rw-r-- 2 build build       294 Mar 30 15:50 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-    lrwxrwxrwx 2 build build        73 Mar 30 15:35 bzImage -> bzImage--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.bin
-    -rw-r--r-- 2 build build   6195776 Mar 30 15:35 bzImage--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.bin
-    lrwxrwxrwx 2 build build        73 Mar 30 15:35 bzImage-qemux86.bin -> bzImage--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.bin
-    -rw-r--r-- 1 build build 254164992 Mar 30 15:54 gemini-image-qemux86-20140330142316.rootfs.ext3
-    -rw-r--r-- 1 build build  47327430 Mar 30 15:54 gemini-image-qemux86-20140330142316.rootfs.tar.bz2
-    lrwxrwxrwx 1 build build        47 Mar 30 15:54 gemini-image-qemux86.ext3 -> gemini-image-qemux86-20140330142316.rootfs.ext3
-    lrwxrwxrwx 1 build build        50 Mar 30 15:54 gemini-image-qemux86.tar.bz2 -> gemini-image-qemux86-20140330142316.rootfs.tar.bz2
-    -rw-rw-r-- 2 build build  54414397 Mar 30 15:35 modules--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.tgz
-    lrwxrwxrwx 2 build build        73 Mar 30 15:35 modules-qemux86.tgz -> modules--3.10.11+git0+dad2b7e1ce_e1aa804148-r2-qemux86-20140330142316.tgz
-    build@70b343514a7e:~/genivi-baseline/build$
+    build@f502df276335:~/tmp/build-horizon-6.0.0-qemux86$ ls -la tmp/deploy/images/qemux86/
+    total 276456
+    drwxrwxr-x 2 build build      4096 Apr  7 22:34 .
+    drwxrwxr-x 3 build build      4096 Apr  7 22:14 ..
+    -rw-rw-r-- 2 build build       294 Apr  7 22:30 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+    lrwxrwxrwx 1 build build        73 Apr  7 22:14 bzImage -> bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.bin
+    -rw-r--r-- 2 build build   6498704 Apr  7 22:14 bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.bin
+    lrwxrwxrwx 1 build build        73 Apr  7 22:14 bzImage-qemux86.bin -> bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.bin
+    -rw-r--r-- 1 build build 260506624 Apr  7 22:34 horizon-image-qemux86-20140407203357.rootfs.ext3
+    -rw-r--r-- 1 build build     31941 Apr  7 22:33 horizon-image-qemux86-20140407203357.rootfs.manifest
+    -rw-r--r-- 1 build build  46944159 Apr  7 22:34 horizon-image-qemux86-20140407203357.rootfs.tar.bz2
+    lrwxrwxrwx 1 build build        48 Apr  7 22:34 horizon-image-qemux86.ext3 -> horizon-image-qemux86-20140407203357.rootfs.ext3
+    lrwxrwxrwx 1 build build        52 Apr  7 22:34 horizon-image-qemux86.manifest -> horizon-image-qemux86-20140407203357.rootfs.manifest
+    lrwxrwxrwx 1 build build        51 Apr  7 22:34 horizon-image-qemux86.tar.bz2 -> horizon-image-qemux86-20140407203357.rootfs.tar.bz2
+    -rw-rw-r-- 2 build build  67702787 Apr  7 22:14 modules--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.tgz
+    lrwxrwxrwx 1 build build        73 Apr  7 22:14 modules-qemux86.tgz -> modules--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.tgz
+    build@f502df276335:~/tmp/build-horizon-6.0.0-qemux86$
 
 In case the build fails, you may try to clean the offending tasks, as in the following example:
 
@@ -109,19 +111,21 @@ In case the build fails, you may try to clean the offending tasks, as in the fol
     
 then invoke `bitbake gemini-image` again.
 
-### Running the created images with QEMU
+### Running the created images with QEMU inside the container
+
+FIXME: The commands in this section still do not work inside the container.
 
 #### For QEMU vexpressa9
 
-    $GENIVI/meta-ivi/scripts/runqemu gemini-image vexpressa9
+    $GENIVI/meta-ivi/scripts/runqemu horizon-image vexpressa9
 
 #### For QEMU x86
 
-    $GENIVI/poky/scripts/runqemu gemini-image qemux86
+    $GENIVI/poky/scripts/runqemu horizon-image qemux86
 
 #### For QEMU x86-64
 
-    $GENIVI/poky/scripts/runqemu gemini-image qemux86-x64
+    $GENIVI/poky/scripts/runqemu horizon-image qemux86-x64
     
 ## (Optional) Committing the image after building the Yocto GENIVI Baseline
 
@@ -134,10 +138,16 @@ You may optionally push the image to a public Docker repository, like
 
     docker push <repository>
 
-## Creating a .VDI image for QEMU and VirtualBox
+## Creating images for external execution under QEMU, VirtualBox and VMware Player
 
 This works only for `MACHINE=qemux86`
 
 Review the `create_vdi.sh` script to adjust the configurable parameters, then run
 
     ./create_vdi.sh
+
+Follow the instructions displayed by the script for loading and running the images under:
+
+* qemu-system-i386
+* Oracle VirtualBox
+* VMware Player
