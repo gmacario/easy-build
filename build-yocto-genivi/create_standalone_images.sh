@@ -32,7 +32,7 @@ VMDK_IMAGE=$PWD/test.vmdk
 
 MNT_ROOTFS=/tmp/rootfs
 
-DISK_SIZE=256M
+DISK_SIZE_MB=256
 
 set -e
 #set -x
@@ -59,12 +59,12 @@ cmd_exists grub-install kpartx parted qemu-img sudo
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
 
-qemu-img create -f raw $RAW_IMAGE $DISK_SIZE
+qemu-img create -f raw ${RAW_IMAGE} ${DISK_SIZE_MB}M
 
 
 echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
 parted $RAW_IMAGE mklabel msdos
-parted $RAW_IMAGE mkpart primary ext3 1 200
+parted $RAW_IMAGE mkpart primary ext3 1 ${DISK_SIZE_MB}
 parted $RAW_IMAGE set 1 boot on
 parted $RAW_IMAGE print free
 
