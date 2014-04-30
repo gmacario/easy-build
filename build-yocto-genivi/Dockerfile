@@ -18,6 +18,7 @@ RUN apt-get update
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
 RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
 RUN apt-get install -y screen
 
 # Install the following utilities (required by poky)
