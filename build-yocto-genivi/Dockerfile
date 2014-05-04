@@ -18,7 +18,8 @@ RUN apt-get update
 RUN apt-get install -y git tig
 RUN apt-get install -y mc
 RUN apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
+# Make sure the directory exists, otherwise sshd will not start
+RUN mkdir -p /var/run/sshd
 RUN apt-get install -y screen
 
 # Install the following utilities (required by poky)
@@ -27,6 +28,7 @@ RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
 # Install the following utilities (required by create_vdi.sh)
 RUN apt-get install -y curl
 
+# NOTE: Uncomment if user "build" is not already created inside the base image
 ## Create non-root user that will perform the build of the images
 #RUN useradd --shell /bin/bash build
 #RUN mkdir -p /home/build
@@ -40,9 +42,6 @@ RUN su -c "cd ~/genivi-baseline \
 	&& git clone git://git.yoctoproject.org/meta-ivi" build
 
 #RUN cd /home/build
-
-# Run as the following user
-#USER daemon
 
 # Define container entry point
 ENTRYPOINT ["/bin/bash"]
