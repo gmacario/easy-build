@@ -11,8 +11,8 @@ FROM gmacario/easy-build
 MAINTAINER Gianpaolo Macario, gmacario@gmail.com
 
 # Make sure the package repository is up to date
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
+RUN apt-get -y upgrade
 
 # Install packages we cannot leave without...
 RUN apt-get install -y git tig
