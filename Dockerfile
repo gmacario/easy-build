@@ -22,27 +22,13 @@ RUN useradd --shell /bin/bash build
 RUN mkdir -p /home/build
 RUN chown -R build /home/build
 
-# Derived dockerfiles shall download source repositories, i.e.
-#RUN su -c "cd ~ && git clone git://git.yoctoproject.org/meta-ivi \
-#	&& cd meta-ivi && git checkout master" build
-#RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky \
-#	&& cd poky && git checkout 44c3f72684c5c920ce8af1da54a2268047342589" build
+# Leave derived dockerfiles to download source repositories
 
 RUN cd /home/build
 
 # Run as the following user
 #USER daemon
 
-# Say hello when the container is launched
-#ENTRYPOINT echo "Whale You Be My Container?"
-#ENTRYPOINT ["echo", "Whale You Be My Container?"]
-#ENTRYPOINT ["wc", "-l"]
-#ENTRYPOINT ["memcached", "-u", "daemon"]
-#ENTRYPOINT ["memcached"]
-#ENTRYPOINT ["echo", "Welcome to easy-build!"]
 ENTRYPOINT ["/bin/bash"]
-
-# Expose memcached port
-#EXPOSE 11211
 
 # EOF
