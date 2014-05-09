@@ -38,11 +38,11 @@ RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
 
 # Chekcout poky from git
 RUN su -c "mkdir -p ~/yocto" build
-RUN su -c "cd ~/yocto \
-	&& git clone git://git.yoctoproject.org/poky" build
+RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky" build
 
 # Define container entry point
-ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/su", "-l", "build"]
 
 # Expose sshd port
 EXPOSE 22
