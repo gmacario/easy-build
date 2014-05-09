@@ -14,7 +14,7 @@ mkdir -p $TMPDIR
 # Try to start an existing/stopped container with the given name $CONTAINER.
 # Otherwise, run a new one.
 docker start -i $CONTAINER || \
-	docker run -v $TMPDIR:/home/build/work -i -t \
+	docker run -v $TMPDIR:/work -i -t \
 	--name $CONTAINER $REPOSITORY
 # /bin/sh -c "screen -s /bin/bash"
 

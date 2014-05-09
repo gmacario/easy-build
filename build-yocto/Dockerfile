@@ -36,13 +36,20 @@ RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
 #RUN mkdir -p /home/build
 #RUN chown -R build /home/build
 
-# Chekcout poky from git
-RUN su -c "mkdir -p ~/yocto" build
-RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky" build
+# TODO: Run as user "build" rather than root
+# once Docker supports user-level volumes
+
+# Checkout poky from git
+
+#RUN su -c "mkdir -p ~/yocto" build
+#RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky" build
+
+RUN mkdir -p /opt/yocto
+RUN su -c "cd /opt/yocto && git clone git://git.yoctoproject.org/poky" root
 
 # Define container entry point
-#ENTRYPOINT ["/bin/bash"]
-ENTRYPOINT ["/bin/su", "-l", "build"]
+#ENTRYPOINT ["/bin/su", "-l", "build"]
+ENTRYPOINT ["/bin/bash"]
 
 # Expose sshd port
 EXPOSE 22
