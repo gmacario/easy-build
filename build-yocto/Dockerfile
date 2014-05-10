@@ -26,10 +26,6 @@ RUN apt-get install -y screen
 RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
      build-essential chrpath libsdl1.2-dev xterm
 
-#RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
-# Install the following utilities (required by create_vdi.sh)
-#RUN apt-get install -y curl
-
 # NOTE: Uncomment if user "build" is not already created inside the base image
 ## Create non-root user that will perform the build of the images
 #RUN useradd --shell /bin/bash build
