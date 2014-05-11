@@ -25,7 +25,10 @@ Start the build
 
     bitbake -k core-image-sato
 
-FIXME:
+Known issues and workarounds
+----------------------------
+
+### bitbake complains if run as root
 
 ```
 root@eb4b9143265d:/work/build-test01# bitbake -k core-image-sato
@@ -41,6 +44,8 @@ Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
 root@eb4b9143265d:/work/build-test01#
 ```
 
-TODO
+Workaround:
+
+    $ touch conf/sanity.conf
 
 EOF
