@@ -24,6 +24,49 @@ Create build environment
 Start the build
 
     bitbake -k core-image-sato
+    
+### Using the "wic" tool
+
+#### Show program version
+
+Yocto 1.6 provides version 0.1.0
+```
+root@eb4b9143265d:/work/build-test01# wic --version
+wic version 0.1.0
+root@eb4b9143265d:/work/build-test01#
+```
+
+#### Show program help
+```
+root@eb4b9143265d:/work/build-test01# wic --help
+Usage:
+
+ Create a customized OpenEmbedded image
+
+ usage: wic [--version] [--help] COMMAND [ARGS]
+
+ Current 'wic' commands are:
+    create            Create a new OpenEmbedded image
+    list              List available values for options and image properties
+
+ See 'wic help COMMAND' for more information on a specific command.
+
+
+Options:
+  --version   show program's version number and exit
+  -h, --help  show this help message and exit
+root@eb4b9143265d:/work/build-test01#
+```
+
+#### List available OpenEmbedded image properties
+```
+root@eb4b9143265d:/work/build-test01# wic list images
+  directdisk            Create a 'pcbios' direct disk image
+  mkefidisk             Create an EFI disk image
+root@eb4b9143265d:/work/build-test01#
+```
+
+TODO
 
 Known issues and workarounds
 ----------------------------
