@@ -1,31 +1,47 @@
 build-yocto
 ===========
 
-Building Docker image
----------------------
+This subproject of easy-build provides a quick and easy way for creating embedded Linux distributions using the [Yocto project](https://www.yoctoproject.org/) tools.
+
+Building the Docker image
+-------------------------
 
     docker build -t gmacario/build-yocto .
 
-Running Docker image
---------------------
+Running the Docker image
+------------------------
 
     docker run -t -i gmacario/build-yocto
 
-Once the container is running
+Congratulations! You can now execute the Yocto project tools to create your own embedded Linux distribution.
+
+Using Yocto
+-----------
+
+This section shows a few commands to make sure that the Yocto build environment is properly installed.
+Please refer to the [Yocto Project documentation](https://www.yoctoproject.org/documentation) for details.
+
+### Select the Yocto release
+
+Fetch the latest updates of the poky repository, then switch to the desired release (in our example, Yocto 1.6 - a.k.a. "daisy")
 
     cd /opt/yocto/poky
     git checkout -b daisy origin/daisy
 
-Create build environment
+### Create the build environment
 
     cd /work
     source /opt/yocto/poky/oe-init-build-env build-test01
 
-Start the build
+You may inspect and - if necessary - change the configuration files under conf/.
+
+### Start the build
 
     bitbake -k core-image-sato
     
 ### Using the "wic" tool
+
+Starting from release 1.5, Yocto features the "wic" tool to build system images.
 
 #### Show program version
 
@@ -66,7 +82,95 @@ root@eb4b9143265d:/work/build-test01# wic list images
 root@eb4b9143265d:/work/build-test01#
 ```
 
+#### Getting help on "wic create"
+```
+wic help create
+```
+
+Result:
+```
+NAME
+    wic create - Create a new OpenEmbedded image
+
+SYNOPSIS
+    wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
+        [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
+        [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
+        [-k, --kernel-dir] [-n, --native-sysroot] [-s, --skip-build-check]
+
+DESCRIPTION
+    This command creates an OpenEmbedded image based on the 'OE
+    kickstart commands' found in the <wks file>.
+
+    In order to do this, wic needs to know the locations of the
+    various build artifacts required to build the image.
+
+    Users can explicitly specify the build artifact locations using
+    the -r, -b, -k, and -n options.  See below for details on where
+    the corresponding artifacts are typically found in a normal
+    OpenEmbedded build.
+
+    Alternatively, users can use the -e option to have 'mic' determine
+    those locations for a given image.  If the -e option is used, the
+    user needs to have set the appropriate MACHINE variable in
+    local.conf, and have sourced the build environment.
+
+    The -e option is used to specify the name of the image to use the
+    artifacts from e.g. core-image-sato.
+
+    The -r option is used to specify the path to the /rootfs dir to
+    use as the .wks rootfs source.
+
+    The -b option is used to specify the path to the dir containing
+    the boot artifacts (e.g. /EFI or /syslinux dirs) to use as the
+    .wks bootimg source.
+
+    The -k option is used to specify the path to the dir containing
+    the kernel to use in the .wks bootimg.
+
+    The -n option is used to specify the path to the native sysroot
+    containing the tools to use to build the image.
+
+    The -s option is used to skip the build check.  The build check is
+    a simple sanity check used to determine whether the user has
+    sourced the build environment so that the -e option can operate
+    correctly.  If the user has specified the build artifact locations
+    explicitly, 'wic' assumes the user knows what he or she is doing
+    and skips the build check.
+
+    When 'wic -e' is used, the locations for the build artifacts
+    values are determined by 'wic -e' from the output of the 'bitbake
+    -e' command given an image name e.g. 'core-image-minimal' and a
+    given machine set in local.conf.  In that case, the image is
+    created as if the following 'bitbake -e' variables were used:
+
+    -r:        IMAGE_ROOTFS
+    -k:        STAGING_KERNEL_DIR
+    -n:        STAGING_DIR_NATIVE
+    -b:        HDDDIR and STAGING_DATA_DIR (handlers decide which to use)
+
+    If 'wic -e' is not used, the user needs to select the appropriate
+    value for -b (as well as -r, -k, and -n).
+
+    The -o option can be used to place the image in a directory with a
+    different name and location.
+
+    As an alternative to the wks file, the image-specific properties
+    that define the values that will be used to generate a particular
+    image can be specified on the command-line using the -i option and
+    supplying a JSON object consisting of the set of name:value pairs
+    needed by image creation.
+
+    The set of properties available for a given image type can be
+    listed using the 'wic list' command.
+```
+
+#### Create image
+
 TODO
+```
+wic create directdisk -e core-image-minimal
+```
 
 Known issues and workarounds
 ----------------------------
