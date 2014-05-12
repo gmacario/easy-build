@@ -28,7 +28,7 @@ RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
 
 # Additional host packages required by poky/scripts/wic
 # TODO: Understand how to build them using the -native recipes
-RUN apt-get install -y parted dosfstools mtools
+RUN apt-get install -y parted dosfstools mtools syslinux
 
 # NOTE: Uncomment if user "build" is not already created inside the base image
 ## Create non-root user that will perform the build of the images
