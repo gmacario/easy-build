@@ -3,10 +3,20 @@
 # Conflgure script for building GENIVI Yocto baseline
 # See https://github.com/gmacario/easy-build/tree/master/build-yocto-genivi
 
+# (TESTING) SHA for Yocto GENIVI Baseline master branch
+# See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
+#cd $GENIVI/meta-ivi && git checkout master
+#cd $GENIVI/poky     && git checkout master
+
+# Known SHA for Yocto GENIVI Baseline 6.0.1
+# See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=6.0.1
+cd $GENIVI/meta-ivi && git checkout 6.0.1
+cd $GENIVI/poky     && git checkout bf8dcb43432004328162ddad3c8b38eaab6ab5ce
+
 # Known SHA for Yocto GENIVI Baseline 6.0.0
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=6.0.0
-cd $GENIVI/meta-ivi && git checkout 6.0.0
-cd $GENIVI/poky     && git checkout bf8dcb43432004328162ddad3c8b38eaab6ab5ce
+#cd $GENIVI/meta-ivi && git checkout 6.0.0
+#cd $GENIVI/poky     && git checkout bf8dcb43432004328162ddad3c8b38eaab6ab5ce
 
 # Known SHA for Yocto GENIVI Baseline 5.0.2
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=5.0.2
