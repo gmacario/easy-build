@@ -85,25 +85,56 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 
 **NOTE**: This command may take a few hours to complete.
 
-If the build is successful, the following files should be created under $TOPDIR/tmp/deploy:
+Sample output:
+```
+build@e8d6fa7e9c1d:~/tmp/build-horizon-6.0.1-qemux86$ bitbake -k horizon-image
+Loading cache: 100% |#################################################################| ETA:  00:00:00
+Loaded 1245 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
 
-    build@f502df276335:~/tmp/build-horizon-6.0.0-qemux86$ ls -la tmp/deploy/images/qemux86/
-    total 276456
-    drwxrwxr-x 2 build build      4096 Apr  7 22:34 .
-    drwxrwxr-x 3 build build      4096 Apr  7 22:14 ..
-    -rw-rw-r-- 2 build build       294 Apr  7 22:30 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-    lrwxrwxrwx 1 build build        73 Apr  7 22:14 bzImage -> bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.bin
-    -rw-r--r-- 2 build build   6498704 Apr  7 22:14 bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.bin
-    lrwxrwxrwx 1 build build        73 Apr  7 22:14 bzImage-qemux86.bin -> bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.bin
-    -rw-r--r-- 1 build build 260506624 Apr  7 22:34 horizon-image-qemux86-20140407203357.rootfs.ext3
-    -rw-r--r-- 1 build build     31941 Apr  7 22:33 horizon-image-qemux86-20140407203357.rootfs.manifest
-    -rw-r--r-- 1 build build  46944159 Apr  7 22:34 horizon-image-qemux86-20140407203357.rootfs.tar.bz2
-    lrwxrwxrwx 1 build build        48 Apr  7 22:34 horizon-image-qemux86.ext3 -> horizon-image-qemux86-20140407203357.rootfs.ext3
-    lrwxrwxrwx 1 build build        52 Apr  7 22:34 horizon-image-qemux86.manifest -> horizon-image-qemux86-20140407203357.rootfs.manifest
-    lrwxrwxrwx 1 build build        51 Apr  7 22:34 horizon-image-qemux86.tar.bz2 -> horizon-image-qemux86-20140407203357.rootfs.tar.bz2
-    -rw-rw-r-- 2 build build  67702787 Apr  7 22:14 modules--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.tgz
-    lrwxrwxrwx 1 build build        73 Apr  7 22:14 modules-qemux86.tgz -> modules--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140407203357.tgz
-    build@f502df276335:~/tmp/build-horizon-6.0.0-qemux86$
+Build Configuration:
+BB_VERSION        = "1.21.1"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-12.04"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky-ivi-systemd"
+DISTRO_VERSION    = "6.0.1"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta
+meta-yocto
+meta-yocto-bsp    = "(nobranch):bf8dcb43432004328162ddad3c8b38eaab6ab5ce"
+meta-ivi
+meta-ivi-bsp      = "(nobranch):8eec667e4d43246b7f1cb0513bc0a2afe4bd6fb7"
+
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+NOTE: Tasks Summary: Attempted 2896 tasks of which 2896 didn't need to be rerun and all succeeded.
+build@e8d6fa7e9c1d:~/tmp/build-horizon-6.0.1-qemux86$
+```
+
+If the build is successful, the following files should be created under `$TOPDIR/tmp/deploy/images/$MACHINE`:
+```
+build@e8d6fa7e9c1d:~/tmp/build-horizon-6.0.1-qemux86$ ls -la tmp/deploy/images/qemux86/
+total 276700
+drwxrwxr-x 2 build build      4096 Jun  5 08:56 .
+drwxrwxr-x 3 build build      4096 Jun  4 18:13 ..
+-rw-rw-r-- 2 build build       294 Jun  5 08:52 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+lrwxrwxrwx 1 build build        73 Jun  4 18:13 bzImage -> bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140604163118.bin
+-rw-r--r-- 2 build build   6498704 Jun  4 18:13 bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140604163118.bin
+lrwxrwxrwx 1 build build        73 Jun  4 18:13 bzImage-qemux86.bin -> bzImage--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140604163118.bin
+-rw-r--r-- 1 build build 260676608 Jun  5 08:56 horizon-image-qemux86-20140605084401.rootfs.ext3
+-rw-r--r-- 1 build build     31944 Jun  5 08:55 horizon-image-qemux86-20140605084401.rootfs.manifest
+-rw-r--r-- 1 build build  47053573 Jun  5 08:56 horizon-image-qemux86-20140605084401.rootfs.tar.bz2
+lrwxrwxrwx 1 build build        48 Jun  5 08:56 horizon-image-qemux86.ext3 -> horizon-image-qemux86-20140605084401.rootfs.ext3
+lrwxrwxrwx 1 build build        52 Jun  5 08:56 horizon-image-qemux86.manifest -> horizon-image-qemux86-20140605084401.rootfs.manifest
+lrwxrwxrwx 1 build build        51 Jun  5 08:56 horizon-image-qemux86.tar.bz2 -> horizon-image-qemux86-20140605084401.rootfs.tar.bz2
+-rw-rw-r-- 2 build build  67691738 Jun  4 18:13 modules--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140604163118.tgz
+lrwxrwxrwx 1 build build        73 Jun  4 18:13 modules-qemux86.tgz -> modules--3.10.34+git0+df3aa753c8_c7739be126-r0-qemux86-20140604163118.tgz
+build@e8d6fa7e9c1d:~/tmp/build-horizon-6.0.1-qemux86$
+```
 
 In case the build fails, you may try to clean the offending tasks, as in the following example:
 
