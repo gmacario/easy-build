@@ -54,5 +54,7 @@ drwxrwx---    2 root     disk         16384 Jan  1  1970 .
 drwxr-xr-x    3 root     root          1024 Jan  1  1970 ..
 -rwxrwx---    1 root     disk         41322 Jun  2 08:19 imx6dl-wandboard.dtb
 -rwxrwx---    1 root     disk       5301312 Jun  2 08:19 zImage
+root@wandboard-dual:~# cat /proc/cmdline
+console=ttymxc0,115200 root=/dev/mmcblk0p2 rootwait rw
 root@wandboard-dual:~#
 ```
