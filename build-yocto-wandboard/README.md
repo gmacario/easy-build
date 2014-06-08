@@ -6,14 +6,53 @@
 
     ./run.sh
 
+## Building the Yocto-based distribution for the Wandboard dual
+
+Precondition: logged into the container.
+
+Create an environment variable
+
+    export YOCTO=/opt/yocto
+
+Configure SHA for each layer
+
+    #TODO: poky
+    #TODO: meta-fsl
+    
+Create the build environment
+
+    cd $YOCTO/fsl-community-bsp
+    MACHINE=wandboard-dual \
+        source ./setup-environment \
+        ~/work/build-wandboard-dual
+        
+Verify (and in case update) the build configuration under conf/
+
+    touch conf/sanity.conf
+    #TODO
+    
+Start the build
+
+    bitbake -k core-image-sato
+
+The resulting image `core-image-sato-wandboard-dual.sdcard` will be available under `$PWD/work/build-wandboard-dual/tmp/deploy/images/wandboard-dual`.
+
 ## Mirroring wandboard image
 
     ./do_mirror.sh
     
 ## Flashing wandboard image
 
+### From Linux
+
+Plug the uSDHC inside the host, use `dmesg` to verify the name of the device (example: `/dev/sdX`).
+Write the image with the following command (replace `/dev/sdX` appropriately):
+
+    sudo dd if=core-image-sato-wandboard-dual.sdcard of=/dev/sdX
+
+### From MS Windows
 From MS Windows, you may use [Win32 Disk Imager](http://sourceforge.net/projects/win32diskimager/) to burn a uSDHC
-with the contents of `core-image-sato-wandboard-dual.sdcard` (available under `$PWD/work/build-wandboard-dual/tmp/deploy/images/wandboard-dual`).
+with the contents of `core-image-sato-wandboard-dual.sdcard`.
 
 ## Sample boot log
 
