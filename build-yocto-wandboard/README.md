@@ -19,7 +19,7 @@ Configure SHA for each layer
     #TODO: poky
     #TODO: meta-fsl
     
-Create the build environment
+Create the build environment (notice the workaround to allow $TOPDIR outside $YOCTO)
 
     cd $YOCTO/fsl-community-bsp
     ln -sf ~/work/build-wandboard-dual
@@ -27,16 +27,19 @@ Create the build environment
         source ./setup-environment \
         build-wandboard-dual
         
-Verify (and if necessary update) the build configuration under conf/
+Verify (and if necessary update) the build configuration under `conf/`
 
-    touch conf/sanity.conf
     #TODO
     
-Workaround: edit conf/bblayer.conf and replace BSPDIR with
+Workaround: allow bitbake to run as root
+
+    touch conf/sanity.conf
+
+Workaround: edit conf/bblayer.conf and replace BSPDIR definition with
 
     BSPDIR := "/opt/yocto/fsl-community-bsp"
     
-Start the build
+### Start the build
 
     bitbake -k core-image-sato
 
