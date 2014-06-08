@@ -13,7 +13,7 @@
 ## Flashing wandboard image
 
 From MS Windows, you may use [Win32 Disk Imager](http://sourceforge.net/projects/win32diskimager/) to burn a uSDHC
-with the contents image `core-image-sato-wandboard-dual.sdcard` (available under `$PWD/work/build-wandboard-dual/tmp/deploy/images/wandboard-dual`).
+with the contents of `core-image-sato-wandboard-dual.sdcard` (available under `$PWD/work/build-wandboard-dual/tmp/deploy/images/wandboard-dual`).
 
 ## Sample boot log
 
