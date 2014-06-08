@@ -6,7 +6,7 @@
 
     ./run.sh
 
-## Building the Yocto-based distribution for the Wandboard dual
+## Building the image for the Wandboard dual
 
 Precondition: logged into the container.
 
