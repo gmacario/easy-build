@@ -26,7 +26,7 @@ Create the build environment
         source ./setup-environment \
         ~/work/build-wandboard-dual
         
-Verify (and in case update) the build configuration under conf/
+Verify (and if necessary update) the build configuration under conf/
 
     touch conf/sanity.conf
     #TODO
