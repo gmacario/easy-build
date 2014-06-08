@@ -49,5 +49,10 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
+root@wandboard-dual:~# ls -la /media/mmcblk0p1/
+drwxrwx---    2 root     disk         16384 Jan  1  1970 .
+drwxr-xr-x    3 root     root          1024 Jan  1  1970 ..
+-rwxrwx---    1 root     disk         41322 Jun  2 08:19 imx6dl-wandboard.dtb
+-rwxrwx---    1 root     disk       5301312 Jun  2 08:19 zImage
 root@wandboard-dual:~#
 ```
