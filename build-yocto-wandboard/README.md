@@ -32,6 +32,10 @@ Verify (and if necessary update) the build configuration under conf/
     touch conf/sanity.conf
     #TODO
     
+Workaround: edit conf/bblayer.conf and replace BSPDIR with
+
+    BSPDIR := "/opt/yocto/fsl-community-bsp"
+    
 Start the build
 
     bitbake -k core-image-sato
