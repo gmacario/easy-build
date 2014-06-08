@@ -22,9 +22,10 @@ Configure SHA for each layer
 Create the build environment
 
     cd $YOCTO/fsl-community-bsp
+    ln -sf ~/work/build-wandboard-dual
     MACHINE=wandboard-dual \
         source ./setup-environment \
-        ~/work/build-wandboard-dual
+        build-wandboard-dual
         
 Verify (and if necessary update) the build configuration under conf/
 
