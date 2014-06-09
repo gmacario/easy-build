@@ -6,7 +6,45 @@
 
     ./run.sh
 
-## Building the image for the Wandboard dual
+## Building the image for the Freescale SabreSD (i.MX6 Quad)
+
+Precondition: logged into the container.
+
+Create an environment variable
+
+    export YOCTO=/opt/yocto
+
+Configure SHA for each layer
+
+    #TODO
+
+Create the build environment (notice the workaround to allow $TOPDIR outside $YOCTO)
+
+    cd $YOCTO/fsl-community-bsp
+    ln -sf ~/work/build-imx6qsabresd
+    MACHINE=imx6qsabresd \
+        source ./setup-environment \
+        build-imx6qsabresd
+        
+Verify (and if necessary update) the build configuration under `conf/`
+
+    #TODO
+    
+Workaround: allow bitbake to run as root
+
+    touch conf/sanity.conf
+
+Workaround: edit conf/bblayer.conf and replace BSPDIR definition with
+
+    BSPDIR := "/opt/yocto/fsl-community-bsp"
+    
+### Start the build
+
+    bitbake -k core-image-sato
+    
+TODO
+
+## Building the image for the Wandboard (i.MX6 DualLite)
 
 Precondition: logged into the container.
 
