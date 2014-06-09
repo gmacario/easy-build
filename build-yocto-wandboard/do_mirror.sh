@@ -19,7 +19,7 @@ echo INFO: Mirroring to ${LOCAL_WORKDIR}
 for d in ${BASE_SYNC}; do
     echo INFO: Syncing ${d}
     mkdir -p ${LOCAL_WORKDIR}/${d}
-    rsync -avz ${REMOTE_WORKDIR}/${d}/ ${LOCAL_WORKDIR}/${d}
+    rsync -avz --delete --progress ${REMOTE_WORKDIR}/${d}/ ${LOCAL_WORKDIR}/${d}
 done
 
 # === EOF ===
