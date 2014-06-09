@@ -11,6 +11,7 @@ LOCAL_WORKDIR=work
 BASE_SYNC=""
 BASE_SYNC="${BASE_SYNC} build-imx6qsabresd/tmp/deploy"
 BASE_SYNC="${BASE_SYNC} build-wandboard-dual/tmp/deploy"
+#BASE_SYNC="${BASE_SYNC} build-xxxx/tmp/deploy"
 
 echo INFO: Mirroring from ${REMOTE_WORKDIR}
 echo INFO: Mirroring to ${LOCAL_WORKDIR}
