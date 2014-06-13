@@ -5,8 +5,8 @@
 #set -x
 set -e
 
-REMOTE_WORKDIR=gmacario@maxlab.polito.it:~/easy-build/build-yocto-wandboard/work
-LOCAL_WORKDIR=work
+REMOTE_WORKDIR=gmacario@maxlab.polito.it:~/easy-build/build-yocto-wandboard/shared
+LOCAL_WORKDIR=shared
 
 BASE_SYNC=""
 BASE_SYNC="${BASE_SYNC} build-imx6qsabresd/tmp/deploy"

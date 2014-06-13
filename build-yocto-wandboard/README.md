@@ -21,7 +21,7 @@ Configure SHA for each layer
 Create the build environment (notice the workaround to allow $TOPDIR outside $YOCTO)
 
     cd $YOCTO/fsl-community-bsp
-    ln -sf ~/work/build-imx6qsabresd
+    ln -sf ~/shared/build-imx6qsabresd
     MACHINE=imx6qsabresd \
         source ./setup-environment \
         build-imx6qsabresd
@@ -44,7 +44,7 @@ Workaround: edit conf/bblayer.conf and replace BSPDIR definition with
 
 Sample output:
 ```
-root@041dc56cadf6:/work/build-imx6qsabresd# bitbake -k core-image-sato
+root@041dc56cadf6:/shared/build-imx6qsabresd# bitbake -k core-image-sato
 Parsing recipes: 100% |###############################################################| Time: 00:00:36
 Parsing of 1393 .bb files complete (0 cached, 1393 parsed). 1819 targets, 99 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -74,12 +74,12 @@ NOTE: Preparing runqueue
 NOTE: Executing SetScene Tasks
 NOTE: Executing RunQueue Tasks
 NOTE: Tasks Summary: Attempted 4731 tasks of which 29 didn't need to be rerun and all succeeded.
-root@041dc56cadf6:/work/build-imx6qsabresd#
+root@041dc56cadf6:/shared/build-imx6qsabresd#
 ```
 
 If the build is successful, the following files will be created under `$TOPDIR/tmp/deploy/images/$MACHINE`
 ```
-root@041dc56cadf6:/work/build-imx6qsabresd# ls -la tmp/deploy/images/imx6qsabresd/
+root@041dc56cadf6:/shared/build-imx6qsabresd# ls -la tmp/deploy/images/imx6qsabresd/
 total 566600
 drwxr-xr-x 2 root root      4096 Jun  9 11:36 .
 drwxr-xr-x 3 root root      4096 Jun  9 10:16 ..
@@ -106,7 +106,7 @@ lrwxrwxrwx 1 root root        56 Jun  9 10:16 uImage-imx6q-sabresd-hdcp.dtb -> u
 lrwxrwxrwx 1 root root        55 Jun  9 10:16 uImage-imx6q-sabresd-ldo.dtb -> uImage--3.10.17-r0-imx6q-sabresd-ldo-20140609091727.dtb
 lrwxrwxrwx 1 root root        51 Jun  9 10:16 uImage-imx6q-sabresd.dtb -> uImage--3.10.17-r0-imx6q-sabresd-20140609091727.dtb
 lrwxrwxrwx 1 root root        50 Jun  9 10:16 uImage-imx6qsabresd.bin -> uImage--3.10.17-r0-imx6qsabresd-20140609091727.bin
-root@041dc56cadf6:/work/build-imx6qsabresd#
+root@041dc56cadf6:/shared/build-imx6qsabresd#
 ```
     
 ## Building the image for the Wandboard (i.MX6 DualLite)
@@ -125,7 +125,7 @@ Configure SHA for each layer
 Create the build environment (notice the workaround to allow $TOPDIR outside $YOCTO)
 
     cd $YOCTO/fsl-community-bsp
-    ln -sf ~/work/build-wandboard-dual
+    ln -sf ~/shared/build-wandboard-dual
     MACHINE=wandboard-dual \
         source ./setup-environment \
         build-wandboard-dual
@@ -148,7 +148,7 @@ Workaround: edit conf/bblayer.conf and replace BSPDIR definition with
     
 Sample output:
 ```
-root@041dc56cadf6:/work/build-wandboard-dual# bitbake -k core-image-sato
+root@041dc56cadf6:/shared/build-wandboard-dual# bitbake -k core-image-sato
 Parsing recipes: 100% |######################################################################################################################| Time: 00:00:36
 Parsing of 1393 .bb files complete (0 cached, 1393 parsed). 1819 targets, 95 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -190,12 +190,12 @@ WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/
 NOTE: Tasks Summary: Attempted 4734 tasks of which 29 didn't need to be rerun and all succeeded.
 
 Summary: There were 10 WARNING messages shown.
-root@041dc56cadf6:/work/build-wandboard-dual#
+root@041dc56cadf6:/shared/build-wandboard-dual#
 ```
 
 If the build is successful, the following files will be created under `$TOPDIR/tmp/deploy/images/$MACHINE`
 ```
-root@041dc56cadf6:/work/build-wandboard-dual# ls -la tmp/deploy/images/wandboard-dual/
+root@041dc56cadf6:/shared/build-wandboard-dual# ls -la tmp/deploy/images/wandboard-dual/
 total 565640
 drwxr-xr-x 2 root root      4096 Jun  9 00:29 .
 drwxr-xr-x 3 root root      4096 Jun  8 23:09 ..
@@ -218,7 +218,7 @@ lrwxrwxrwx 1 root root        52 Jun  8 23:09 zImage -> zImage--3.10.17-r0-wandb
 -rw-r--r-- 2 root root   5301304 Jun  8 23:09 zImage--3.10.17-r0-wandboard-dual-20140608221501.bin
 lrwxrwxrwx 1 root root        54 Jun  8 23:09 zImage-imx6dl-wandboard.dtb -> zImage--3.10.17-r0-imx6dl-wandboard-20140608221501.dtb
 lrwxrwxrwx 1 root root        52 Jun  8 23:09 zImage-wandboard-dual.bin -> zImage--3.10.17-r0-wandboard-dual-20140608221501.bin
-root@041dc56cadf6:/work/build-wandboard-dual#
+root@041dc56cadf6:/shared/build-wandboard-dual#
 ```
 
 Among all generated files, `core-image-sato-wandboard-dual.sdcard` is ready to be flashed onto a uSDHC.
