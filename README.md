@@ -5,6 +5,7 @@ This repository contains a collection of Docker files that help rebuilding embed
 
 Please refer to the README.md files under each subdirectory for details:
 
+* build-yocto-fsl-arm: [Yocto project](http://www.yoctoproject.arm) for Freescale/ARM targets
 * build-yocto-genivi: [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home)
 * build-aosp: [Android Open Source Project](http://source.android.com/source/index.html)
 
