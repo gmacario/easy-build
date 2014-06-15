@@ -142,7 +142,7 @@ Workaround: edit conf/bblayer.conf and replace BSPDIR definition with
 
     BSPDIR := "/opt/yocto/fsl-community-bsp"
     
-### Start the build
+### Start the build (core-image-sato)
 
     bitbake -k core-image-sato
     
@@ -222,6 +222,75 @@ root@041dc56cadf6:/shared/build-wandboard-dual#
 ```
 
 Among all generated files, `core-image-sato-wandboard-dual.sdcard` is ready to be flashed onto a uSDHC.
+
+### Start the build (core-image-full-cmdline)
+
+    bitbake -k core-image-full-cmdline
+    
+Sample output:
+```
+root@363e79a5f3bd:/shared/build-wandboard-dual# bitbake -k core-image-full-cmdline
+Loading cache: 100% |#################################################################| ETA:  00:00:00
+Loaded 1820 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION        = "1.22.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-14.04"
+TARGET_SYS        = "arm-poky-linux-gnueabi"
+MACHINE           = "wandboard-dual"
+DISTRO            = "poky"
+DISTRO_VERSION    = "1.6.1"
+TUNE_FEATURES     = "armv7a vfp neon callconvention-hard cortexa9"
+TARGET_FPU        = "vfp-neon"
+meta
+meta-yocto        = "(nobranch):a43dba8c2904f9c1ce0425c53c5a7f4718121e6b"
+meta-oe           = "(nobranch):dca466c074c9a35bc0133e7e0d65cca0731e2acf"
+meta-fsl-arm      = "(nobranch):f5bf277a5a5fba2c3b64ed7d2dbec1903d96386b"
+meta-fsl-arm-extra = "(nobranch):029f535cfbc5746288c6129babb2d7679927a183"
+meta-fsl-demos    = "(nobranch):27fdb2f2642ecd55d5633bde880dd4c37acd0d42"
+
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+WARNING: Failed to fetch URL ftp://ftp.suse.com/pub/people/kukuk/pax/pax-3.4.tar.bz2, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/n/net-tools/net-tools_1.60-25.diff.gz;apply=no;name=patch, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2561 tasks of which 25 didn't need to be rerun and all succeeded.
+
+Summary: There were 2 WARNING messages shown.
+root@363e79a5f3bd:/shared/build-wandboard-dual#
+```
+
+If the build is successful, the following files will be created under `$TOPDIR/tmp/deploy/images/$MACHINE`
+```
+root@363e79a5f3bd:/shared/build-wandboard-dual# ls -la tmp/deploy/images/wandboard-dual/
+total 308724
+drwxr-xr-x 2 root root      4096 Jun 14 15:15 .
+drwxr-xr-x 3 root root      4096 Jun 14 14:28 ..
+-rw-r--r-- 2 root root       294 Jun 14 15:13 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+-rw-r--r-- 1 root root 150994944 Jun 14 15:15 core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.ext3
+-rw-r--r-- 1 root root      7752 Jun 14 15:15 core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.manifest
+-rw-r--r-- 1 root root 167772160 Jun 14 15:15 core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.sdcard
+-rw-r--r-- 1 root root  36353447 Jun 14 15:15 core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.tar.bz2
+lrwxrwxrwx 1 root root        65 Jun 14 15:15 core-image-full-cmdline-wandboard-dual.ext3 -> core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.ext3
+lrwxrwxrwx 1 root root        69 Jun 14 15:15 core-image-full-cmdline-wandboard-dual.manifest -> core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.manifest
+lrwxrwxrwx 1 root root        67 Jun 14 15:15 core-image-full-cmdline-wandboard-dual.sdcard -> core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.sdcard
+lrwxrwxrwx 1 root root        68 Jun 14 15:15 core-image-full-cmdline-wandboard-dual.tar.bz2 -> core-image-full-cmdline-wandboard-dual-20140614133742.rootfs.tar.bz2
+-rw-r--r-- 2 root root    628903 Jun 14 14:28 modules--3.10.17-r0-wandboard-dual-20140614133742.tgz
+lrwxrwxrwx 1 root root        53 Jun 14 14:28 modules-wandboard-dual.tgz -> modules--3.10.17-r0-wandboard-dual-20140614133742.tgz
+-rwxr-xr-x 2 root root    285696 Jun 14 15:11 u-boot-wandboard-dual-v2014.01-r0.imx
+lrwxrwxrwx 1 root root        37 Jun 14 15:11 u-boot-wandboard-dual.imx -> u-boot-wandboard-dual-v2014.01-r0.imx
+lrwxrwxrwx 1 root root        37 Jun 14 15:11 u-boot.imx -> u-boot-wandboard-dual-v2014.01-r0.imx
+lrwxrwxrwx 1 root root        52 Jun 14 14:28 zImage -> zImage--3.10.17-r0-wandboard-dual-20140614133742.bin
+-rw-r--r-- 2 root root     41322 Jun 14 14:28 zImage--3.10.17-r0-imx6dl-wandboard-20140614133742.dtb
+-rw-r--r-- 2 root root   5301312 Jun 14 14:28 zImage--3.10.17-r0-wandboard-dual-20140614133742.bin
+lrwxrwxrwx 1 root root        54 Jun 14 14:28 zImage-imx6dl-wandboard.dtb -> zImage--3.10.17-r0-imx6dl-wandboard-20140614133742.dtb
+lrwxrwxrwx 1 root root        52 Jun 14 14:28 zImage-wandboard-dual.bin -> zImage--3.10.17-r0-wandboard-dual-20140614133742.bin
+root@363e79a5f3bd:/shared/build-wandboard-dual#
+```
+
+Among all generated files, `core-image-full-cmdline-wandboard-dual.sdcard` is ready to be flashed onto a uSDHC.
 
 ## Mirroring wandboard image
 
