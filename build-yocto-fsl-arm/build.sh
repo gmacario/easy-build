@@ -4,6 +4,6 @@ set -x
 
 cd $(dirname $0)
 
-docker build --no-cache --rm -t gmacario/build-yocto-wandboard .
+docker build --no-cache --rm -t gmacario/build-yocto-fsl-arm .
 
 exit $?
