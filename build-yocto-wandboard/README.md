@@ -38,7 +38,7 @@ Workaround: edit conf/bblayer.conf and replace BSPDIR definition with
 
     BSPDIR := "/opt/yocto/fsl-community-bsp"
     
-### Start the build
+### Start the build (core-image-sato)
 
     bitbake -k core-image-sato
 
@@ -294,7 +294,7 @@ Among all generated files, `core-image-full-cmdline-wandboard-dual.sdcard` is re
 
 ## Mirroring wandboard image
 
-You may mirror the directory containing the genarated packages and binary images by running the following command (read the script for details):
+You may mirror the directory containing the generated packages and binary images by running the following command (read the script for details):
 
     ./do_mirror.sh
     
