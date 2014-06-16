@@ -108,6 +108,90 @@ lrwxrwxrwx 1 root root        51 Jun  9 10:16 uImage-imx6q-sabresd.dtb -> uImage
 lrwxrwxrwx 1 root root        50 Jun  9 10:16 uImage-imx6qsabresd.bin -> uImage--3.10.17-r0-imx6qsabresd-20140609091727.bin
 root@041dc56cadf6:/shared/build-imx6qsabresd#
 ```
+
+### Start the build (fsl-image-multimedia-full)
+
+    bitbake -k fsl-image-multimedia-full
+    
+Sample output:
+```
+root@79246811be09:/shared/build-imx6qsabresd# bitbake -k fsl-image-multimedia-full
+Parsing recipes: 100% |###############################################################| Time: 00:00:36
+Parsing of 1393 .bb files complete (0 cached, 1393 parsed). 1819 targets, 99 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+NOTE: multiple providers are available for jpeg (jpeg, libjpeg-turbo)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match jpeg
+NOTE: multiple providers are available for jpeg-native (jpeg-native, libjpeg-turbo-native)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match jpeg-native
+
+Build Configuration:
+BB_VERSION        = "1.22.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-14.04"
+TARGET_SYS        = "arm-poky-linux-gnueabi"
+MACHINE           = "imx6qsabresd"
+DISTRO            = "poky"
+DISTRO_VERSION    = "1.6.1"
+TUNE_FEATURES     = "armv7a vfp neon callconvention-hard cortexa9"
+TARGET_FPU        = "vfp-neon"
+meta
+meta-yocto        = "(nobranch):a43dba8c2904f9c1ce0425c53c5a7f4718121e6b"
+meta-oe           = "(nobranch):dca466c074c9a35bc0133e7e0d65cca0731e2acf"
+meta-fsl-arm      = "(nobranch):f5bf277a5a5fba2c3b64ed7d2dbec1903d96386b"
+meta-fsl-arm-extra = "(nobranch):029f535cfbc5746288c6129babb2d7679927a183"
+meta-fsl-demos    = "(nobranch):27fdb2f2642ecd55d5633bde880dd4c37acd0d42"
+
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://downloads.sourceforge.net/project/libpng/libpng16/1.6.8/libpng-1.6.8.tar.xz, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.freedesktop.org/pub/mesa/9.2.5/MesaLib-9.2.5.tar.bz2, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-1.4.8.tar.bz2, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-util-1.5.2.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://www.apache.org/dist/subversion/subversion-1.7.10.tar.bz2, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/dosfstools-2.11.src.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.17.4.tar.xz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.38.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 4275 tasks of which 30 didn't need to be rerun and all succeeded.
+
+Summary: There were 9 WARNING messages shown.
+root@79246811be09:/shared/build-imx6qsabresd#
+```
+
+If the build is successful, the following files will be created under `$TOPDIR/tmp/deploy/images/$MACHINE`
+```
+root@79246811be09:/shared/build-imx6qsabresd# ls -la tmp/deploy/images/imx6qsabresd/
+total 1146332
+drwxr-xr-x 2 root root      4096 Jun 16 04:32 .
+drwxr-xr-x 3 root root      4096 Jun 16 03:08 ..
+-rw-r--r-- 2 root root       294 Jun 16 04:26 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+-rw-r--r-- 1 root root 562036736 Jun 16 04:31 fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.ext3
+-rw-r--r-- 1 root root     25581 Jun 16 04:30 fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.manifest
+-rw-r--r-- 1 root root 578813952 Jun 16 04:32 fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.sdcard
+-rw-r--r-- 1 root root 113132914 Jun 16 04:31 fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.tar.bz2
+lrwxrwxrwx 1 root root        65 Jun 16 04:32 fsl-image-multimedia-full-imx6qsabresd.ext3 -> fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.ext3
+lrwxrwxrwx 1 root root        69 Jun 16 04:32 fsl-image-multimedia-full-imx6qsabresd.manifest -> fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.manifest
+lrwxrwxrwx 1 root root        67 Jun 16 04:32 fsl-image-multimedia-full-imx6qsabresd.sdcard -> fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.sdcard
+lrwxrwxrwx 1 root root        68 Jun 16 04:32 fsl-image-multimedia-full-imx6qsabresd.tar.bz2 -> fsl-image-multimedia-full-imx6qsabresd-20140616021020.rootfs.tar.bz2
+-rw-r--r-- 2 root root    597640 Jun 16 03:08 modules--3.10.17-r0-imx6qsabresd-20140616021020.tgz
+lrwxrwxrwx 1 root root        51 Jun 16 03:08 modules-imx6qsabresd.tgz -> modules--3.10.17-r0-imx6qsabresd-20140616021020.tgz
+-rwxr-xr-x 2 root root    314368 Jun 16 04:21 u-boot-imx6qsabresd-v2014.01-r0.imx
+lrwxrwxrwx 1 root root        35 Jun 16 04:22 u-boot-imx6qsabresd.imx -> u-boot-imx6qsabresd-v2014.01-r0.imx
+lrwxrwxrwx 1 root root        35 Jun 16 04:22 u-boot.imx -> u-boot-imx6qsabresd-v2014.01-r0.imx
+lrwxrwxrwx 1 root root        50 Jun 16 03:08 uImage -> uImage--3.10.17-r0-imx6qsabresd-20140616021020.bin
+-rw-r--r-- 2 root root     47179 Jun 16 03:08 uImage--3.10.17-r0-imx6q-sabresd-20140616021020.dtb
+-rw-r--r-- 2 root root     47268 Jun 16 03:08 uImage--3.10.17-r0-imx6q-sabresd-hdcp-20140616021020.dtb
+-rw-r--r-- 2 root root     47179 Jun 16 03:08 uImage--3.10.17-r0-imx6q-sabresd-ldo-20140616021020.dtb
+-rw-r--r-- 2 root root   5264192 Jun 16 03:08 uImage--3.10.17-r0-imx6qsabresd-20140616021020.bin
+lrwxrwxrwx 1 root root        56 Jun 16 03:08 uImage-imx6q-sabresd-hdcp.dtb -> uImage--3.10.17-r0-imx6q-sabresd-hdcp-20140616021020.dtb
+lrwxrwxrwx 1 root root        55 Jun 16 03:08 uImage-imx6q-sabresd-ldo.dtb -> uImage--3.10.17-r0-imx6q-sabresd-ldo-20140616021020.dtb
+lrwxrwxrwx 1 root root        51 Jun 16 03:08 uImage-imx6q-sabresd.dtb -> uImage--3.10.17-r0-imx6q-sabresd-20140616021020.dtb
+lrwxrwxrwx 1 root root        50 Jun 16 03:08 uImage-imx6qsabresd.bin -> uImage--3.10.17-r0-imx6qsabresd-20140616021020.bin
+root@79246811be09:/shared/build-imx6qsabresd#
+```
+
+Among all generated files, `fsl-image-multimedia-full-imxx6qsabresd.sdcard` is ready to be flashed onto a uSDHC.
     
 ## Building the image for the Wandboard (i.MX6 DualLite)
 
@@ -292,9 +376,15 @@ root@363e79a5f3bd:/shared/build-wandboard-dual#
 
 Among all generated files, `core-image-full-cmdline-wandboard-dual.sdcard` is ready to be flashed onto a uSDHC.
 
-## Mirroring wandboard image
+## Mirroring the generated images
 
-You may mirror the directory containing the generated packages and binary images by running the following command (read the script for details):
+This project includes a `do_mirror.sh` script to make it easy to mirror the files (image, packages, etc.) generated after a build to a local machine - for instance, for writing the image to a SD card, etc.
+
+Before running the script you may need to configure the parameters at the beginning of the script; edit the file and read the comments for details:
+
+    vi do_mirror.sh
+
+Then invoke the script from the command line:
 
     ./do_mirror.sh
     

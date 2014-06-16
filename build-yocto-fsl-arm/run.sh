@@ -5,8 +5,8 @@
 cd $(dirname $0)
 
 TMPDIR=$PWD/shared
-CONTAINER=build-yocto-wandboard
-REPOSITORY=gmacario/build-yocto-wandboard
+CONTAINER=build-yocto-fsl-arm
+REPOSITORY=gmacario/build-yocto-fsl-arm
 
 # Create a shared folder which will be used as working directory.
 mkdir -p $TMPDIR

@@ -5,7 +5,7 @@
 #set -x
 set -e
 
-REMOTE_WORKDIR=gmacario@maxlab.polito.it:~/easy-build/build-yocto-wandboard/shared
+REMOTE_WORKDIR=gmacario@maxlab.polito.it:~/easy-build/build-yocto-fsl-arm/shared
 LOCAL_WORKDIR=shared
 
 BASE_SYNC=""
