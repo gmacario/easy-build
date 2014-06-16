@@ -376,9 +376,15 @@ root@363e79a5f3bd:/shared/build-wandboard-dual#
 
 Among all generated files, `core-image-full-cmdline-wandboard-dual.sdcard` is ready to be flashed onto a uSDHC.
 
-## Mirroring wandboard image
+## Mirroring the generated images
 
-You may mirror the directory containing the generated packages and binary images by running the following command (read the script for details):
+This project includes a `do_mirror.sh` script to make it easy to mirror the files (image, packages, etc.) generated after a build to a local machine - for instance, for writing the image to a SD card, etc.
+
+Before running the script you may need to configure the parameters at the beginning of the script; edit the file and read the comments for details:
+
+    vi do_mirror.sh
+
+Then invoke the script from the command line:
 
     ./do_mirror.sh
     
