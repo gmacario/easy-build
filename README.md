@@ -1,7 +1,7 @@
 easy-build
 ==========
 
-This repository contains a collection of Docker files that help rebuilding embedded software distributions.
+This repository contains a collection of [Docker](http://www.docker.com/) files that help rebuilding embedded software distributions.
 
 Please refer to the README.md files under each subdirectory for details:
 
