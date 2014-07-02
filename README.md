@@ -3,7 +3,7 @@ easy-build
 
 This repository contains a collection of [Docker](http://www.docker.com/) files that help rebuilding embedded software distributions.
 
-Please refer to the README.md files under each subdirectory for details:
+Please refer to the `README.md` file available under each subdirectory for details:
 
 * build-yocto-fsl-arm: [Yocto project](http://www.yoctoproject.arm) for Freescale/ARM targets
 * build-yocto-genivi: [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home)
