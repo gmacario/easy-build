@@ -1,5 +1,6 @@
 # ===========================================================================================
-# Dockerfile for building a Yocto-based distro for Wandboard
+# Dockerfile for building a Yocto-based distro for Freescale/ARM
+# (example: i.MX6Q SABRE, Wandboard, etc.)
 # 
 # References:
 #	http://elinux.org/Getting_started_with_Yocto_on_Wandboard
