@@ -43,7 +43,7 @@ cd $TOPDIR
 cp $TOPDIR/conf/bblayers.conf $TOPDIR/conf/bblayers.conf.ORIG
 cat <<__END__ >>$TOPDIR/conf/bblayers.conf
 BBLAYERS += " \
-  $GENIVI/meta-ivi \
+  $GENIVI/meta-ivi/meta-ivi \
   $GENIVI/meta-ivi/meta-ivi-bsp \
   "
 __END__
