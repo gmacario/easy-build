@@ -18,7 +18,7 @@
 
 # CONFIGURATION ITEMS
 
-TOPDIR=$PWD/tmp/build-horizon-6.0.0-qemux86
+TOPDIR=$PWD/tmp/my-genivi-build
 
 IMAGENAME=horizon-image
 MACHINE=qemux86
