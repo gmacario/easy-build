@@ -70,13 +70,12 @@ See `configure_build.sh` for details
 	https://raw.githubusercontent.com/gmacario/easy-build/master/build-yocto-genivi/configure_build.sh \
 	>configure_build.sh
 
-    # Review script and make any modifications if needed
-    vi configure_build.sh
+Review `configure_build.sh` and make any modifications if needed, then invoke the script
 
-    # invoke the script
     sh configure_build.sh
 
-For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
+For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the
+[Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
 
 #### Perform build
 
