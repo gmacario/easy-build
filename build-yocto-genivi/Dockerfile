@@ -24,6 +24,7 @@ RUN apt-get install -y screen
 
 # Install the following utilities (required by poky)
 RUN apt-get install -y make gcc g++ diffstat texinfo gawk chrpath wget
+RUN apt-get install -y libsdl1.2-dev
 
 # Install the following utilities (required by create_vdi.sh)
 RUN apt-get install -y curl
