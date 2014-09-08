@@ -80,48 +80,19 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 #### Perform build
 
     cd $TOPDIR
-    bitbake -k horizon-image
+    bitbake -k intrepid-image
 
 **NOTE**: This command may take a few hours to complete.
 
 Sample output:
 ```
-build@7cf7d23b0b92:~/tmp/my-genivi-build$ bitbake -k horizon-image
-Loading cache: 100% |#################################################################| ETA:  00:00:00
-Loaded 1248 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION        = "1.22.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Ubuntu-14.04"
-TARGET_SYS        = "i586-poky-linux"
-MACHINE           = "qemux86"
-DISTRO            = "poky-ivi-systemd"
-DISTRO_VERSION    = "6.0.2"
-TUNE_FEATURES     = "m32 i586"
-TARGET_FPU        = ""
-meta
-meta-yocto
-meta-yocto-bsp    = "(detachedfrom8e05d5e):8e05d5e3fe04face623c4f9fb08b12f13c22edab"
-meta-ivi
-meta-ivi-bsp
-meta-ivi
-meta-ivi-bsp
-meta-ivi
-meta-ivi-bsp      = "(detachedfrom6.0.2):e4ba89c742447b458c15e3bf8e7ce415fffbdc0b"
-
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-NOTE: Tasks Summary: Attempted 2908 tasks of which 2908 didn't need to be rerun and all succeeded.
-build@7cf7d23b0b92:~/tmp/my-genivi-build$
+TODO
 ```
 In case the build fails, you may try to clean the offending tasks, as in the following example:
 
     bitbake -c cleansstate cairo
     
-then invoke `bitbake gemini-image` again.
+then invoke `bitbake intrepid-image` again.
 
 ### Running the created images with QEMU inside the container
 
