@@ -43,8 +43,8 @@ Prerequisite: the container is already running.
     # Make sure that /dev/shm is writable (TODO: why???)
     chmod a+w /dev/shm
     
-    # Make sure that ~build/tmp directory is owned by user "build"
-    chown build.build ~build/tmp
+    # Make sure that ~build/shared directory is owned by user "build"
+    chown build.build ~build/shared
     
     # Switch to user 'build'
     su - build
