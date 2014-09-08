@@ -54,7 +54,7 @@ Prerequisite: the container is already running.
 After logging in as user "build" execute the following commands:
 
     export GENIVI=~/genivi-baseline
-    source $GENIVI/poky/oe-init-build-env ~/tmp/my-genivi-build
+    source $GENIVI/poky/oe-init-build-env ~/shared/my-genivi-build
     export TOPDIR=$PWD
 
 ### Building the GENIVI image
