@@ -1,8 +1,16 @@
+# build-yocto-genivi
+
+build-yocto-genivi is a subproject of [easy-build](https://github.com/gmacario/easy-build) and has the objective of providing a simplified environment where to rebuild from sources the [GENIVI Yocto Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home), as well as running it on virtual targets such as QEMU, VirtualBox or VMware.
+
+build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clean, stand-alone development environment complete with all the tools needed to perform a full build of the target image.
+
 ## Getting the Docker image locally
 
 Several options are possible here.
 
 ### Using the build.sh script (quick)
+
+The following script will create the Docker image starting from the description inside the `Dockerfile`
 
     ./build.sh
     
@@ -11,6 +19,8 @@ Several options are possible here.
     docker pull gmacario/build-yocto-genivi
 
 ### Creating Docker image from Dockerfile and running it
+
+This is basically what the `build.sh` script does, but you may customize the Docker image or add other configuration options (please consult `man docker` for details)
 
     docker build -t my-build-yocto-genivi .
 
