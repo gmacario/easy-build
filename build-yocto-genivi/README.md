@@ -8,16 +8,19 @@ build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clea
 
 Several options are possible here.
 
-### Using the build.sh script (quick)
-
-The following script will create the Docker image starting from the description inside the `Dockerfile`
-
-    ./build.sh
-    
 ### Pulling Docker image from index.docker.io and running it
+
+The most recent builds of the build-yocto-genivi project are published on [Docker Hub](https://hub.docker.com/):
 
     docker pull gmacario/build-yocto-genivi
 
+### Using the build.sh script
+
+Alternatively you may do a local rebuild of your Docker image following to the instructions inside the `Dockerfile`.
+You may do so through the following command
+
+    ./build.sh
+    
 ### Creating Docker image from Dockerfile and running it
 
 This is basically what the `build.sh` script does, but you may customize the Docker image or add other configuration options (please consult `man docker` for details)
