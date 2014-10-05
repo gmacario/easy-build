@@ -5,10 +5,15 @@ This repository contains a collection of [Docker](http://www.docker.com/) files 
 
 Please refer to the `README.md` file available under each subdirectory for details:
 
-* build-aosp: [Android Open Source Project](http://source.android.com/source/index.html)
-* build-yocto: [Yocto project](http://www.yoctoproject.arm)
-* build-yocto-fsl-arm: [Yocto project](http://www.yoctoproject.arm) for Freescale/ARM targets
-* build-yocto-genivi: [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home)
+* [build-aosp][1]: Android Open Source Project
+* [build-yocto][2]: Yocto project
+* [build-yocto-fsl-arm][3]: Yocto project for Freescale/ARM targets
+* [build-yocto-genivi][4]: Yocto GENIVI Baseline
+
+[1]: build-aosp
+[2]: build-yocto
+[3]: build-yocto-fsl-arm
+[4]: build-yocto-genivi
 
 System Requirements
 -------------------
