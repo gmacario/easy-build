@@ -5,13 +5,15 @@
 
 # (TESTING) SHA for Yocto GENIVI Baseline master branch
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
-#cd $GENIVI/meta-ivi && git checkout master
-#cd $GENIVI/poky     && git checkout master
+#cd $GENIVI/meta-ivi 		&& git checkout master
+#cd $GENIVI/poky     		&& git checkout master
+#cd $GENIVI/meta-openembedded	&& git checkout master
 
-# Known SHA for Yocto GENIVI Baseline 7.0.0
+# Known SHA for Yocto GENIVI Baseline 7.0.1
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.1
-cd $GENIVI/meta-ivi && git checkout 7.0.1
-cd $GENIVI/poky     && git checkout 39ca8b429b6244e9649e7303cbb240adf007bf22
+cd $GENIVI/meta-ivi 		&& git checkout 7.0.1
+cd $GENIVI/poky     		&& git checkout 39ca8b429b6244e9649e7303cbb240adf007bf22
+cd $GENIVI/meta-openembedded  	&& git checkout 0d01e1b72333f49c29d1a27ad844c4cd9f90341c
 
 # Known SHA for Yocto GENIVI Baseline 7.0.0
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.0
