@@ -9,9 +9,14 @@
 #cd $GENIVI/poky     && git checkout master
 
 # Known SHA for Yocto GENIVI Baseline 7.0.0
+# See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.1
+cd $GENIVI/meta-ivi && git checkout 7.0.1
+cd $GENIVI/poky     && git checkout 39ca8b429b6244e9649e7303cbb240adf007bf22
+
+# Known SHA for Yocto GENIVI Baseline 7.0.0
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.0
-cd $GENIVI/meta-ivi && git checkout 7.0.0
-cd $GENIVI/poky     && git checkout f3d08464ef0e8ee11fe9d59857f4be314cd64580
+#cd $GENIVI/meta-ivi && git checkout 7.0.0
+#cd $GENIVI/poky     && git checkout f3d08464ef0e8ee11fe9d59857f4be314cd64580
 
 # Known SHA for Yocto GENIVI Baseline 6.0.2
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=6.0.2
