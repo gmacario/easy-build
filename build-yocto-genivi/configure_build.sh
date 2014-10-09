@@ -57,6 +57,7 @@ cat <<__END__ >>$TOPDIR/conf/bblayers.conf
 BBLAYERS += " \
   $GENIVI/meta-ivi/meta-ivi \
   $GENIVI/meta-ivi/meta-ivi-bsp \
+  $GENIVI/meta-openembedded/meta-oe \
   "
 __END__
 
