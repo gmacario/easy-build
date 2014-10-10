@@ -79,9 +79,8 @@ The following commands must be executed only once:
 See `configure_build.sh` for details
 
     cd $TOPDIR
-    curl \
-	https://raw.githubusercontent.com/gmacario/easy-build/master/build-yocto-genivi/configure_build.sh \
-	>configure_build.sh
+    curl -O \
+	https://raw.githubusercontent.com/gmacario/easy-build/master/build-yocto-genivi/configure_build.sh
 
 Review `configure_build.sh` and make any modifications if needed, then invoke the script
 
