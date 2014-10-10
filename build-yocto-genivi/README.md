@@ -99,74 +99,68 @@ For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer
 
 Sample output:
 ```
-build@0e1cc1d41562:~/shared/my-genivi-build$ bitbake -k intrepid-image
-Parsing recipes: 100% |###############################################################| Time: 00:00:23
-Parsing of 907 .bb files complete (0 cached, 907 parsed). 1275 targets, 150 skipped, 0 masked, 0 errors.
+build@a3840a3de79d:~/shared/my-genivi-build$ bitbake -k intrepid-image
+Parsing recipes: 100% |###############################################################| Time: 00:00:35
+Parsing of 1424 .bb files complete (0 cached, 1424 parsed). 1870 targets, 191 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
-BB_VERSION        = "1.23.1"
+BB_VERSION        = "1.24.0"
 BUILD_SYS         = "x86_64-linux"
 NATIVELSBSTRING   = "Ubuntu-14.04"
 TARGET_SYS        = "i586-poky-linux"
 MACHINE           = "qemux86"
 DISTRO            = "poky-ivi-systemd"
-DISTRO_VERSION    = "7.0.0"
+DISTRO_VERSION    = "7.0.1"
 TUNE_FEATURES     = "m32 i586"
 TARGET_FPU        = ""
 meta
 meta-yocto
-meta-yocto-bsp    = "(detachedfromf3d0846):f3d08464ef0e8ee11fe9d59857f4be314cd64580"
+meta-yocto-bsp    = "(detachedfrom39ca8b4):39ca8b429b6244e9649e7303cbb240adf007bf22"
 meta-ivi
-meta-ivi-bsp      = "(detachedfrom7.0.0):d294f2137347caf5721c3af0e53e4de750574be9"
+meta-ivi-bsp      = "(detachedfrom7.0.1):c78f40cfebb0f8d250045fde55b8b5449e99b1cf"
+meta-oe           = "(detachedfrom0d01e1b):0d01e1b72333f49c29d1a27ad844c4cd9f90341c"
 
 NOTE: Preparing runqueue
 NOTE: Executing SetScene Tasks
 NOTE: Executing RunQueue Tasks
 WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://downloads.sourceforge.net/project/libpng/libpng16/1.6.10/libpng-1.6.10.tar.xz, attempting MIRRORS if available
 NOTE: validating kernel config, see log.do_kernel_configcheck for details
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/systemd/1_213+gitAUTOINC+c9679c652b-r0/packages-split/systemd/lib/systemd/systemd' has relocations in .text
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/systemd/1_213+gitAUTOINC+c9679c652b-r0/packages-split/systemd/lib/systemd/systemd-machined' has relocations in .text
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/systemd/1_213+gitAUTOINC+c9679c652b-r0/packages-split/systemd/lib/systemd/systemd-shutdown' has relocations in .text
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/systemd/1_213+gitAUTOINC+c9679c652b-r0/packages-split/systemd/lib/systemd/system-generators/systemd-fstab-generator' has relocations in .text
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/systemd/1_213+gitAUTOINC+c9679c652b-r0/packages-split/systemd/bin/systemctl' has relocations in .text
+WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-util-1.5.3.tar.gz, attempting MIRRORS if available
 WARNING: Failed to fetch URL http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz, attempting MIRRORS if available
-WARNING: QA Issue: bluez5: configure was passed unrecognised options: --with-systemdunitdir
-WARNING: Failed to fetch URL http://www.apache.org/dist/subversion/subversion-1.7.10.tar.bz2, attempting MIRRORS if availableWARNING: QA Issue: coreutils: configure was passed unrecognised options: --disable-acl
+WARNING: QA Issue: bluez5: configure was passed unrecognised options: --with-systemdunitdir [unknown-configure-option]
+WARNING: Failed to fetch URL http://www.apache.org/dist/subversion/subversion-1.8.9.tar.bz2, attempting MIRRORS if available
+WARNING: QA Issue: mesa: configure was passed unrecognised options: --with-llvm-shared-libs [unknown-configure-option]
 WARNING: Failed to fetch URL http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-0.10.tar.gz, attempting MIRRORS if available
-WARNING: QA Issue: fuse: configure was passed unrecognised options: --disable-kernel-module
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/wayland-ivi-extension/1.2.0-rc7+gitAUTOINC+6ee4b2e418-rc7/packages-split/wayland-ivi-extension/usr/lib/libilmClient.so.1.2.0' has relocations in .text
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/wayland-ivi-extension/1.2.0-rc7+gitAUTOINC+6ee4b2e418-rc7/packages-split/wayland-ivi-extension/usr/lib/libilmControl.so.1.2.0' has relocations in .text
-WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/wayland-ivi-extension/1.2.0-rc7+gitAUTOINC+6ee4b2e418-rc7/packages-split/wayland-ivi-extension/usr/lib/weston/ivi-controller.so' has relocations in .text
 WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.17.4.tar.xz, attempting MIRRORS if available
 WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.39.tar.xz, attempting MIRRORS if available
-WARNING: libitzam: No generic license file exists for: Simplified in any provider
-NOTE: Tasks Summary: Attempted 2975 tasks of which 28 didn't need to be rerun and all succeeded.
+WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/wayland-ivi-extension/1.2.0-r0/packages-split/wayland-ivi-extension/usr/lib/weston/ivi-controller.so' has relocations in .text [textrel]
+WARNING: QA Issue: pulseaudio-module-console-kit rdepends on consolekit, but it isn't a build dependency? [build-deps]
+NOTE: Tasks Summary: Attempted 3181 tasks of which 26 didn't need to be rerun and all succeeded.
 
-Summary: There were 19 WARNING messages shown.
-build@0e1cc1d41562:~/shared/my-genivi-build$
+Summary: There were 11 WARNING messages shown.
+build@a3840a3de79d:~/shared/my-genivi-build$
 ```
 
 As a result of the build the following files will be created:
 ```
-build@0e1cc1d41562:~/shared/my-genivi-build$ ls -la tmp/deploy/images/qemux86/
-total 262744
-drwxrwxr-x 2 build build      4096 Sep 17 07:57 .
-drwxrwxr-x 3 build build      4096 Sep 17 07:43 ..
--rw-r--r-- 2 build build       294 Sep 17 07:54 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-lrwxrwxrwx 1 build build        73 Sep 17 07:43 bzImage -> bzImage--3.10.43+git0+199943142f_aa677a2d02-r0-qemux86-20140917063053.bin
--rw-r--r-- 2 build build   6557440 Sep 17 07:43 bzImage--3.10.43+git0+199943142f_aa677a2d02-r0-qemux86-20140917063053.bin
-lrwxrwxrwx 1 build build        73 Sep 17 07:43 bzImage-qemux86.bin -> bzImage--3.10.43+git0+199943142f_aa677a2d02-r0-qemux86-20140917063053.bin
--rw-r--r-- 1 build build 239745024 Sep 17 07:57 intrepid-image-qemux86-20140917063053.rootfs.ext3
--rw-r--r-- 1 build build     31329 Sep 17 07:57 intrepid-image-qemux86-20140917063053.rootfs.manifest
--rw-r--r-- 1 build build  44663020 Sep 17 07:57 intrepid-image-qemux86-20140917063053.rootfs.tar.bz2
-lrwxrwxrwx 1 build build        49 Sep 17 07:57 intrepid-image-qemux86.ext3 -> intrepid-image-qemux86-20140917063053.rootfs.ext3
-lrwxrwxrwx 1 build build        53 Sep 17 07:57 intrepid-image-qemux86.manifest -> intrepid-image-qemux86-20140917063053.rootfs.manifest
-lrwxrwxrwx 1 build build        52 Sep 17 07:57 intrepid-image-qemux86.tar.bz2 -> intrepid-image-qemux86-20140917063053.rootfs.tar.bz2
--rw-rw-r-- 2 build build  67728425 Sep 17 07:43 modules--3.10.43+git0+199943142f_aa677a2d02-r0-qemux86-20140917063053.tgz
-lrwxrwxrwx 1 build build        73 Sep 17 07:43 modules-qemux86.tgz -> modules--3.10.43+git0+199943142f_aa677a2d02-r0-qemux86-20140917063053.tgz
-build@0e1cc1d41562:~/shared/my-genivi-build$
+build@a3840a3de79d:~/shared/my-genivi-build$ ls -la tmp/deploy/images/qemux86/
+total 301160
+drwxrwxr-x 2 build build      4096 Oct  9 22:22 .
+drwxrwxr-x 3 build build      4096 Oct  9 22:04 ..
+-rw-r--r-- 2 build build       294 Oct  9 22:18 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+lrwxrwxrwx 1 build build        73 Oct  9 22:04 bzImage -> bzImage--3.10.55+git0+f79a00265e_8e055f3b66-r0-qemux86-20141009203920.bin
+-rw-r--r-- 2 build build   6563136 Oct  9 22:04 bzImage--3.10.55+git0+f79a00265e_8e055f3b66-r0-qemux86-20141009203920.bin
+lrwxrwxrwx 1 build build        73 Oct  9 22:04 bzImage-qemux86.bin -> bzImage--3.10.55+git0+f79a00265e_8e055f3b66-r0-qemux86-20141009203920.bin
+-rw-r--r-- 1 build build 275724288 Oct  9 22:22 intrepid-image-qemux86-20141009203920.rootfs.ext3
+-rw-r--r-- 1 build build     31663 Oct  9 22:21 intrepid-image-qemux86-20141009203920.rootfs.manifest
+-rw-r--r-- 1 build build  54033632 Oct  9 22:21 intrepid-image-qemux86-20141009203920.rootfs.tar.bz2
+lrwxrwxrwx 1 build build        49 Oct  9 22:22 intrepid-image-qemux86.ext3 -> intrepid-image-qemux86-20141009203920.rootfs.ext3
+lrwxrwxrwx 1 build build        53 Oct  9 22:22 intrepid-image-qemux86.manifest -> intrepid-image-qemux86-20141009203920.rootfs.manifest
+lrwxrwxrwx 1 build build        52 Oct  9 22:22 intrepid-image-qemux86.tar.bz2 -> intrepid-image-qemux86-20141009203920.rootfs.tar.bz2
+-rw-rw-r-- 2 build build  64966967 Oct  9 22:04 modules--3.10.55+git0+f79a00265e_8e055f3b66-r0-qemux86-20141009203920.tgz
+lrwxrwxrwx 1 build build        73 Oct  9 22:04 modules-qemux86.tgz -> modules--3.10.55+git0+f79a00265e_8e055f3b66-r0-qemux86-20141009203920.tgz
+build@a3840a3de79d:~/shared/my-genivi-build$
 ```
 
 In case the build fails, you may try to clean the offending tasks, as in the following example:
