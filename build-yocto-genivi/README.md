@@ -8,7 +8,7 @@ build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clea
 
 Several options are possible here.
 
-### Pulling image from index.docker.io and running it
+### Pulling image from index.docker.io
 
 The most recent builds of the build-yocto-genivi project are published on [Docker Hub](https://hub.docker.com/):
 
@@ -21,13 +21,13 @@ You may do so through the following command
 
     ./build.sh
     
-### Creating Docker image from Dockerfile and running it
+### Creating the image from the Dockerfile
 
 This is basically what the `build.sh` script does, but you may customize the Docker image or add other configuration options (please consult `man docker` for details)
 
     docker build -t my-build-yocto-genivi .
 
-## Running the Docker image inside a container
+## Running the Docker image
 
 Prerequisite: the Docker image is already available locally.
 
@@ -39,11 +39,16 @@ This command will execute faster in case the container has already run previousl
 
     ./run.sh
 
-### Running docker manually
+### Invoking Docker manually
 
 This command will create and start a new container
 
-    docker run -t -i gmacario/build-yocto-genivi
+    docker run -t -i -v <shareddir>:/home/build/shared gmacario/build-yocto-genivi
+
+The `-v <shareddir>:/home/build/shared` options instructs Docker to have the `/home/build/shared` directory 
+of the container mapped to a directory of the host filesystem. 
+This may be used to prevent the Yocto build directory to fill in the partition where containers are created,
+as well as for preserving the build directory after the container is destroyed.
 
 ## Using build-yocto-genivi
 
