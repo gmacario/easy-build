@@ -21,12 +21,14 @@ You may do so through the following command
 
     ./build.sh
     
+**NOTE**: If the script appears to hang, please either delete or move the contents of the `shared/` subdirectory before launching the script.
+
 ### Creating the image from the Dockerfile
 
 This is basically what the `build.sh` script does, but you may customize the Docker image or add other configuration options (please consult `man docker` for details)
 
     docker build -t my-build-yocto-genivi .
-
+    
 ## Running the Docker image
 
 Prerequisite: the Docker image is already available locally.
