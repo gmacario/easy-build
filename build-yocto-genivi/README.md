@@ -27,7 +27,7 @@ This is basically what the `build.sh` script does, but you may customize the Doc
 
     docker build -t my-build-yocto-genivi .
 
-## Running the Docker inside a container
+## Running the Docker image inside a container
 
 Prerequisite: the Docker image is already available locally.
 
