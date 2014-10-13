@@ -41,6 +41,8 @@ RUN su -c "cd ~/genivi-baseline \
 	&& git clone git://git.yoctoproject.org/poky" build
 RUN su -c "cd ~/genivi-baseline \
 	&& git clone git://git.yoctoproject.org/meta-ivi" build
+RUN su -c "cd ~/genivi-baseline \
+	&& git clone git://git.openembedded.org/meta-openembedded" build
 
 #RUN cd /home/build
 
