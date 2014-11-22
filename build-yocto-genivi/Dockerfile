@@ -44,6 +44,7 @@ RUN su -c "cd ~/genivi-baseline \
 RUN su -c "cd ~/genivi-baseline \
 	&& git clone git://git.openembedded.org/meta-openembedded" build
 
+RUN mkdir -p /home/build/shared
 COPY configure_build.sh /home/build/
 RUN chown -R build.build /home/build
 
