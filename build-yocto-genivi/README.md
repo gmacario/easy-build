@@ -79,24 +79,16 @@ After logging in as user "build" execute the following commands:
 
 ### Building the GENIVI image
 
-#### Configure build
+#### Configure the build
 
-The following commands must be executed only once:
+Review script `configure_build.sh` and make any modifications if needed, then invoke the script
 
-See `configure_build.sh` for details
-
-    cd $TOPDIR
-    curl -O \
-	https://raw.githubusercontent.com/gmacario/easy-build/master/build-yocto-genivi/configure_build.sh
-
-Review `configure_build.sh` and make any modifications if needed, then invoke the script
-
-    sh configure_build.sh
+    sh ~/configure_build.sh
 
 For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the
 [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
 
-#### Perform build
+#### Perform the build
 
     cd $TOPDIR
     bitbake -k intrepid-image

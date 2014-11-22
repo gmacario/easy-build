@@ -44,6 +44,9 @@ RUN su -c "cd ~/genivi-baseline \
 RUN su -c "cd ~/genivi-baseline \
 	&& git clone git://git.openembedded.org/meta-openembedded" build
 
+COPY configure_build.sh /home/build/
+RUN chown -R build.build /home/build
+
 #RUN cd /home/build
 
 # Define container entry point
