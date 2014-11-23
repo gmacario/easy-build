@@ -70,8 +70,9 @@ __END__
 cp $TOPDIR/conf/local.conf $TOPDIR/conf/local.conf.ORIG
 cat <<__END__ >>$TOPDIR/conf/local.conf
 # Override config options in conf/local.conf
-BB_NUMBER_THREADS = "4"
-PARALLEL_MAKE = "-j 4"
+#
+#BB_NUMBER_THREADS = "4"
+#PARALLEL_MAKE = "-j 4"
 #
 DISTRO = "poky-ivi-systemd"
 #DISTRO_FEATURES_append = " opengl"
