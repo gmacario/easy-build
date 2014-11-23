@@ -5,15 +5,21 @@
 
 # (TESTING) SHA for Yocto GENIVI Baseline master branch
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
-#cd $GENIVI/meta-ivi 		&& git checkout master
-#cd $GENIVI/poky     		&& git checkout master
-#cd $GENIVI/meta-openembedded	&& git checkout master
+#cd $GENIVI/meta-ivi 		&& git fetch --all && git checkout master
+#cd $GENIVI/poky     		&& git fetch --all && git checkout dizzy
+#cd $GENIVI/meta-openembedded	&& git fetch --all && git checkout dizzy
+
+# Known SHA for Yocto GENIVI Baseline 7.0.2 (I-1.1)
+# See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.2
+cd $GENIVI/meta-ivi 		&& git fetch --all && git checkout 7.0.2
+cd $GENIVI/poky     		&& git fetch --all && git checkout df87cb27efeaea1455f20692f9f1397c6fcab254
+cd $GENIVI/meta-openembedded  	&& git fetch --all && git checkout 9efaed99125b1c4324663d9a1b2d3319c74e7278
 
 # Known SHA for Yocto GENIVI Baseline 7.0.1
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.1
-cd $GENIVI/meta-ivi 		&& git checkout 7.0.1
-cd $GENIVI/poky     		&& git checkout 39ca8b429b6244e9649e7303cbb240adf007bf22
-cd $GENIVI/meta-openembedded  	&& git checkout 0d01e1b72333f49c29d1a27ad844c4cd9f90341c
+#cd $GENIVI/meta-ivi 		&& git checkout 7.0.1
+#cd $GENIVI/poky     		&& git checkout 39ca8b429b6244e9649e7303cbb240adf007bf22
+#cd $GENIVI/meta-openembedded  	&& git checkout 0d01e1b72333f49c29d1a27ad844c4cd9f90341c
 
 # Known SHA for Yocto GENIVI Baseline 7.0.0
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.0
