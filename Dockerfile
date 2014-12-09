@@ -6,7 +6,7 @@
 #	https://www.docker.io/learn/dockerfile/level2/
 # ===========================================================================================
 
-FROM ubuntu
+FROM gmacario/baseimage:0.9.15b
 MAINTAINER Gianpaolo Macario, gmacario@gmail.com
 
 # Make sure the package repository is up to date
