@@ -1,19 +1,26 @@
 build-yocto
 ===========
 
-This subproject of easy-build provides a quick and easy way for creating embedded Linux distributions using the [Yocto project](https://www.yoctoproject.org/) tools.
+This subproject of [easy-build](https://github.com/gmacario/easy-build) provides a quick and easy way
+for creating embedded Linux distributions using the [Yocto Project](https://www.yoctoproject.org/) tools.
 
 Building the Docker image
 -------------------------
 
-    docker build -t gmacario/build-yocto .
+You may use the `build.sh` script:
+
+    $ cd .../build-yocto
+    $ ./build.sh
 
 Running the Docker image
 ------------------------
 
-    docker run -t -i gmacario/build-yocto
+You may use the `run.sh` script:
 
-Congratulations! You can now execute the Yocto project tools to create your own embedded Linux distribution.
+    $ cd .../build-yocto
+    $ ./run.sh
+
+Congratulations! You can now execute the Yocto Project tools to create your own embedded Linux distribution.
 
 Using Yocto
 -----------
@@ -23,29 +30,74 @@ Please refer to the [Yocto Project documentation](https://www.yoctoproject.org/d
 
 ### Select the Yocto release
 
-Fetch the latest updates of the poky repository, then switch to the desired release (in our example, Yocto 1.6 - a.k.a. "daisy")
+Fetch the latest updates of the poky repository, then switch to the desired release
+(in our example, Yocto Project 1.7 - a.k.a. "dizzy")
 
-    cd /opt/yocto/poky
-    git checkout -b daisy origin/daisy
+    $ cd /opt/yocto/poky
+    $ git checkout dizzy
 
 ### Create the build environment
 
-    cd /work
-    source /opt/yocto/poky/oe-init-build-env build-test01
+    $ cd /shared
+    $ source /opt/yocto/poky/oe-init-build-env build-test01
 
-You may inspect and - if necessary - change the configuration files under conf/.
+You may inspect and - if necessary - change the configuration files under `conf/`.
 
 ### Start the build
 
-    bitbake -k core-image-sato
+    $ bitbake -k core-image-sato
     
+Result
+
+```
+vagrant@e117d5aaa4f3:/shared/build-test02$ bitbake -k core-image-sato
+Parsing recipes: 100% |###########################################################################| Time: 00:00:24
+Parsing of 892 .bb files complete (0 cached, 892 parsed). 1289 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION        = "1.25.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-14.04"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky"
+DISTRO_VERSION    = "1.7"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta
+meta-yocto
+meta-yocto-bsp    = "master:ec6377bcf52d105cd23ac6bbbeddd38fee9337e4"
+
+NOTE: Preparing RunQueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://downloads.sourceforge.net/project/libpng/libpng16/1.6.13/libpng-1.6.13.tar.xz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-util-1.5.3.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz, attempting MIRRORS if available
+WARNING: Missing md5 SRC_URI checksum for /shared/build-test02/downloads/serf-1.3.8.tar.bz2, consider adding to the recipe:
+SRC_URI[md5sum] = "2e4efe57ff28cb3202a112e90f0c2889"
+WARNING: Failed to fetch URL http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-0.10.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.17.4.tar.xz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.39.tar.xz, attempting MIRRORS if available
+NOTE: validating kernel config, see log.do_kernel_configcheck for details
+NOTE: Tasks Summary: Attempted 5154 tasks of which 16 didn't need to be rerun and all succeeded.
+
+Summary: There were 8 WARNING messages shown.
+vagrant@e117d5aaa4f3:/shared/build-test02$
+```
+
 ### Using the "wic" tool
 
-Starting from release 1.5, Yocto features the "wic" tool to build system images.
+Starting from release 1.5, Yocto features the `wic` tool to build system images.
 
 #### Show program version
 
+    $ wic --version
+
 Yocto 1.6 provides version 0.1.0
+
 ```
 root@eb4b9143265d:/work/build-test01# wic --version
 wic version 0.1.0
@@ -53,6 +105,11 @@ root@eb4b9143265d:/work/build-test01#
 ```
 
 #### Show program help
+
+    $ wic --help
+
+Result:
+
 ```
 root@eb4b9143265d:/work/build-test01# wic --help
 Usage:
@@ -75,6 +132,11 @@ root@eb4b9143265d:/work/build-test01#
 ```
 
 #### List available OpenEmbedded image properties
+
+    $ wic list images
+
+Result:
+
 ```
 root@eb4b9143265d:/work/build-test01# wic list images
   directdisk            Create a 'pcbios' direct disk image
@@ -83,11 +145,11 @@ root@eb4b9143265d:/work/build-test01#
 ```
 
 #### Getting help on "wic create"
-```
-wic help create
-```
+
+    $ wic help create
 
 Result:
+
 ```
 NAME
     wic create - Create a new OpenEmbedded image
@@ -168,6 +230,7 @@ DESCRIPTION
 #### Create image
 
 TODO
+
 ```
 wic create directdisk -e core-image-minimal
 ```
@@ -195,4 +258,4 @@ Workaround:
 
     $ touch conf/sanity.conf
 
-EOF
+<!-- EOF -->
