@@ -2,10 +2,9 @@
 # Dockerfile for building the Yocto Project
 # 
 # References:
-#	http://www.yoctoproject.org/docs/1.6/yocto-project-qs/yocto-project-qs.html
+#	http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html
 # ===========================================================================================
 
-#FROM ubuntu
 FROM gmacario/easy-build
 
 MAINTAINER Gianpaolo Macario, gmacario@gmail.com
@@ -36,7 +35,7 @@ RUN apt-get install -y parted dosfstools mtools syslinux
 #RUN mkdir -p /home/build
 #RUN chown -R build /home/build
 
-# Checkout poky from git
+RUN mkdir -p /shared
 
 # TODO: Run as user "build" once Docker supports user-level volumes
 #RUN su -c "mkdir -p ~/yocto" build
