@@ -1,6 +1,9 @@
 easy-build
 ==========
+
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmacario/easy-build?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![PullReview stats](https://www.pullreview.com/github/gmacario/easy-build/badges/master.svg?)](https://www.pullreview.com/github/gmacario/easy-build/reviews/master)
 
 This repository contains a collection of [Docker](http://www.docker.com/) files that help rebuilding embedded software distributions.
 
