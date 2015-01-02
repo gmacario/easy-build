@@ -1,21 +1,29 @@
-#!/bin/sh
+#!/bin/bash
 
 #set -x
 
 cd $(dirname $0)
 
-TMPDIR=$PWD/shared
+SHAREDDIR=$PWD/shared
 CONTAINER=build-yocto-fsl-arm
-REPOSITORY=gmacario/build-yocto-fsl-arm
+IMAGE=gmacario/build-yocto-fsl-arm
 
 # Create a shared folder which will be used as working directory.
-mkdir -p $TMPDIR
+mkdir -p $SHAREDDIR
 
 # Try to start an existing/stopped container with the given name $CONTAINER.
 # Otherwise, run a new one.
-docker start -i $CONTAINER || \
-	docker run -v $TMPDIR:/shared -i -t \
-	--name $CONTAINER $REPOSITORY
+if docker inspect $CONTAINER >/dev/null 2>&1; then
+    echo -e "\nINFO: Reattaching to running container $CONTAINER\n"
+    docker start -i $CONTAINER
+else
+    echo -e "\nINFO: Creating a new container from image $IMAGE\n"
+    docker run -t -i \
+	--volume=$SHAREDDIR:/shared \
+	--name=$CONTAINER \
+	$IMAGE
+fi
+
 # /bin/sh -c "screen -s /bin/bash"
 
 exit $?
