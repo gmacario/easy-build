@@ -45,6 +45,10 @@ RUN su -c "cd ~/openwrt && ./scripts/feeds install -a" build
 RUN su -c "cd ~/openwrt make defconfig" build
 RUN su -c "cd ~/openwrt make prereq" build
 
+# 5. Add build.local/ to container
+ADD build.local /home/build
+#RUN su -c "" build
+
 ENTRYPOINT ["/bin/bash"]
 
 # Expose sshd port
