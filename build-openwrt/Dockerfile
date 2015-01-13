@@ -25,6 +25,7 @@ RUN apt-get install -y screen
 RUN apt-get -y install git-core build-essential libssl-dev
 RUN apt-get -y install subversion
 RUN apt-get -y install libncurses5-dev gawk python wget
+RUN apt-get -y install libxml-parser-perl
 
 RUN mkdir -p /shared
 
