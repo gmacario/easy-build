@@ -9,11 +9,13 @@ This repository contains a collection of [Docker](http://www.docker.com/) files 
 
 Please refer to the `README.md` file available under each subdirectory for details:
 
-* [build-aosp][1]: Android Open Source Project
-* [build-openwrt][2]: OpenWrt
-* [build-yocto][3]: Yocto Project
-* [build-yocto-fsl-arm][4]: Yocto Project for Freescale/ARM targets
-* [build-yocto-genivi][5]: Yocto GENIVI Baseline
+| Subproject               | Description                             |
+| ------------------------ | --------------------------------------- |
+| [build-aosp][1]          | Android Open Source Project             |
+| [build-openwrt][2]       | OpenWrt                                 |
+| [build-yocto][3]         | Yocto Project                           |
+| [build-yocto-fsl-arm][4] | Yocto Project for Freescale/ARM targets |
+| [build-yocto-genivi][5]  | Yocto GENIVI Baseline                   |
 
 [1]: build-aosp
 [2]: build-openwrt
