@@ -39,8 +39,8 @@ automatically built kept updated in [Docker Hub](https://hub.docker.com/).
 
 The easiest way for using them is by using the `./run.sh` script which is present inside each _build-subproject_ subdirectory:
 
-$ cd <build-subproject>
-$ ./run.sh
+    $ cd <build-subproject>
+    $ ./run.sh
 
 For details about how to do after please refer to the `README.md` file in each _build-subproject_ subdirectory.
 
@@ -49,8 +49,8 @@ For details about how to do after please refer to the `README.md` file in each _
 If you are not satisfied or do not trust the Docker images available on [Docker Hub](https://hub.docker.com/),
 you may create your own ones by executing the following commands:
 
-$ cd <build-subproject>
-$ ./build.sh
+    $ cd <build-subproject>
+    $ ./build.sh
 
 If the `build.sh` command is successful, you will eventually get a `gmacario/<build_subproject>` image
 inside your local Docker installation.
