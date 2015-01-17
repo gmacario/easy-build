@@ -4,9 +4,13 @@
 
 cd $(dirname $0)
 
-SHAREDDIR=$PWD/shared
-CONTAINER=build-openwrt
+if [ "$1" != "" ]; then
+    CONTAINER=$1
+else
+    CONTAINER=build-openwrt
+fi
 REPOSITORY=gmacario/build-openwrt
+SHAREDDIR=$PWD/shared
 
 # Create a shared folder which will be used as working directory.
 mkdir -p $SHAREDDIR
