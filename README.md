@@ -5,9 +5,8 @@ easy-build
 
 [![PullReview stats](https://www.pullreview.com/github/gmacario/easy-build/badges/master.svg?)](https://www.pullreview.com/github/gmacario/easy-build/reviews/master)
 
-This repository contains a collection of [Docker](http://www.docker.com/) files that help rebuilding embedded software distributions.
-
-Please refer to the `README.md` file available under each subdirectory for details:
+This repository contains a collection of [Docker](http://www.docker.com/)
+files that help rebuilding a few embedded software distributions.
 
 | Subproject               | Description                             |
 | ------------------------ | --------------------------------------- |
@@ -16,6 +15,8 @@ Please refer to the `README.md` file available under each subdirectory for detai
 | [build-yocto][3]         | Yocto Project                           |
 | [build-yocto-fsl-arm][4] | Yocto Project for Freescale/ARM targets |
 | [build-yocto-genivi][5]  | Yocto GENIVI Baseline                   |
+
+Please refer to the `README.md` file available under each subdirectory for details.
 
 [1]: build-aosp
 [2]: build-openwrt
@@ -26,33 +27,43 @@ Please refer to the `README.md` file available under each subdirectory for detai
 System Requirements
 -------------------
 
-* Docker 0.9.1 or later (tested on Ubuntu and CoreOS)
+* Docker 0.9.1 or later (tested with [Ubuntu](http://www.ubuntu.com/)
+and [CoreOS](https://coreos.com/))
 * A fast Internet connection
 
-Locally building an image from Dockerfile
------------------------------------------
+Usage Examples
+--------------
 
-Execute the following commands:
+### Running a pre-built image available at the Docker Hub
 
-    cd <build-something>
-    docker build -t mybuild .
+Most of the _build-subproject_ have a corresponding Docker image
+`gmacario/<build-subproject>` automatically built and kept updated
+on [Docker Hub](https://hub.docker.com/).
 
+The easiest way for using them is by using the `./run.sh` script which
+is present inside each _build-subproject_ subdirectory:
 
-Running locally built image
----------------------------
+    $ cd <build-subproject>
+    $ ./run.sh
 
-Execute the following commands:
+For details about how to do after please refer to the `README.md` file
+in each _build-subproject_ subdirectory.
 
-    docker run -i -t mybuild
-    su - build
-    # (depends on the specialized image being run)
+### Locally building a Docker image for one easy-build subproject
 
+If you are not satisfied or do not trust the Docker images available
+on [Docker Hub](https://hub.docker.com/), you may create your own ones
+by executing the following commands:
 
-Running pre-built image available at the public Docker index
-------------------------------------------------------------
+    $ cd <build-subproject>
+    $ ./build.sh
 
-Execute the following commands:
+If the `build.sh` command is successful, you will eventually get
+a `gmacario/<build_subproject>` image inside your local Docker installation.
 
-    docker run -i -t gmacario/<build-something>
-    su - build
-    # (depends on the specialized image being run)
+Please read the `build.sh` script and the corresponding `Dockerfile` for details.
+
+------------------------
+Copyright 2014-2015, [Gianpaolo Macario](http://gmacario.github.io/)
+
+<!-- EOF -->
