@@ -18,10 +18,10 @@ mkdir -p $SHAREDDIR
 # Try to start an existing/stopped container with the given name $CONTAINER.
 # Otherwise, run a new one.
 if docker inspect $CONTAINER >/dev/null 2>&1; then
-    echo -e "\nINFO: Reattaching to running container\n"
+    echo -e "\nINFO: Reattaching to running container \"$CONTAINER\"\n"
     docker start -i $CONTAINER
 else
-    echo -e "\nINFO: Creating a new container\n"
+    echo -e "\nINFO: Creating a new container \"$CONTAINER\" from image \"$REPOSITORY\"\n"
     docker run -v $SHAREDDIR:/shared -i -t \
 	--name $CONTAINER $REPOSITORY
 fi
