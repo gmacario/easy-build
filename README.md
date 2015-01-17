@@ -5,9 +5,8 @@ easy-build
 
 [![PullReview stats](https://www.pullreview.com/github/gmacario/easy-build/badges/master.svg?)](https://www.pullreview.com/github/gmacario/easy-build/reviews/master)
 
-This repository contains a collection of [Docker](http://www.docker.com/) files that help rebuilding embedded software distributions.
-
-Please refer to the `README.md` file available under each subdirectory for details:
+This repository contains a collection of [Docker](http://www.docker.com/)
+files that help rebuilding a few embedded software distributions.
 
 | Subproject               | Description                             |
 | ------------------------ | --------------------------------------- |
@@ -16,6 +15,8 @@ Please refer to the `README.md` file available under each subdirectory for detai
 | [build-yocto][3]         | Yocto Project                           |
 | [build-yocto-fsl-arm][4] | Yocto Project for Freescale/ARM targets |
 | [build-yocto-genivi][5]  | Yocto GENIVI Baseline                   |
+
+Please refer to the `README.md` file available under each subdirectory for details.
 
 [1]: build-aosp
 [2]: build-openwrt
@@ -34,26 +35,30 @@ Usage Examples
 
 ### Running a pre-built image available at the Docker Hub
 
-Most of the _build-subproject_ have a corresponding Docker images `gmacario/<build-subproject>`
-automatically built kept updated in [Docker Hub](https://hub.docker.com/).
+Most of the _build-subproject_ have a corresponding Docker image
+`gmacario/<build-subproject>` automatically built and kept updated
+on [Docker Hub](https://hub.docker.com/).
 
-The easiest way for using them is by using the `./run.sh` script which is present inside each _build-subproject_ subdirectory:
+The easiest way for using them is by using the `./run.sh` script which
+is present inside each _build-subproject_ subdirectory:
 
     $ cd <build-subproject>
     $ ./run.sh
 
-For details about how to do after please refer to the `README.md` file in each _build-subproject_ subdirectory.
+For details about how to do after please refer to the `README.md` file
+in each _build-subproject_ subdirectory.
 
 ### Locally building a Docker image for one easy-build subproject
 
-If you are not satisfied or do not trust the Docker images available on [Docker Hub](https://hub.docker.com/),
-you may create your own ones by executing the following commands:
+If you are not satisfied or do not trust the Docker images available
+on [Docker Hub](https://hub.docker.com/), you may create your own ones
+by executing the following commands:
 
     $ cd <build-subproject>
     $ ./build.sh
 
-If the `build.sh` command is successful, you will eventually get a `gmacario/<build_subproject>` image
-inside your local Docker installation.
+If the `build.sh` command is successful, you will eventually get
+a `gmacario/<build_subproject>` image inside your local Docker installation.
 
 Please read the `build.sh` script and the corresponding `Dockerfile` for details.
 
