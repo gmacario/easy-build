@@ -67,7 +67,6 @@ BEGIN       {
               print "INFO: Analysis start"
               date_firstevent = 0;
               date_lastevent = 0;
-
               # Format of events["pkg/task/begin/event"] = tm
               #events["1"] = "OK"
               #events["2"] = "KO"
@@ -77,25 +76,13 @@ BEGIN       {
               now = substr($0, 1, index($0, "NOTE")-2)
               #print "DEBUG: now=" now
               tm = now_to_tm(now)
-              #
-              #now_str = substr(now, 1, 4)
-              #now_str = now_str " " substr(now, 6, 2)
-              #now_str = now_str " " substr(now, 9, 2)
-              #now_str = now_str " " substr(now, 12, 2)
-              #now_str = now_str " " substr(now, 15, 2)
-              #now_str = now_str " " substr(now, 18, 2)
-              #tm2 = mktime(now_str)
-              # ASSSERT (tm == tm2)
-              #
-              #print "DEBUG: now=" now ", now_str=" now_str ", tm=" tm ", tm2=" tm2
               pkg=$5
               gsub(/:/, "", pkg)
               task=$7
               gsub(/:/, "", task)
               print "INFO: TASK STARTED: now=" now ", tm=" tm ", pkg=" pkg ", task=" task
               # TODO if (date_firstevent == 0)...
-              # TODO if (date_lastevent < now)...
-
+              # TODO if (date_lastevent < tm)...
               events[pkg "/" task "/STARTED"] = tm
               next;
             }
@@ -109,8 +96,7 @@ BEGIN       {
               gsub(/:/, "", task)
               print "INFO: TASK SUCCEED: now=" now ", tm=" tm ", pkg=" pkg ", task=" task
               # TODO if (date_firstevent == 0)...
-              # TODO if (date_lastevent < now)...
-
+              # TODO if (date_lastevent < tm)...
               events[pkg "/" task "/SUCCEED"] = tm
               next;
             }
