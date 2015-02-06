@@ -5,7 +5,7 @@
 #   possible build time bottlenecks or inefficiencies.
 #
 # Usage:
-#   $ bblog-to-csv.sh <path-to-timestamped-build.log>
+#   $ bblog-analyze.sh <path-to-timestamped-build.log>
 #
 # Notes:
 #   To create a timestamped build.log the script "prepend-timestamp.sh"
