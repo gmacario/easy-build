@@ -18,13 +18,12 @@
 #   2. <timestamped-build>-summary-<now>.csv
 # =============================================================================
 
-BUILDLOG=$1
-#BUILDLOG=tests/my-build.log
-
-if [ "${BUILDLOG}" = "" ]; then
-  echo "ERROR: Usage $(basename $0) <path-to-timestamped-build.log>"
+if [ $# -lt 1 ]; then
+  echo "INFO: Usage: $(basename $0) <path-to-timestamped-build.log>"
   exit 1
 fi
+
+BUILDLOG=$1
 if [ ! -e "${BUILDLOG}" ]; then
   echo "ERROR: Cannot open ${BUILDLOG}"
   exit 2
