@@ -27,7 +27,7 @@ if [ "${BUILDLOG}" = "" ]; then
 fi
 if [ ! -e "${BUILDLOG}" ]; then
   echo "ERROR: Cannot open ${BUILDLOG}"
-  exit q
+  exit 2
 fi
 
 NOW=$(date '+%Y%m%d-%H%M')
