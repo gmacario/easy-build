@@ -14,6 +14,10 @@ OUTDIR=${PWD}/out
 BBLOG_ANALYZE=bblog-analyze.sh
 BBLOG_ANALYZE_URL=https://raw.githubusercontent.com/gmacario/easy-build/master/tools/${BBLOG_ANALYZE}
 
+# Prepend ${PWD} to PATH so BBLOG_ANALYZE can be used
+# if it is found in the current directory
+PATH=${PWD}:${PATH}
+
 # Check whether the BBLOG_ANALYZE script is already available
 BBLOG_ANALYZE_PATH=$(which ${BBLOG_ANALYZE} 2>/dev/null) || {
   echo "WARNING: Cannot find ${BBLOG_ANALYZE}"
