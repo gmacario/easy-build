@@ -101,7 +101,6 @@ BEGIN       {
             }
 END         {
               print "INFO: Analysis ending"
-
               #print "DEBUG: Before printing events"
               for (k in events) {
                   tm = events[k]
@@ -118,12 +117,10 @@ END         {
                       task = substr(task, 1, index(task, "/")-1)
                       #str_tm1 = strftime("???", tm1)
                       #print "INFO: pkg=" pkg ", task=" task ", start=" tm1 ", elapsed=" (tm - tm1)
-                      #print "SUMMARY, " pkg ", " task ", " tm1 ", " (tm - tm1)
-                      print "\"STARTED-SUCCEED\", \"" pkg "\", \"" task "\", " tm1 ", " (tm - tm1)
-                    }
+                      print "STARTED-SUCCEED;" pkg ";" task ";" tm1 ";" (tm - tm1)
+                  }
               }
               #print "DEBUG: After printing events"
-
             }
 ' >${OUTFILE}
 
@@ -133,7 +130,7 @@ echo "INFO: Analyzing OUTFILE"
 wc -l ${OUTFILE}
 
 echo "INFO: Creating summary CSV as ${CSVFILE}"
-grep "^\"STARTED-SUCCEED\"" <${OUTFILE} >${CSVFILE}
+grep "^STARTED-SUCCEED" <${OUTFILE} >${CSVFILE}
 
 echo "INFO: Analyzing CSVFILE"
 wc -l ${CSVFILE}
