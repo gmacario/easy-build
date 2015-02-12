@@ -69,6 +69,7 @@ BEGIN       {
               # Format of events["pkg/task/begin/event"] = tm
               #events["1"] = "OK"
               #events["2"] = "KO"
+              print "#ACTIVITY;#PKGNAME;#TASKNAME;#TM_START;#DURATION"
             }
 /Started/   {
               #print "DEBUG: Started: $0=" $0
@@ -130,7 +131,8 @@ echo "INFO: Analyzing OUTFILE"
 wc -l ${OUTFILE}
 
 echo "INFO: Creating summary CSV as ${CSVFILE}"
-grep "^STARTED-SUCCEED" <${OUTFILE} >${CSVFILE}
+grep "^#ACTIVITY" <${OUTFILE} >${CSVFILE}
+grep "^STARTED-SUCCEED" <${OUTFILE} >>${CSVFILE}
 
 echo "INFO: Analyzing CSVFILE"
 wc -l ${CSVFILE}
