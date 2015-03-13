@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/gmacario/easy-build.png?label=ready&title=Ready)](https://waffle.io/gmacario/easy-build)
 easy-build
 ==========
 
