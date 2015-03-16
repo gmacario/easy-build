@@ -23,7 +23,7 @@ TOPDIR=${PWD}/shared/my-genivi-build
 IMAGENAME=intrepid-image
 MACHINE=qemux86
 FSTYPE=tar.bz2
-KERNEL=${TOPDIR}/tmp/deploy/images/${MACHINE}/bzImage-${MACHINE}
+KERNEL=${TOPDIR}/tmp/deploy/images/${MACHINE}/bzImage-${MACHINE}.bin
 ROOTFS=${TOPDIR}/tmp/deploy/images/${MACHINE}/${IMAGENAME}-${MACHINE}.${FSTYPE}
 
 RAW_IMAGE=${PWD}/test.raw
