@@ -18,7 +18,7 @@
 
 # CONFIGURATION ITEMS
 
-TOPDIR=$PWD/tmp/my-genivi-build
+TOPDIR=$PWD/shared/my-genivi-build
 
 IMAGENAME=intrepid-image
 MACHINE=qemux86
