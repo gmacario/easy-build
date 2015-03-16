@@ -18,17 +18,17 @@
 
 # CONFIGURATION ITEMS
 
-TOPDIR=$PWD/tmp/my-genivi-build
+TOPDIR=${PWD}/shared/my-genivi-build
 
-IMAGENAME=horizon-image
+IMAGENAME=intrepid-image
 MACHINE=qemux86
 FSTYPE=tar.bz2
-KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
-ROOTFS=$TOPDIR/tmp/deploy/images/$MACHINE/${IMAGENAME}-${MACHINE}.${FSTYPE}
+KERNEL=${TOPDIR}/tmp/deploy/images/${MACHINE}/bzImage-${MACHINE}.bin
+ROOTFS=${TOPDIR}/tmp/deploy/images/${MACHINE}/${IMAGENAME}-${MACHINE}.${FSTYPE}
 
-RAW_IMAGE=$PWD/test.raw
-VDI_IMAGE=$PWD/test.vdi
-VMDK_IMAGE=$PWD/test.vmdk
+RAW_IMAGE=${PWD}/test.raw
+VDI_IMAGE=${PWD}/test.vdi
+VMDK_IMAGE=${PWD}/test.vmdk
 
 MNT_ROOTFS=/tmp/rootfs
 
@@ -63,14 +63,14 @@ qemu-img create -f raw ${RAW_IMAGE} ${DISK_SIZE_MB}M
 
 
 echo "DBG: Use parted to create partition table and partition(s) on RAW_IMAGE"
-parted $RAW_IMAGE mklabel msdos
-parted $RAW_IMAGE mkpart primary ext3 1 ${DISK_SIZE_MB}
-parted $RAW_IMAGE set 1 boot on
-parted $RAW_IMAGE print free
+parted ${RAW_IMAGE} mklabel msdos
+parted ${RAW_IMAGE} mkpart primary ext3 1 ${DISK_SIZE_MB}
+parted ${RAW_IMAGE} set 1 boot on
+parted ${RAW_IMAGE} print free
 
 
-LOOP_IMAGE=`sudo losetup -f --show $RAW_IMAGE`
-TEMP_MAJ=`ls -l $LOOP_IMAGE | cut -d ' ' -f 5`
+LOOP_IMAGE=`sudo losetup -f --show ${RAW_IMAGE}`
+TEMP_MAJ=`ls -l ${LOOP_IMAGE} | cut -d ' ' -f 5`
 
 MAJOR=${TEMP_MAJ%?} #remove comma from major
 MINOR=`ls -l $LOOP_IMAGE | cut -d ' ' -f 6`
@@ -91,18 +91,18 @@ echo "DBG: ROOTPART=$ROOTPART"
 
 sleep 1 # wait for node creation
 
-sudo mkfs -t ext3 -L "GENIVI" $ROOTPART
+sudo mkfs -t ext3 -L "GENIVI" ${ROOTPART}
 
 mkdir -p $MNT_ROOTFS
-sudo mount $ROOTPART $MNT_ROOTFS
+sudo mount ${ROOTPART} $MNT_ROOTFS
 
 
 # Copy kernel to $MNT_ROOTFS/boot
 sudo install -m755 -d $MNT_ROOTFS/boot
-sudo install -m644 -o 0 -v $KERNEL $MNT_ROOTFS/boot
+sudo install -m644 -o 0 -v ${KERNEL} $MNT_ROOTFS/boot
 
 echo "DBG: Extracting rootfs to $MNT_ROOTFS"
-sudo tar xvfj $ROOTFS -C $MNT_ROOTFS
+sudo tar xvfj ${ROOTFS} -C $MNT_ROOTFS
 
 #echo "DBG: Listing all disks IDs"
 #ls -la /dev/disk/by-id/
@@ -119,8 +119,8 @@ cat >$TMPFILE4 <<__END__
 # Begin /boot/grub/device.map
 #
 (hd0) $REAL_DEVICE
-#(hd0,msdos1) $BLOCKDEV
-#(hd0,1) $ROOTPART
+#(hd0,msdos1) ${BLOCKDEV}
+#(hd0,1) ${ROOTPART}
 __END__
 sudo install -m644 -o 0 -v $TMPFILE4 $MNT_ROOTFS/boot/grub/device.map
 
