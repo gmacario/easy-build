@@ -20,7 +20,7 @@
 
 TOPDIR=$PWD/tmp/my-genivi-build
 
-IMAGENAME=horizon-image
+IMAGENAME=intrepid-image
 MACHINE=qemux86
 FSTYPE=tar.bz2
 KERNEL=$TOPDIR/tmp/deploy/images/$MACHINE/bzImage-$MACHINE.bin
