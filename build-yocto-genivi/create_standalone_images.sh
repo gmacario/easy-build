@@ -37,7 +37,7 @@ DISK_SIZE_MB=256
 set -e
 #set -x
 
-#Check if all required commands exist
+# Check if all required commands exist
 cmd_exists() {
     while [ -n "$1" ]
     do
@@ -53,8 +53,14 @@ cmd_exists() {
         exit 1
     fi
 }
+
 cmd_exists grub-install kpartx parted qemu-img sudo
 
+# Check if all input files exist
+if [ ! -e "${KERNEL}" ]; then
+    echo >&2 "ERROR: Cannot find kernel image: ${KERNEL}"
+    exit 1
+fi
 
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
