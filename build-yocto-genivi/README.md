@@ -1,8 +1,13 @@
 # build-yocto-genivi
 
-build-yocto-genivi is a subproject of [easy-build](https://github.com/gmacario/easy-build) and has the objective of providing a simplified environment where to rebuild from sources the [GENIVI Yocto Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home), as well as running it on virtual targets such as QEMU, VirtualBox or VMware.
+build-yocto-genivi is a subproject of [easy-build](https://github.com/gmacario/easy-build)
+and has the objective of providing a simplified environment where to rebuild from sources
+the [GENIVI Yocto Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home),
+as well as running it on virtual targets such as QEMU, VirtualBox or VMware.
 
-build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clean, stand-alone development environment complete with all the tools needed to perform a full build of the target image.
+build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clean,
+stand-alone development environment complete with all the tools needed to perform
+a full build of the target image.
 
 ## Getting the Docker image locally
 
@@ -10,22 +15,25 @@ Several options are possible here.
 
 ### Pulling image from index.docker.io
 
-The most recent builds of the build-yocto-genivi project are published on [Docker Hub](https://hub.docker.com/):
+The most recent builds of the build-yocto-genivi project are published
+on [Docker Hub](https://hub.docker.com/):
 
     $ docker pull gmacario/build-yocto-genivi
 
 ### Creating the image using the build.sh script
 
-Alternatively you may do a local rebuild of your Docker image following to the instructions inside the `Dockerfile`.
-You may do so through the following command
+Alternatively you may do a local rebuild of your Docker image following to the instructions
+inside the `Dockerfile`.  You may do so through the following command
 
     $ ./build.sh
     
-**NOTE**: If the script appears to hang, please either delete or move the contents of the `shared/` subdirectory before launching the script.
+**NOTE**: If the script appears to hang, please either delete or move the contents
+of the `shared/` subdirectory before launching the script.
 
 ### Creating the image from the Dockerfile
 
-This is basically what the `build.sh` script does, but you may customize the Docker image or add other configuration options (please consult `man docker` for details)
+This is basically what the `build.sh` script does, but you may customize the Docker image
+or add other configuration options (please consult `man docker` for details)
 
     $ docker build -t my-build-yocto-genivi .
     
@@ -47,10 +55,10 @@ This command will create and start a new container
 
     $ docker run -t -i -v <shareddir>:/home/build/shared gmacario/build-yocto-genivi
 
-The `-v <shareddir>:/home/build/shared` options instructs Docker to have the `/home/build/shared` directory 
-of the container mapped to a directory of the host filesystem. 
-This may be used to prevent the Yocto build directory to fill in the partition where containers are created,
-as well as for preserving the build directory after the container is destroyed.
+The `-v <shareddir>:/home/build/shared` options instructs Docker to have the `/home/build/shared`
+directory of the container mapped to a directory of the host filesystem. 
+This may be used to prevent the Yocto build directory to fill in the partition where containers
+are created, as well as for preserving the build directory after the container is destroyed.
 
 ## Using build-yocto-genivi
 
@@ -191,7 +199,8 @@ FIXME: The commands in this section still do not work inside the container.
     
 ## (Optional) Committing the image after building the Yocto GENIVI Baseline
 
-If the previous commands were successful, exit the container, then execute the following commands to persist the container into a Docker image:
+If the previous commands were successful, exit the container, then execute
+the following commands to persist the container into a Docker image:
 
     $ CONTAINER_ID=$(docker ps -lq)
     $ docker commit -m "John Doe <john.doe@me.com>" ${CONTAINER_ID} <repository:tag>
