@@ -9,12 +9,19 @@
 #cd $GENIVI/poky     		&& git fetch --all && git checkout dizzy
 #cd $GENIVI/meta-openembedded	&& git fetch --all && git checkout dizzy
 
+# Known SHA for Yocto GENIVI Baseline 8.0 (J-0.1)
+# See http://lists.genivi.org/pipermail/genivi-meta-ivi/2015-March/000487.html
+# and http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.3
+cd $GENIVI/meta-ivi 		&& git fetch --all && git checkout 8.0
+cd $GENIVI/poky     		&& git fetch --all && git checkout 6dd21a9f152a93e2df1178d7a5bd903d7edcf4be
+cd $GENIVI/meta-openembedded  	&& git fetch --all && git checkout 853dcfa0d618dc26bd27b3a1b49494b98d6eee97
+
 # Known SHA for Yocto GENIVI Baseline 7.0.3 (I-1.2)
 # See http://lists.genivi.org/pipermail/genivi-meta-ivi/2015-January/000453.html
 # and http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.3
-cd $GENIVI/meta-ivi 		&& git fetch --all && git checkout 7.0.3
-cd $GENIVI/poky     		&& git fetch --all && git checkout df87cb27efeaea1455f20692f9f1397c6fcab254
-cd $GENIVI/meta-openembedded  	&& git fetch --all && git checkout 9efaed99125b1c4324663d9a1b2d3319c74e7278
+#cd $GENIVI/meta-ivi 		&& git fetch --all && git checkout 7.0.3
+#cd $GENIVI/poky     		&& git fetch --all && git checkout df87cb27efeaea1455f20692f9f1397c6fcab254
+#cd $GENIVI/meta-openembedded  	&& git fetch --all && git checkout 9efaed99125b1c4324663d9a1b2d3319c74e7278
 
 # Known SHA for Yocto GENIVI Baseline 7.0.2 (I-1.1)
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=7.0.2
