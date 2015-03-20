@@ -61,6 +61,10 @@ if [ ! -e "${KERNEL}" ]; then
     echo >&2 "ERROR: Cannot find kernel image: ${KERNEL}"
     exit 1
 fi
+if [ ! -e "${ROOTFS}" ]; then
+    echo >&2 "ERROR: Cannot find rootfs image: ${ROOTFS}"
+    exit 1
+fi
 
 # Create QEMU image
 # See http://en.wikibooks.org/wiki/QEMU/Images
