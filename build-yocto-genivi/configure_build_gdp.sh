@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: STILL EXPERIMENTAL - USE AT YOUR OWN RISK!!!
+
 # Configure script for building the GENIVI Yocto baseline
 # See https://github.com/gmacario/easy-build/tree/master/build-yocto-genivi
 
