@@ -56,6 +56,26 @@ fi
 
 cd ${BUILDDIR}
 
+# TODO: Implement smart algorithm for conffile
+#
+# 1. File x.conf does not exist, file x.conf.ORIG does not exist: Tell user to run oe-create-devenv again
+# 2. File x.conf exists, file x.conf.ORIG exists: Do nothing - assuming the script already run
+# 3. File x.conf exists, file x.conf.ORIG does not exist: Save file x.conf as x.conf.ORIG then patch it
+# 4. File x.conf does not exist, file x.conf.ORIG exists: Create patched x.conf starting from x.conf.ORIG
+#
+#if [ ! -e ${BUILDDIR}/conf/bblayers.conf ]; then
+#    if [ ! -e ${BUILDDIR}/conf/bblayers.conf.ORIG ]; then
+#        echo "ERROR: Cannot patch bblayers.conf"
+#    fi 
+#else
+#    if [ -e ${BUILDDIR}/conf/bblayers.conf.ORIG ]; then
+#        echo "WARNING: ${BUILDDIR}/conf/bblayers.conf.ORIG file exists - Skip patching bblayers.conf"
+#    else
+#        cp ${BUILDDIR}/conf/bblayers.conf ${BUILDDIR}/conf/bblayers.conf.ORIG
+#        # Patch
+#    fi
+#fi
+
 if [ -e ${BUILDDIR}/conf/bblayers.conf.ORIG ]; then
     echo "WARNING: ${BUILDDIR}/conf/bblayers.conf.ORIG file exists - Skip patching bblayers.conf"
 else
@@ -92,6 +112,8 @@ cat <<__END__ >>${BUILDDIR}/conf/local.conf
 #
 #BB_NUMBER_THREADS = "4"
 #PARALLEL_MAKE = "-j 4"
+#
+DL_DIR ?= "${BUILDDIR}/../downloads"
 #
 DISTRO = "poky-ivi-systemd"
 #DISTRO_FEATURES_append = " opengl"
