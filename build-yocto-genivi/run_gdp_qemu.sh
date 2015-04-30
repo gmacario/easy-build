@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 export SHARED=$(dirname $(readlink -f $0))/shared
 source ${SHARED}/sources/poky/oe-init-build-env ${SHARED}/my-gdp-build03
