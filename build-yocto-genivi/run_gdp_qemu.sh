@@ -2,7 +2,7 @@
 
 set -x
 
-export SHARED=${HOME}/easy-build/build-yocto-genivi/shared
+export SHARED=$(dirname $(readlink -f $0))/shared
 source ${SHARED}/sources/poky/oe-init-build-env ${SHARED}/my-gdp-build03
 
 cd ${BUILDDIR}/tmp/deploy/images/qemux86-64
