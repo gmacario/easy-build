@@ -273,23 +273,6 @@ In case the build fails you may try to clean the offending tasks, as in the foll
     
 then invoke `bitbake <genivi_release>-image` again.
 
-
-### Running the created images with QEMU inside the container
-
-FIXME: The commands in this section still do not work inside the container.
-
-#### For QEMU vexpressa9
-
-    $ ${GENIVI}/meta-ivi/scripts/runqemu horizon-image vexpressa9
-
-#### For QEMU x86
-
-    $ ${GENIVI}/poky/scripts/runqemu horizon-image qemux86
-
-#### For QEMU x86-64
-
-    $ ${GENIVI}/poky/scripts/runqemu horizon-image qemux86-x64
-    
 ## (Optional) Committing the image after building the Yocto GENIVI Baseline
 
 If the previous commands were successful, exit the container, then execute
