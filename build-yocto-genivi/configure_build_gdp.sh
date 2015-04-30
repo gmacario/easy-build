@@ -22,12 +22,12 @@ cd ${YPSOURCES}
 [ ! -e meta-renesas ]      && git clone https://github.com/slawr/meta-renesas.git
 
 # (TESTING) Known SHA for Yocto GENIVI Demo Platform for Renesas Porter Board
-cd ${YPSOURCES}/meta-genivi-demo	&& git fetch --all && git checkout master
-cd ${YPSOURCES}/meta-ivi 		&& git fetch --all && git checkout 7.0
-cd ${YPSOURCES}/poky     		&& git fetch --all && git checkout dizzy
-cd ${YPSOURCES}/meta-qt5  		&& git fetch --all && git checkout dizzy
-cd ${YPSOURCES}/meta-openembedded  	&& git fetch --all && git checkout dizzy
-cd ${YPSOURCES}/meta-renesas	  	&& git fetch --all && git checkout genivi-7.0-bsp-1.8.0
+cd ${YPSOURCES}/meta-genivi-demo	&& git pull  --all && git checkout master
+cd ${YPSOURCES}/meta-ivi 		&& git pull  --all && git checkout 7.0
+cd ${YPSOURCES}/poky     		&& git pull  --all && git checkout dizzy
+cd ${YPSOURCES}/meta-qt5  		&& git pull  --all && git checkout dizzy
+cd ${YPSOURCES}/meta-openembedded  	&& git pull  --all && git checkout dizzy
+cd ${YPSOURCES}/meta-renesas	  	&& git pull  --all && git checkout genivi-7.0-bsp-1.8.0
 
 # (TESTING) SHA for Yocto GENIVI Baseline master branch
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
