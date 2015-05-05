@@ -77,15 +77,15 @@ Prerequisite: the container is already running.
     # Switch to user 'build'
     su - build
 
-### Initialize build environment
+### Building the Yocto GENIVI Baseline image
+
+#### Initialize build environment
 
 After logging in as user "build" execute the following commands:
 
     $ export GENIVI=~/genivi-baseline
     $ source ${GENIVI}/poky/oe-init-build-env ~/shared/my-genivi-build
     $ export TOPDIR=${PWD}
-
-### Building the Yocto GENIVI Baseline image
 
 #### Configure the build
 
