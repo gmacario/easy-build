@@ -2,7 +2,10 @@
 
 build-yocto-genivi is a subproject of [easy-build](https://github.com/gmacario/easy-build)
 and has the objective of providing a simplified environment where to rebuild from sources
-the [GENIVI Yocto Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home),
+
+* The [Yocto Baseline GENIVI](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home)
+* The [GENIVI Demo Platform](http://wiki.projects.genivi.org/index.php/GENIVI_Demo_Platform)
+
 as well as running it on virtual targets such as QEMU, VirtualBox or VMware.
 
 build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clean,
@@ -397,23 +400,11 @@ In case the build fails you may try to clean the offending tasks, as in the foll
 
     $ bitbake -c cleansstate cairo
     
-then invoke `bitbake <genivi_release>-image` again.
-
-## (Optional) Committing the image after building the Yocto GENIVI Baseline
-
-If the previous commands were successful, exit the container, then execute
-the following commands to persist the container into a Docker image:
-
-    $ CONTAINER_ID=$(docker ps -lq)
-    $ docker commit -m "John Doe <john.doe@me.com>" ${CONTAINER_ID} <repository:tag>
-
-You may optionally push the image to a public Docker repository, like
-
-    $ docker push <repository>
+then invoke `bitbake <package>` again.
 
 ## Creating standalone images for execution under QEMU, VirtualBox and VMware Player
 
-This works only for `MACHINE=qemux86`
+WARNING: This procedure currently works only for `MACHINE=qemux86`
 
 Review the `create_standalone_images.sh` script to adjust the configurable parameters, then run
 
