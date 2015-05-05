@@ -85,7 +85,7 @@ After logging in as user "build" execute the following commands:
     $ source ${GENIVI}/poky/oe-init-build-env ~/shared/my-genivi-build
     $ export TOPDIR=${PWD}
 
-### Building the GENIVI image
+### Building the Yocto GENIVI Baseline image
 
 #### Configure the build
 
@@ -265,17 +265,15 @@ lrwxrwxrwx 1 build build        73 Mar 13 11:21 modules-qemux86.tgz -> modules--
 build@f49b57277afb:~/shared/my-genivi-build$
 ```
 
-#### Building the GENIVI Demo Platform image
+### Building the GENIVI Demo Platform image
 
-**NOTE**: Instructions are still to be validated
-
-Prerequisite: Create and run the container, then logged as user "build"
+Prerequisite: Create and run the container as explained before, then logged as user "build"
 
 ```
 $ cd ~/shared
 ```
 
-Fetch the `configure_build_gdp.sh` inside the container if you haven't one already:
+Retrieve the `configure_build_gdp.sh` script if you haven't one already:
 
 ```
 $ if [ ! -x configure_build_gdp.sh ]; then curl -O \
