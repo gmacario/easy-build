@@ -1,8 +1,12 @@
 #!/bin/bash
 # ==============================================================================
+# Project: easy-build
+#
+# Subproject: build-aosp
+#
 # Purpose:
-# Prepare a SD-Card with the Android system for deployment
-# onto a Freescale SabreSD target
+# Prepare a SD-Card suitable for booting the Android operating system
+# onto a Freescale SabreSD target board
 #
 # See also:
 # http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD
@@ -23,8 +27,8 @@ IMAGES_ARCHIVE=android_kk4.4.3_2.0.0-ga_images_6qsabresd.gz
 
 UBOOT_FILE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/u-boot-imx6q.imx
 BOOT_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/boot-imx6q.img
-SYSTEM_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/system.img
 RECOVERY_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/recovery-imx6q.img
+SYSTEM_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/system.img
 
 # ----------------------------------------------------------------------------------
 # END OF CONFIGURABLE PARAMETERS
@@ -35,12 +39,16 @@ set -e
 
 echo "DEBUG: SDCARD=${SDCARD}"
 echo "DEBUG: SDCARD_SIZE=${SDCARD_SIZE}"
-echo "DEBUG: IMAGES_DIR=${IMAGES_DIR}"
+echo "DEBUG: IMAGES_ARCHIVE=${IMAGES_ARCHIVE}"
+#echo "DEBUG: IMAGES_DIR=${IMAGES_DIR}"
 echo "DEBUG: UBOOT_FILE=${UBOOT_FILE}"
-echo "DEBUG: DTBS_ARCHIVE=${DTBS_ARCHIVE}"
-echo "DEBUG: DTB_FILE=${DTB_FILE}"
-echo "DEBUG: UIMAGE_FILE=${UIMAGE_FILE}"
-echo "DEBUG: ROOTFS_FILE=${ROOTFS_FILE}"
+#echo "DEBUG: DTBS_ARCHIVE=${DTBS_ARCHIVE}"
+#echo "DEBUG: DTB_FILE=${DTB_FILE}"
+#echo "DEBUG: UIMAGE_FILE=${UIMAGE_FILE}"
+#echo "DEBUG: ROOTFS_FILE=${ROOTFS_FILE}"
+echo "DEBUG: BOOT_IMAGE=${BOOT_IMAGE}"
+echo "DEBUG: RECOVERY_IMAGE=${RECOVERY_IMAGE}"
+echo "DEBUG: SYSTEM_IMAGE=${SYSTEM_IMAGE}"
 
 # Sanity checks
 
@@ -86,21 +94,22 @@ ls ${SDCARD}* | while read f; do
 done
 
 echo "INFO: Erasing partitions on ${SDCARD}"
-sudo dd if=/dev/zero of=${SDCARD} bs=512 count=1024
+sudo dd if=/dev/zero of=${SDCARD} bs=1024 count=1024
 
 echo "INFO: Creating partitions on ${SDCARD}"
 #
-# Start  | End     | Number of | Size   | Purpose
-# sector | sector  | sectors   |        |
+# Part |  Start |    End | Number of |    Size | Purpose
+#      | Sector | Sector | 1k-Blocks |         |
 # --------------------------------------------------------------------------------------------------
-# 0      | 2047    | 2048      | 1 MB   | Unpartitioned space for U-Boot and U-Boot envvars
-# 2048   | 18431   | 16384     | 8 MB   | Primary partition 1 for boot.img
-# 18432  | 34815   | 16384     | 8 MB   | Primary partition 2 for recovery.img
-# 34816  | ?       | ?         | 512 MB | TODO: Logic partition 5 (extended 3) for system.img
-# ?      | ?       | ?         | 512 MB | TODO: Logic partition 6 (extended 3)
-# ?      | ?       | ?         | 8 MB   | TODO: Logic partition 7 (extended 3)
-# ?      | ?       | ?         | 4 MB   | TODO: Logic partition 8 (extended 3)
-# ?      | ?       | ?         | ?      | TODO: Primary partition 4
+#  N/A |      0 |   2047 |      1024 |    1 MB | Unpartitioned space for U-Boot and U-Boot envvars
+#    1 |   2048 |  18431 |      8192 |    8 MB | Primary partition 1 for boot.img
+#    2 |  18432 |  34815 |      8192 |    8 MB | Primary partition 2 for recovery.img
+#    3 |  34816 |      ? |   1310720 | 1280 MB | Extended partition
+#    4 |      ? |      ? |         ? |       ? | Primary partition 4 (extend up to end of SD-Card)
+#    5 |      ? |      ? |    524288 |  512 MB | Logical partition 5 (extended 3) for system.img
+#    6 |      ? |      ? |    524288 |  512 MB | Logical partition 6 (extended 3)
+#    7 |      ? |      ? |      8192 |    8 MB | Logical partition 7 (extended 3)
+#    8 |      ? |      ? |      4096 |    4 MB | Logical partition 8 (extended 3)
 #
 # TODO: Complete layout for partitions Logic 5 up to Primary 4
 #
@@ -109,17 +118,38 @@ n
 p
 1
 2048
-18431
++8M
 n
 p
 2
-18432
-34815
+
++8M
 n
-p
+e
 3
 
++1280M
+n
+p
+4
 
+
+n
+l
+
++512M
+n
+l
+
++512M
+n
+l
+
++8M
+n
+l
+
++4M
 t
 1
 83
@@ -133,7 +163,7 @@ END
 #set -x
 
 if [ "${UBOOT_FILE}" != "" ]; then
-    echo "DEBUG: Load the memory card with ${UBOOT_FILE}"
+    echo "DEBUG: Loading memory card with ${UBOOT_FILE}"
     #
     # For U-Boot 2009.08 (i.e. with Android 4.0.2)
     #sudo dd if=${UBOOT_FILE} of=${SDCARD} bs=512 seek=2 skip=2
@@ -144,14 +174,34 @@ fi
 # TODO: Change U-Boot envvars
 
 if [ "${BOOT_IMAGE}" != "" ]; then
-    echo "DEBUG: Load Partition 1 with ${BOOT_IMAGE}"
-    sudo dd if=${BOOT_IMAGE} of=${SDCARD}1 bs=512 conv=fsync
+    echo "DEBUG: Loading Partition 1 with ${BOOT_IMAGE}"
+    sudo dd if=${BOOT_IMAGE} of=${SDCARD}1
 fi
 
 if [ "${RECOVERY_IMAGE}" != "" ]; then
-    echo "DEBUG: Load Partition 2 with ${RECOVERY_IMAGE}"
-    sudo dd if=${RECOVERY_IMAGE} of=${SDCARD}2 bs=512 conv=fsync
+    echo "DEBUG: Loading Partition 2 with ${RECOVERY_IMAGE}"
+    sudo dd if=${RECOVERY_IMAGE} of=${SDCARD}2
 fi
+
+echo "DEBUG: Formatting Partition 4 (/data)"
+sudo mkfs -t ext4 -L "data" "${SDCARD}4"
+
+if [ "${SYSTEM_IMAGE}" != "" ]; then
+    echo "DEBUG: Loading Partition 5 (/system) with ${SYSTEM_IMAGE}"
+    sudo dd if=${SYSTEM_IMAGE} of=${SDCARD}5
+fi
+
+echo "DEBUG: Formatting Partition 6 (/cache)"
+sudo mkfs -t ext4 -L "ccache" "${SDCARD}6"
+
+echo "DEBUG: Formatting Partition 7 (/vendor)"
+sudo mkfs -t ext4 -L "vendor" "${SDCARD}7"
+
+echo "DEBUG: Zeroing Partition 8 (recovery store)"
+sudo dd if=/dev/zero of=${SDCARD}8 || true
+
+sync
+sync
 
 echo "INFO: Please install the SD-Card onto the target board"
 
