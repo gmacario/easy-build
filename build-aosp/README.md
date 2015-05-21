@@ -7,10 +7,22 @@ WARNING: Still experimental, use at your own risk!
 
 Running from Docker image repository
 
-```
-docker run -t -i gmacario/build-aosp
-su - build
+Build the image
 
-repo sync
-# TODO
 ```
+$ ./build.sh
+```
+
+Run the image
+
+```
+$ ./run.sh
+```
+
+You must then change to user `build`
+
+```
+# su - build
+```
+
+Then do the usual `repo init`, `repo sync`, etc.

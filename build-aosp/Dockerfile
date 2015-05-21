@@ -51,9 +51,9 @@ RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/
 RUN chmod a+x /usr/local/bin/repo
 
 # Initializing a Repo client
-RUN su -c "cd && repo init -u https://android.googlesource.com/platform/manifest \
-	-b android-4.0.1_r1" build
-RUN su -c "cd && repo sync" build
+#RUN su -c "cd && repo init -u https://android.googlesource.com/platform/manifest \
+#	-b android-4.0.1_r1" build
+#RUN su -c "cd && repo sync" build
 
 RUN cd /home/build
 
