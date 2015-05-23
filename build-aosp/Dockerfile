@@ -42,11 +42,11 @@ RUN apt-get install -y screen
 #
 # Installing required packages (Ubuntu 14.04)
 #
-RUN apt-get install -y bison build-essential ccache flex
+RUN apt-get install -y bc bison build-essential ccache flex
 RUN apt-get install -y g++-multilib gcc-multilib git gperf
 RUN apt-get install -y lib32stdc++6 lib32z1 lib32z1-dev
-RUN apt-get install -y libxml2-utils make python zip
-RUN apt-get install -y zlib1g-dev:i386
+RUN apt-get install -y libxml2-utils lzop make python
+RUN apt-get install -y u-boot-tools uuid-dev zip zlib1g-dev:i386
 
 #RUN apt-get install -y git gnupg flex bison gperf build-essential \
 #  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
@@ -57,6 +57,10 @@ RUN apt-get install -y zlib1g-dev:i386
 #	/usr/lib/i386-linux-gnu/libGL.so
 
 RUN apt-get -qqy dist-upgrade
+
+# Optional: Install apt-file to find which package provides a given file
+#RUN apt-get -y install apt-file
+#RUN apt-file update
 
 # Create non-root user that will perform the build of the images
 #RUN useradd --shell /bin/bash build
