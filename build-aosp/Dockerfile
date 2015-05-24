@@ -44,7 +44,7 @@ RUN apt-get install -y screen
 #
 RUN apt-get install -y bc bison build-essential ccache flex
 RUN apt-get install -y g++-multilib gcc-multilib git gperf
-RUN apt-get install -y lib32stdc++6 lib32z1 lib32z1-dev
+RUN apt-get install -y lib32stdc++6 lib32z1 lib32z1-dev liblzo2-dev
 RUN apt-get install -y libxml2-utils lzop make python
 RUN apt-get install -y u-boot-tools uuid-dev zip zlib1g-dev:i386
 
