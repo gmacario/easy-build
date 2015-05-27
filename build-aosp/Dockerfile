@@ -11,7 +11,7 @@ FROM gmacario/easy-build
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # See https://github.com/docker/docker/issues/4032
-ENV DEBIAN_FRONTEND noninteractive
+#ENV DEBIAN_FRONTEND noninteractive
 
 # Make sure the package repository is up to date
 RUN sed -i 's/main$/main universe/' /etc/apt/sources.list
@@ -19,12 +19,12 @@ RUN dpkg --add-architecture i386
 RUN apt-get -qq update
 
 # Install essential packages
-RUN apt-get install -y curl
-RUN apt-get install -y git
-RUN apt-get install -y tig
-RUN apt-get install -y mc
-RUN apt-get install -y rsync
-RUN apt-get install -y screen
+RUN apt-get -y install curl
+RUN apt-get -y install git
+RUN apt-get -y install tig
+RUN apt-get -y install mc
+RUN apt-get -y install rsync
+RUN apt-get -y install screen
 
 # See https://source.android.com/source/initializing.html
 #
@@ -42,13 +42,13 @@ RUN apt-get install -y screen
 #
 # Installing required packages (Ubuntu 14.04)
 #
-RUN apt-get install -y bc bison build-essential ccache flex
-RUN apt-get install -y g++-multilib gcc-multilib git gperf
-RUN apt-get install -y lib32stdc++6 lib32z1 lib32z1-dev liblzo2-dev
-RUN apt-get install -y libxml2-utils lzop make python
-RUN apt-get install -y u-boot-tools uuid-dev zip zlib1g-dev:i386
+RUN apt-get -y install bc bison build-essential ccache flex
+RUN apt-get -y install g++-multilib gcc-multilib git gperf
+RUN apt-get -y install lib32stdc++6 lib32z1 lib32z1-dev liblzo2-dev
+RUN apt-get -y install libxml2-utils lzop make python
+RUN apt-get -y install u-boot-tools uuid-dev zip zlib1g-dev:i386
 
-#RUN apt-get install -y git gnupg flex bison gperf build-essential \
+#RUN apt-get -y install git gnupg flex bison gperf build-essential \
 #  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
 #  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
 #  libgl1-mesa-dev g++-multilib mingw32 tofrodos \
