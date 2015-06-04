@@ -20,15 +20,23 @@
 #SDCARD_SIZE=4000317440
 TMP_MOUNT=/tmp/rootfs
 
-IMAGES_ARCHIVE=android_kk4.4.3_2.0.0-ga_images_6qsabresd.gz
-#IMAGES_MD5SUM=xxx
+## ANDROID KK443 PREBUILT BINARIES FROM FREESCALE
+##
+#IMAGES_ARCHIVE=android_kk4.4.3_2.0.0-ga_images_6qsabresd.gz
+##IMAGES_ARCHIVE2=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd.tar.gz
+##
+#UBOOT_FILE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/u-boot-imx6q.imx
+#BOOT_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/boot-imx6q.img
+#RECOVERY_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/recovery-imx6q.img
+##SYSTEM_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/system.img
 
-#IMAGES_ARCHIVE2=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd.tar.gz
-
-UBOOT_FILE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/u-boot-imx6q.imx
-BOOT_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/boot-imx6q.img
-RECOVERY_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/recovery-imx6q.img
-SYSTEM_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/system.img
+# ANDROID KK443 IMAGES BUILT FROM SOURCES
+#
+IMAGES_PATH=${PWD}/tmp/myandroid-kk443-sabresd
+UBOOT_FILE=${IMAGES_PATH}/u-boot-imx6q.imx
+BOOT_IMAGE=${IMAGES_PATH}/boot-imx6q.img
+RECOVERY_IMAGE=${IMAGES_PATH}/recovery-imx6q.img
+SYSTEM_IMAGE=${IMAGES_PATH}/system.img
 
 # ----------------------------------------------------------------------------------
 # END OF CONFIGURABLE PARAMETERS
@@ -53,7 +61,7 @@ echo "DEBUG: SYSTEM_IMAGE=${SYSTEM_IMAGE}"
 # Sanity checks
 
 if [ -e "${UBOOT_FILE}" ]; then
-    echo "DEBUG: Skipping extraction of IMAGES_ARCHIVE"
+   true # && echo "DEBUG: Skipping extraction of IMAGES_ARCHIVE"
 else
 if [ "${IMAGES_ARCHIVE}" = "" ]; then
     echo "ERROR: Please set IMAGES_ARCHIVE environment variable"
@@ -61,6 +69,7 @@ if [ "${IMAGES_ARCHIVE}" = "" ]; then
 fi
 # TODO: md5sum ${IMAGES_ARCHIVE}
 mkdir -p tmp
+echo "DEBUG: Extracting images from ${IMAGES_ARCHIVE}"
 tar -C tmp/ -xvzf ${IMAGES_ARCHIVE}
 tar -C tmp/ -xvzf tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd.tar.gz
 #tar -C tmp/ -xvzf tmp/android_KK4.4.3_2.0.0-ga_full_image_6qsabresd.tar.gz
