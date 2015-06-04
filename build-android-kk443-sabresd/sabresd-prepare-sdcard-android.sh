@@ -2,7 +2,7 @@
 # ==============================================================================
 # Project: easy-build
 #
-# Subproject: build-aosp
+# Subproject: build-android-kk443-sabresd
 #
 # Purpose:
 # Prepare a SD-Card suitable for booting the Android operating system
@@ -23,20 +23,30 @@ TMP_MOUNT=/tmp/rootfs
 ## ANDROID KK443 PREBUILT BINARIES FROM FREESCALE
 ##
 #IMAGES_ARCHIVE=android_kk4.4.3_2.0.0-ga_images_6qsabresd.gz
-##IMAGES_ARCHIVE2=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd.tar.gz
+#IMAGES_ARCHIVE2=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd.tar.gz
 ##
 #UBOOT_FILE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/u-boot-imx6q.imx
 #BOOT_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/boot-imx6q.img
 #RECOVERY_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/recovery-imx6q.img
 ##SYSTEM_IMAGE=tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd/SD/system.img
 
-# ANDROID KK443 IMAGES BUILT FROM SOURCES
+## ANDROID L500 PREBUILT BINARIES FROM FREESCALE
 #
-IMAGES_PATH=${PWD}/tmp/myandroid-kk443-sabresd
-UBOOT_FILE=${IMAGES_PATH}/u-boot-imx6q.imx
-BOOT_IMAGE=${IMAGES_PATH}/boot-imx6q.img
-RECOVERY_IMAGE=${IMAGES_PATH}/recovery-imx6q.img
-SYSTEM_IMAGE=${IMAGES_PATH}/system.img
+IMAGES_ARCHIVE=android_L5.0.0_1.0.0-ga_images_6qsabresd.tar.gz
+IMAGES_ARCHIVE2=tmp/android_L5.0.0_1.0.0-ga_full_image_6qsabresd.tar.gz
+#
+UBOOT_FILE=tmp/android_L5.0.0_1.0.0-ga_full_image_6qsabresd/u-boot-imx6q.imx
+BOOT_IMAGE=tmp/android_L5.0.0_1.0.0-ga_full_image_6qsabresd/SD/boot-imx6q.img
+RECOVERY_IMAGE=tmp/android_L5.0.0_1.0.0-ga_full_image_6qsabresd/SD/recovery-imx6q.img
+SYSTEM_IMAGE=tmp/android_L5.0.0_1.0.0-ga_full_image_6qsabresd/SD/system.img
+
+## ANDROID KK443 IMAGES BUILT FROM SOURCES
+##
+#IMAGES_PATH=${PWD}/tmp/myandroid-kk443-sabresd
+#UBOOT_FILE=${IMAGES_PATH}/u-boot-imx6q.imx
+#BOOT_IMAGE=${IMAGES_PATH}/boot-imx6q.img
+#RECOVERY_IMAGE=${IMAGES_PATH}/recovery-imx6q.img
+#SYSTEM_IMAGE=${IMAGES_PATH}/system.img
 
 # ----------------------------------------------------------------------------------
 # END OF CONFIGURABLE PARAMETERS
@@ -48,6 +58,7 @@ set -e
 echo "DEBUG: SDCARD=${SDCARD}"
 echo "DEBUG: SDCARD_SIZE=${SDCARD_SIZE}"
 echo "DEBUG: IMAGES_ARCHIVE=${IMAGES_ARCHIVE}"
+echo "DEBUG: IMAGES_ARCHIVE2=${IMAGES_ARCHIVE2}"
 #echo "DEBUG: IMAGES_DIR=${IMAGES_DIR}"
 echo "DEBUG: UBOOT_FILE=${UBOOT_FILE}"
 #echo "DEBUG: DTBS_ARCHIVE=${DTBS_ARCHIVE}"
@@ -61,18 +72,23 @@ echo "DEBUG: SYSTEM_IMAGE=${SYSTEM_IMAGE}"
 # Sanity checks
 
 if [ -e "${UBOOT_FILE}" ]; then
-   true # && echo "DEBUG: Skipping extraction of IMAGES_ARCHIVE"
+    true # && echo "DEBUG: Skipping extraction of IMAGES_ARCHIVE"
 else
-if [ "${IMAGES_ARCHIVE}" = "" ]; then
-    echo "ERROR: Please set IMAGES_ARCHIVE environment variable"
-    exit 1
-fi
-# TODO: md5sum ${IMAGES_ARCHIVE}
-mkdir -p tmp
-echo "DEBUG: Extracting images from ${IMAGES_ARCHIVE}"
-tar -C tmp/ -xvzf ${IMAGES_ARCHIVE}
-tar -C tmp/ -xvzf tmp/android_KK4.4.3_2.0.0-ga_core_image_6qsabresd.tar.gz
-#tar -C tmp/ -xvzf tmp/android_KK4.4.3_2.0.0-ga_full_image_6qsabresd.tar.gz
+    if [ "${IMAGES_ARCHIVE}" = "" ]; then
+        echo "ERROR: Please set IMAGES_ARCHIVE environment variable"
+        exit 1
+    fi
+    # TODO: md5sum ${IMAGES_ARCHIVE}
+    mkdir -p tmp
+# FIXME
+#    if [ "${IMAGES_ARCHIVE2} != "" -a ! -e "${IMAGES_ARCHIVE2}" ]; then
+#        echo "DEBUG: Extracting images from ${IMAGES_ARCHIVE}"
+#        tar -C tmp/ -xvzf "${IMAGES_ARCHIVE}"
+#    fi
+    if [ "${IMAGES_ARCHIVE2}" != "" ]; then
+        echo "DEBUG: Extracting images from ${IMAGES_ARCHIVE2}"
+        tar -C tmp/ -xvzf "${IMAGES_ARCHIVE2}"
+    fi
 fi
 
 if [ "${SDCARD}" = "" ]; then
@@ -110,17 +126,17 @@ echo "INFO: Creating partitions on ${SDCARD}"
 # Part |  Start |    End | Number of |    Size | Purpose
 #      | Sector | Sector | 1k-Blocks |         |
 # --------------------------------------------------------------------------------------------------
-#  N/A |      0 |   2047 |      1024 |    1 MB | Unpartitioned space for U-Boot and U-Boot envvars
-#    1 |   2048 |  18431 |      8192 |    8 MB | Primary partition 1 for boot.img
-#    2 |  18432 |  34815 |      8192 |    8 MB | Primary partition 2 for recovery.img
+#  N/A |      0 |   2047 |      1024 |    1 MB | Unpartitioned space - U-Boot and U-Boot envvars
+#    1 |   2048 |  18431 |      8192 |    8 MB | Primary partition 1 - boot.img
+#    2 |  18432 |  34815 |      8192 |    8 MB | Primary partition 2 - recovery.img
 #    3 |  34816 |      ? |   1310720 | 1280 MB | Extended partition
-#    4 |      ? |      ? |         ? |       ? | Primary partition 4 (extend up to end of SD-Card)
-#    5 |      ? |      ? |    524288 |  512 MB | Logical partition 5 (extended 3) for system.img
-#    6 |      ? |      ? |    524288 |  512 MB | Logical partition 6 (extended 3)
-#    7 |      ? |      ? |      8192 |    8 MB | Logical partition 7 (extended 3)
-#    8 |      ? |      ? |      4096 |    4 MB | Logical partition 8 (extended 3)
+#    4 |      ? |      ? |         ? |       ? | Primary partition 4 (up to end of SD-Card) for DATA
+#    5 |      ? |      ? |    524288 |  512 MB | Logical partition 5 (extended 3) - system.img
+#    6 |      ? |      ? |    524288 |  512 MB | Logical partition 6 (extended 3) - CACHE
+#    7 |      ? |      ? |      8192 |    8 MB | Logical partition 7 (extended 3) - VENDOR
+#    8 |      ? |      ? |      6144 |    6 MB | Logical partition 8 (extended 3) - MISC
+#    9 |      ? |      ? |      2048 |    2 MB | Logical partition 9 (extended 3) - DATAFOOTER
 #
-# TODO: Complete layout for partitions Logic 5 up to Primary 4
 #
 sudo fdisk ${SDCARD} <<END
 n
@@ -158,7 +174,11 @@ l
 n
 l
 
-+4M
++6M
+n
+l
+
++2M
 t
 1
 83
@@ -207,7 +227,10 @@ echo "DEBUG: Formatting Partition 7 (/vendor)"
 sudo mkfs -t ext4 -L "vendor" "${SDCARD}7"
 
 echo "DEBUG: Zeroing Partition 8 (recovery store)"
-sudo dd if=/dev/zero of=${SDCARD}8 || true
+sudo dd if=/dev/zero of=${SDCARD}8 bs=1024 count=6144 || true
+
+echo "DEBUG: Zeroing Partition 9 (crypto footer)"
+sudo dd if=/dev/zero of=${SDCARD}9 bs=1024 count=2048 || true
 
 sync
 sync
