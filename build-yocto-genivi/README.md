@@ -115,12 +115,12 @@ Command:
     $ cd ${TOPDIR}
     $ bitbake -k jupiter-image
 
-Result (for meta-ivi 8.0):
+Result (for meta-ivi 8.0.1):
 
 ```
-build@50e2c65e266d:~/shared/my-genivi-build$ bitbake -k jupiter-image
-Loading cache: 100% |#############################################################################| ETA:  00:00:00
-Loaded 1887 entries from dependency cache.
+build@ffecdeeecfb9:~/shared/my-genivi-build$ bitbake -k jupiter-image
+Parsing recipes: 100% |############################################################################################| Time: 00:00:43
+Parsing of 1439 .bb files complete (0 cached, 1439 parsed). 1886 targets, 250 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -130,15 +130,15 @@ NATIVELSBSTRING   = "Ubuntu-14.04"
 TARGET_SYS        = "i586-poky-linux"
 MACHINE           = "qemux86"
 DISTRO            = "poky-ivi-systemd"
-DISTRO_VERSION    = "8.0.0"
+DISTRO_VERSION    = "8.0.1"
 TUNE_FEATURES     = "m32 i586"
 TARGET_FPU        = ""
 meta
 meta-yocto
-meta-yocto-bsp    = "(detachedfrom6dd21a9):6dd21a9f152a93e2df1178d7a5bd903d7edcf4be"
+meta-yocto-bsp    = "(detachedfrom9fd145d):9fd145d27ec479668fac490a9f1078089f22bf59"
 meta-ivi
-meta-ivi-bsp      = "8.0:3a619f09239276dafca21f521fdbffae226b6e0e"
-meta-oe           = "(detachedfrom853dcfa):853dcfa0d618dc26bd27b3a1b49494b98d6eee97"
+meta-ivi-bsp      = "(detachedfrom8.0.1):cc64f96b285e64524d7e0c740155851bbc44d790"
+meta-oe           = "(detachedfrom5b6f39c):5b6f39ce325d490fc382d5d59c5b8b9d5fa38b38"
 
 NOTE: Preparing runqueue
 NOTE: Executing SetScene Tasks
@@ -146,15 +146,13 @@ NOTE: Executing RunQueue Tasks
 WARNING: Failed to fetch URL http://zlib.net/pigz/pigz-2.3.1.tar.gz, attempting MIRRORS if available
 WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
 WARNING: Failed to fetch URL http://downloads.sourceforge.net/project/libpng/libpng16/1.6.13/libpng-1.6.13.tar.xz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-1.5.1.tar.bz2, attempting MIRRORS if available
 WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-util-1.5.3.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://ftp.gnome.org/pub/GNOME/sources/gnome-common/3.12/gnome-common-3.12.0.tar.xz;name=archive, attempting MIRRORS if available
-WARNING: Checksum failure encountered with download of http://avahi.org/download/avahi-0.6.31.tar.gz - will attempt other sources if available
-WARNING: Renaming /home/build/shared/my-genivi-build/downloads/avahi-0.6.31.tar.gz to /home/build/shared/my-genivi-build/downloads/avahi-0.6.31.tar.gz_bad-checksum_5fea92ab9e5697fb8f146319b6120b3a
 WARNING: Failed to fetch URL http://www.apache.org/dist/subversion/subversion-1.8.9.tar.bz2, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.freedesktop.org/pub/mesa/10.1.3/MesaLib-10.1.3.tar.bz2, attempting MIRRORS if available
 WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/n/netbase/netbase_5.2.tar.gz, attempting MIRRORS if available
 WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.17.4.tar.xz, attempting MIRRORS if available
 WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.39.tar.xz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://createrepo.baseurl.org/download/createrepo-0.4.11.tar.gz, attempting MIRRORS if available
 NOTE: validating kernel config, see log.do_kernel_configcheck for details
 WARNING: QA Issue: coreutils: configure was passed unrecognised options: --disable-acl [unknown-configure-option]
 WARNING: QA Issue: mesa: configure was passed unrecognised options: --with-llvm-shared-libs [unknown-configure-option]
@@ -163,30 +161,30 @@ WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-
 WARNING: QA Issue: pulseaudio-module-console-kit rdepends on consolekit, but it isn't a build dependency? [build-deps]
 NOTE: Tasks Summary: Attempted 3179 tasks of which 15 didn't need to be rerun and all succeeded.
 
-Summary: There were 17 WARNING messages shown.
-build@50e2c65e266d:~/shared/my-genivi-build$
+Summary: There were 15 WARNING messages shown.
+build@ffecdeeecfb9:~/shared/my-genivi-build$
 ```
 
 As a result of the build the following files will be created:
 
 ```
-build@50e2c65e266d:~/shared/my-genivi-build$ ls -la tmp/deploy/images/qemux86/
-total 317740
-drwxrwxr-x 2 build build      4096 Mar 19 14:06 .
-drwxrwxr-x 3 build build      4096 Mar 19 13:33 ..
--rw-r--r-- 2 build build       294 Mar 19 14:01 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-lrwxrwxrwx 1 build build        73 Mar 19 13:33 bzImage -> bzImage--3.14.24+git0+a227f20eff_38cd560d50-r0-qemux86-20150319110225.bin
--rw-r--r-- 2 build build   6643952 Mar 19 13:33 bzImage--3.14.24+git0+a227f20eff_38cd560d50-r0-qemux86-20150319110225.bin
-lrwxrwxrwx 1 build build        73 Mar 19 13:33 bzImage-qemux86.bin -> bzImage--3.14.24+git0+a227f20eff_38cd560d50-r0-qemux86-20150319110225.bin
--rw-r--r-- 1 build build 281374720 Mar 19 14:05 jupiter-image-qemux86-20150319110225.rootfs.ext3
--rw-r--r-- 1 build build     33594 Mar 19 14:05 jupiter-image-qemux86-20150319110225.rootfs.manifest
--rw-r--r-- 1 build build  55339655 Mar 19 14:05 jupiter-image-qemux86-20150319110225.rootfs.tar.bz2
-lrwxrwxrwx 1 build build        48 Mar 19 14:06 jupiter-image-qemux86.ext3 -> jupiter-image-qemux86-20150319110225.rootfs.ext3
-lrwxrwxrwx 1 build build        52 Mar 19 14:06 jupiter-image-qemux86.manifest -> jupiter-image-qemux86-20150319110225.rootfs.manifest
-lrwxrwxrwx 1 build build        51 Mar 19 14:06 jupiter-image-qemux86.tar.bz2 -> jupiter-image-qemux86-20150319110225.rootfs.tar.bz2
--rw-rw-r-- 2 build build  76208922 Mar 19 13:33 modules--3.14.24+git0+a227f20eff_38cd560d50-r0-qemux86-20150319110225.tgz
-lrwxrwxrwx 1 build build        73 Mar 19 13:33 modules-qemux86.tgz -> modules--3.14.24+git0+a227f20eff_38cd560d50-r0-qemux86-20150319110225.tgz
-build@50e2c65e266d:~/shared/my-genivi-build$
+build@ffecdeeecfb9:~/shared/my-genivi-build$ ls -la tmp/deploy/images/qemux86/
+total 319044
+drwxrwxr-x 2 build build      4096 Jun 18 13:29 .
+drwxrwxr-x 3 build build      4096 Jun 18 12:58 ..
+-rw-r--r-- 2 build build       294 Jun 18 13:25 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+lrwxrwxrwx 1 build build        73 Jun 18 12:58 bzImage -> bzImage--3.14.29+git0+6eddbf4787_f6aa7aaca8-r0-qemux86-20150618101520.bin
+-rw-r--r-- 2 build build   6645136 Jun 18 12:58 bzImage--3.14.29+git0+6eddbf4787_f6aa7aaca8-r0-qemux86-20150618101520.bin
+lrwxrwxrwx 1 build build        73 Jun 18 12:58 bzImage-qemux86.bin -> bzImage--3.14.29+git0+6eddbf4787_f6aa7aaca8-r0-qemux86-20150618101520.bin
+-rw-r--r-- 1 build build 282619904 Jun 18 13:29 jupiter-image-qemux86-20150618101520.rootfs.ext3
+-rw-r--r-- 1 build build     33571 Jun 18 13:28 jupiter-image-qemux86-20150618101520.rootfs.manifest
+-rw-r--r-- 1 build build  55757665 Jun 18 13:29 jupiter-image-qemux86-20150618101520.rootfs.tar.bz2
+lrwxrwxrwx 1 build build        48 Jun 18 13:29 jupiter-image-qemux86.ext3 -> jupiter-image-qemux86-20150618101520.rootfs.ext3
+lrwxrwxrwx 1 build build        52 Jun 18 13:29 jupiter-image-qemux86.manifest -> jupiter-image-qemux86-20150618101520.rootfs.manifest
+lrwxrwxrwx 1 build build        51 Jun 18 13:29 jupiter-image-qemux86.tar.bz2 -> jupiter-image-qemux86-20150618101520.rootfs.tar.bz2
+-rw-rw-r-- 2 build build  76207968 Jun 18 12:58 modules--3.14.29+git0+6eddbf4787_f6aa7aaca8-r0-qemux86-20150618101520.tgz
+lrwxrwxrwx 1 build build        73 Jun 18 12:58 modules-qemux86.tgz -> modules--3.14.29+git0+6eddbf4787_f6aa7aaca8-r0-qemux86-20150618101520.tgz
+build@ffecdeeecfb9:~/shared/my-genivi-build$
 ```
 
 #### Example for meta-ivi 7.0.x (Intrepid)
