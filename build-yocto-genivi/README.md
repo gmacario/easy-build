@@ -291,7 +291,7 @@ $ ~/shared/configure_build_gdp.sh
 Then create the build directory and run the script again to customize the build configuration:
 
 ```
-$ source ~/shared/sources/poky/oe-init-build-env ~/shared/my-gdp-build04
+$ source ~/shared/sources/poky/oe-init-build-env ~/shared/my-gdp-build07
 $ ~/shared/configure_build_gdp.sh
 ```
 
@@ -304,17 +304,7 @@ $ bitbake -k genivi-demo-platform
 Result:
 
 ```
-Missing or unbuildable dependency chain was: ['qt4-examples-dbg', 'virtual/libx11']
-NOTE: Runtime target 'qt4-linguist-dbg' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['qt4-linguist-dbg', 'virtual/libx11']
-NOTE: Runtime target 'qt4-makeqpf-dbg' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['qt4-makeqpf-dbg', 'virtual/libx11']
-NOTE: Runtime target 'qt4-mkspecs-dbg' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['qt4-mkspecs-dbg', 'virtual/libx11']
-NOTE: Runtime target 'qt4-pixeltool-dbg' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['qt4-pixeltool-dbg', 'virtual/libx11']
-NOTE: Runtime target 'qt4-qmlviewer-dbg' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['qt4-qmlviewer-dbg', 'virtual/libx11']
+...
 NOTE: Runtime target 'qt4-xmlpatterns-dbg' is unbuildable, removing...
 Missing or unbuildable dependency chain was: ['qt4-xmlpatterns-dbg', 'virtual/libx11']
 NOTE: Runtime target 'qt4-qt3to4-dbg' is unbuildable, removing...
@@ -334,7 +324,7 @@ ERROR: Nothing PROVIDES 'libxrandr' (but /home/build/shared/sources/poky/meta/re
 ERROR: libxrandr was skipped: missing required distro feature 'x11' (not in DISTRO_FEATURES)
 ERROR: Nothing PROVIDES 'libxcursor' (but /home/build/shared/sources/poky/meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb DEPENDS on or otherwise requires it)
 ERROR: libxcursor was skipped: missing required distro feature 'x11' (not in DISTRO_FEATURES)
- 
+
 Build Configuration:
 BB_VERSION        = "1.24.0"
 BUILD_SYS         = "x86_64-linux"
@@ -347,49 +337,49 @@ TUNE_FEATURES     = "m64 core2"
 TARGET_FPU        = ""
 meta
 meta-yocto
-meta-yocto-bsp    = "dizzy:29812e61736a95f1de64b3e9ebbb9c646ebd28dd"
+meta-yocto-bsp    = "dizzy:9c4ff467f66428488b1cd9798066a8cb5d6b4c3b"
 meta-ivi
 meta-ivi-bsp      = "7.0:0d780d0cfd38694ae5e6f0198adcb72684b01acc"
 meta-oe           = "dizzy:5b6f39ce325d490fc382d5d59c5b8b9d5fa38b38"
 meta-genivi-demo  = "master:b1980ff6fefed9957513ce0a57f6926c76421324"
 meta-qt5          = "dizzy:adeca0db212d61a933d7952ad44ea1064cfca747"
 meta-ruby         = "dizzy:5b6f39ce325d490fc382d5d59c5b8b9d5fa38b38"
-meta-renesas      = "genivi-7.0-bsp-1.8.0:6e829fe6e422793bbb05ec563c8544154c0e9bd8"
- 
+meta-renesas      = "genivi-7.0-bsp-1.8.0:d3eafa63999cc90351e0831c6178947c6d881fb1"
+
 NOTE: Preparing runqueue
 NOTE: Executing SetScene Tasks
 NOTE: Executing RunQueue Tasks
 NOTE: validating kernel config, see log.do_kernel_configcheck for details
 WARNING: QA Issue: mesa: configure was passed unrecognised options: --with-llvm-shared-libs [unknown-configure-option]
-WARNING: QA Issue: ELF binary '/home/build/shared/my-gdp-build04/tmp/work/core2-64-poky-linux/wayland-ivi-extension/1.3.0-r0/packages-split/wayland-ivi-extension/usr/lib/weston/ivi-controller.so' has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary '/home/build/shared/my-gdp-build07/tmp/work/core2-64-poky-linux/wayland-ivi-extension/1.3.0-r0/packages-split/wayland-ivi-extension/usr/lib/weston/ivi-controller.so' has relocations in .text [textrel]
 WARNING: QA Issue: pulseaudio-module-console-kit rdepends on consolekit, but it isn't a build dependency? [build-deps]
 NOTE: Tasks Summary: Attempted 4166 tasks of which 22 didn't need to be rerun and all succeeded.
- 
+
 Summary: There were 3 WARNING messages shown.
 Summary: There were 6 ERROR messages shown, returning a non-zero exit code.
-build@4f3caf384331:~/shared/my-gdp-build04$
+build@da81c1b5b2b8:~/shared/my-gdp-build07$
 ```
 
 The following files will be created under `tmp/deploy/images/<MACHINE>`:
 
 ```
-build@4f3caf384331:~/shared/my-gdp-build04$ ls -la tmp/deploy/images/qemux86-64/
-total 893664
-drwxrwxr-x 2 build build      4096 Apr 30 16:26 .
-drwxrwxr-x 3 build build      4096 Apr 30 12:22 ..
--rw-r--r-- 2 build build       294 Apr 30 16:18 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-lrwxrwxrwx 1 build build        76 Apr 30 12:22 bzImage -> bzImage--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150430090259.bin
--rw-r--r-- 2 build build   6621136 Apr 30 12:21 bzImage--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150430090259.bin
-lrwxrwxrwx 1 build build        76 Apr 30 12:22 bzImage-qemux86-64.bin -> bzImage--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150430090259.bin
--rw-r--r-- 1 build build 814094336 Apr 30 16:25 genivi-demo-platform-qemux86-64-20150430090259.rootfs.ext3
--rw-r--r-- 1 build build     43146 Apr 30 16:24 genivi-demo-platform-qemux86-64-20150430090259.rootfs.manifest
--rw-r--r-- 1 build build 180343648 Apr 30 16:25 genivi-demo-platform-qemux86-64-20150430090259.rootfs.tar.bz2
-lrwxrwxrwx 1 build build        58 Apr 30 16:26 genivi-demo-platform-qemux86-64.ext3 -> genivi-demo-platform-qemux86-64-20150430090259.rootfs.ext3
-lrwxrwxrwx 1 build build        62 Apr 30 16:26 genivi-demo-platform-qemux86-64.manifest -> genivi-demo-platform-qemux86-64-20150430090259.rootfs.manifest
-lrwxrwxrwx 1 build build        61 Apr 30 16:26 genivi-demo-platform-qemux86-64.tar.bz2 -> genivi-demo-platform-qemux86-64-20150430090259.rootfs.tar.bz2
--rw-rw-r-- 2 build build  70074601 Apr 30 12:22 modules--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150430090259.tgz
-lrwxrwxrwx 1 build build        76 Apr 30 12:22 modules-qemux86-64.tgz -> modules--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150430090259.tgz
-build@4f3caf384331:~/shared/my-gdp-build04$
+build@da81c1b5b2b8:~/shared/my-gdp-build07$ ls -la tmp/deploy/images/qemux86-64/
+total 889032
+drwxrwxr-x 2 build build      4096 Jul  2 15:47 .
+drwxrwxr-x 3 build build      4096 Jul  2 11:46 ..
+-rw-r--r-- 2 build build       294 Jul  2 15:39 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+lrwxrwxrwx 1 build build        76 Jul  2 11:46 bzImage -> bzImage--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150702083557.bin
+-rw-r--r-- 2 build build   6621392 Jul  2 11:45 bzImage--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150702083557.bin
+lrwxrwxrwx 1 build build        76 Jul  2 11:46 bzImage-qemux86-64.bin -> bzImage--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150702083557.bin
+-rw-r--r-- 1 build build 809934848 Jul  2 15:46 genivi-demo-platform-qemux86-64-20150702083557.rootfs.ext3
+-rw-r--r-- 1 build build     43146 Jul  2 15:45 genivi-demo-platform-qemux86-64-20150702083557.rootfs.manifest
+-rw-r--r-- 1 build build 179073524 Jul  2 15:46 genivi-demo-platform-qemux86-64-20150702083557.rootfs.tar.bz2
+lrwxrwxrwx 1 build build        58 Jul  2 15:47 genivi-demo-platform-qemux86-64.ext3 -> genivi-demo-platform-qemux86-64-20150702083557.rootfs.ext3
+lrwxrwxrwx 1 build build        62 Jul  2 15:47 genivi-demo-platform-qemux86-64.manifest -> genivi-demo-platform-qemux86-64-20150702083557.rootfs.manifest
+lrwxrwxrwx 1 build build        61 Jul  2 15:47 genivi-demo-platform-qemux86-64.tar.bz2 -> genivi-demo-platform-qemux86-64-20150702083557.rootfs.tar.bz2
+-rw-rw-r-- 2 build build  70063723 Jul  2 11:46 modules--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150702083557.tgz
+lrwxrwxrwx 1 build build        76 Jul  2 11:46 modules-qemux86-64.tgz -> modules--3.14.29+git0+6eddbf4787_21ba402e0a-r0-qemux86-64-20150702083557.tgz
+build@da81c1b5b2b8:~/shared/my-gdp-build07$
 ```
 
 #### Troubleshooting
