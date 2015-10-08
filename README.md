@@ -1,6 +1,7 @@
 easy-build
 ==========
 
+[![](https://badge.imagelayers.io/gmacario/easy-build:latest.svg)](https://imagelayers.io/?images=gmacario/easy-build:latest 'Get your own badge on imagelayers.io')
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmacario/easy-build?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![PullReview stats](https://www.pullreview.com/github/gmacario/easy-build/badges/master.svg?)](https://www.pullreview.com/github/gmacario/easy-build/reviews/master)
 [![Stories in Ready](https://badge.waffle.io/gmacario/easy-build.png?label=ready&title=Ready)](https://waffle.io/gmacario/easy-build)
