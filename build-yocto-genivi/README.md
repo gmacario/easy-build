@@ -16,7 +16,7 @@ a full build of the target image.
 
 Several options are possible here.
 
-### Pulling image from index.docker.io
+### Pulling image from Docker Hub
 
 The most recent builds of the build-yocto-genivi project are published
 on [Docker Hub](https://hub.docker.com/):
