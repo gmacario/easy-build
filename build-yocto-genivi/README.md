@@ -86,22 +86,48 @@ Prerequisite: the container is already running.
 
 After logging in as user "build" execute the following commands:
 
-    $ export GENIVI=~/genivi-baseline
-    $ source ${GENIVI}/poky/oe-init-build-env ~/shared/my-genivi-build
-    $ export TOPDIR=${PWD}
+    $ export GENIVI="${HOME}/genivi-baseline"
+    $ source "${GENIVI}/poky/oe-init-build-env" "${HOME}/shared/my-genivi-build"
+    $ export TOPDIR="${PWD}"
 
 #### Configure the build
 
 Review script `configure_build.sh` and make any modifications if needed, then invoke the script
 
-    $ sh ~/configure_build.sh
+    $ sh "${HOME}/configure_build.sh"
 
 For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the
 [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
 
+#### Configure git
+
+    $ git config --global user.email "build@nowhere.net"
+    $ git config --global user.name "GENIVI Build"
+
+**NOTE**: If you forget this step you may get the following error when performing the build:
+
+```
+ERROR: Command Error: exit status: 128  Output:
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: empty ident name (for <build@008cf88e9198.(none)>) not allowed
+ERROR: Function failed: patch_do_patch
+ERROR: Logfile of failure stored in: /home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/weston/1.6.0-r1/temp/log.do_patch.19761
+ERROR: Task 1274 (/home/build/genivi-baseline/poky/meta/recipes-graphics/wayland/weston_1.6.0.bb, do_patch) failed with exit code '1'
+```
+
 #### Perform the build
 
-    $ cd ${TOPDIR}
+    $ cd "${TOPDIR}"
     $ bitbake -k <genivi_release>-image
 
 The actual command depends on which GENIVI release you are targeting at.
