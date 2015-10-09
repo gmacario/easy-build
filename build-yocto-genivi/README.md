@@ -86,27 +86,119 @@ Prerequisite: the container is already running.
 
 After logging in as user "build" execute the following commands:
 
-    $ export GENIVI=~/genivi-baseline
-    $ source ${GENIVI}/poky/oe-init-build-env ~/shared/my-genivi-build
-    $ export TOPDIR=${PWD}
+    $ export GENIVI="${HOME}/genivi-baseline"
+    $ source "${GENIVI}/poky/oe-init-build-env" "${HOME}/shared/my-genivi-build"
+    $ export TOPDIR="${PWD}"
 
 #### Configure the build
 
 Review script `configure_build.sh` and make any modifications if needed, then invoke the script
 
-    $ sh ~/configure_build.sh
+    $ sh "${HOME}/configure_build.sh"
 
 For help about syntax of `conf/bblayers.conf` and `conf/local.conf` please refer to the
 [Yocto Project Documentation](http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html).
 
+#### Configure git
+
+    $ git config --global user.email "build@nowhere.net"
+    $ git config --global user.name "GENIVI Build"
+
+**NOTE**: If you forget this step you may get the following error when performing the build:
+
+```
+ERROR: Command Error: exit status: 128  Output:
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: empty ident name (for <build@008cf88e9198.(none)>) not allowed
+ERROR: Function failed: patch_do_patch
+ERROR: Logfile of failure stored in: /home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/weston/1.6.0-r1/temp/log.do_patch.19761
+ERROR: Task 1274 (/home/build/genivi-baseline/poky/meta/recipes-graphics/wayland/weston_1.6.0.bb, do_patch) failed with exit code '1'
+```
+
 #### Perform the build
 
-    $ cd ${TOPDIR}
+    $ cd "${TOPDIR}"
     $ bitbake -k <genivi_release>-image
 
 The actual command depends on which GENIVI release you are targeting at.
 
 **NOTE**: This command may take a few hours to complete.
+
+##### Example for meta-ivi 9.0.x (Kronos)
+
+Command:
+
+    $ cd "${TOPDIR}"
+    $ bitbake -k kronos-image
+
+Result (for meta-ivi 9.0.0):
+
+```
+build@008cf88e9198:~/shared/my-genivi-build$ bitbake -k kronos-image
+Loading cache: 100% |##############################################################################################| ETA:  00:00:00
+Loaded 1978 entries from dependency cache.
+Parsing recipes: 100% |############################################################################################| Time: 00:00:00
+Parsing of 1503 .bb files complete (1501 cached, 2 parsed). 1977 targets, 353 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION        = "1.26.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-14.04"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky-ivi-systemd"
+DISTRO_VERSION    = "9.0.0"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta
+meta-yocto
+meta-yocto-bsp    = "(detachedfromeb4a134):eb4a134a60e3ac26a48379675ad6346a44010339"
+meta-ivi
+meta-ivi-bsp      = "(detachedfrom9.0.0):54618f8d7792791e3e87e34962fe9e4d01c1e458"
+meta-oe           = "(detachedfrom5b0305d):5b0305d9efa4b5692cd942586fb7aa92dba42d59"
+
+NOTE: Preparing RunQueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+WARNING: QA Issue: ELF binary '/home/build/shared/my-genivi-build/tmp/work/i586-poky-linux/wayland-ivi-extension/1.3.0-r0/packages-split/wayland-ivi-extension/usr/lib/weston/ivi-controller.so' has relocations in .text [textrel]
+NOTE: Tasks Summary: Attempted 3193 tasks of which 3166 didn't need to be rerun and all succeeded.
+
+Summary: There was 1 WARNING message shown.
+build@008cf88e9198:~/shared/my-genivi-build$
+```
+
+As a result of the build the following files will be created:
+
+```
+build@008cf88e9198:~/shared/my-genivi-build$ ls -la tmp/deploy/images/qemux86/
+total 298696
+drwxrwxr-x 2 build build      4096 Oct  9 08:00 .
+drwxrwxr-x 3 build build      4096 Oct  8 16:19 ..
+-rw-r--r-- 2 build build       294 Oct  9 07:55 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+lrwxrwxrwx 1 build build        73 Oct  8 16:19 bzImage -> bzImage--3.14.36+git0+162dfe3bb0_f7cbba6012-r0-qemux86-20151008134209.bin
+-rw-r--r-- 2 build build   6648464 Oct  8 16:19 bzImage--3.14.36+git0+162dfe3bb0_f7cbba6012-r0-qemux86-20151008134209.bin
+lrwxrwxrwx 1 build build        73 Oct  8 16:19 bzImage-qemux86.bin -> bzImage--3.14.36+git0+162dfe3bb0_f7cbba6012-r0-qemux86-20151008134209.bin
+-rw-r--r-- 1 build build 271151104 Oct  9 08:00 kronos-image-qemux86-20151009075340.rootfs.ext4
+-rw-r--r-- 1 build build     33359 Oct  9 07:58 kronos-image-qemux86-20151009075340.rootfs.manifest
+-rw-r--r-- 1 build build  53221336 Oct  9 08:00 kronos-image-qemux86-20151009075340.rootfs.tar.bz2
+lrwxrwxrwx 1 build build        47 Oct  9 08:00 kronos-image-qemux86.ext4 -> kronos-image-qemux86-20151009075340.rootfs.ext4
+lrwxrwxrwx 1 build build        51 Oct  9 08:00 kronos-image-qemux86.manifest -> kronos-image-qemux86-20151009075340.rootfs.manifest
+lrwxrwxrwx 1 build build        50 Oct  9 08:00 kronos-image-qemux86.tar.bz2 -> kronos-image-qemux86-20151009075340.rootfs.tar.bz2
+-rw-rw-r-- 2 build build  76144765 Oct  8 16:19 modules--3.14.36+git0+162dfe3bb0_f7cbba6012-r0-qemux86-20151008134209.tgz
+lrwxrwxrwx 1 build build        73 Oct  8 16:19 modules-qemux86.tgz -> modules--3.14.36+git0+162dfe3bb0_f7cbba6012-r0-qemux86-20151008134209.tgz
+build@008cf88e9198:~/shared/my-genivi-build$
+```
 
 ##### Example for meta-ivi 8.0.x (Jupiter)
 

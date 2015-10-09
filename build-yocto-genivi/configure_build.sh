@@ -1,7 +1,11 @@
 #!/bin/sh
 
-# Conflgure script for building GENIVI Yocto baseline
+# ----------------------------------------------------------------------------
+# Project:     gmacario/easy-build
+# Subproject:  build-yocto-genivi
+# Description: Configure script for building GENIVI Yocto baseline
 # See https://github.com/gmacario/easy-build/tree/master/build-yocto-genivi
+# ----------------------------------------------------------------------------
 
 # (TESTING) SHA for Yocto GENIVI Baseline master branch
 # See http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md
@@ -9,12 +13,19 @@
 #cd $GENIVI/poky     		&& git fetch --all && git checkout dizzy
 #cd $GENIVI/meta-openembedded	&& git fetch --all && git checkout dizzy
 
-# Known SHA for Yocto GENIVI Baseline 8.0.2 (J-1.0)
+# Known SHA for Yocto GENIVI Baseline 9.0.0 (K-1.0)
+# See http://lists.genivi.org/pipermail/genivi-meta-ivi/2015-October/000637.html
+# and http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=9.0.0
+cd $GENIVI/meta-ivi             && git fetch --all && git checkout 9.0.0
+cd $GENIVI/poky                 && git fetch --all && git checkout eb4a134a60e3ac26a48379675ad6346a44010339
+cd $GENIVI/meta-openembedded    && git fetch --all && git checkout 5b0305d9efa4b5692cd942586fb7aa92dba42d59
+
+# Known SHA for Yocto GENIVI Baseline 8.0.1 (J-1.0)
 # See http://lists.genivi.org/pipermail/genivi-meta-ivi/2015-May/000549.html
 # and http://git.yoctoproject.org/cgit/cgit.cgi/meta-ivi/tree/README.md?id=8.0.1
-cd $GENIVI/meta-ivi 		&& git fetch --all && git checkout 8.0.1
-cd $GENIVI/poky     		&& git fetch --all && git checkout 9fd145d27ec479668fac490a9f1078089f22bf59
-cd $GENIVI/meta-openembedded  	&& git fetch --all && git checkout 5b6f39ce325d490fc382d5d59c5b8b9d5fa38b38
+#cd $GENIVI/meta-ivi             && git fetch --all && git checkout 8.0.1
+#cd $GENIVI/poky                 && git fetch --all && git checkout 9fd145d27ec479668fac490a9f1078089f22bf59
+#cd $GENIVI/meta-openembedded    && git fetch --all && git checkout 5b6f39ce325d490fc382d5d59c5b8b9d5fa38b38
 
 # Known SHA for Yocto GENIVI Baseline 8.0 (J-0.1)
 # See http://lists.genivi.org/pipermail/genivi-meta-ivi/2015-March/000487.html
