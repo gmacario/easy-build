@@ -1,5 +1,7 @@
 # build-yocto-genivi
 
+[![](https://badge.imagelayers.io/gmacario/build-yocto-genivi:latest.svg)](https://imagelayers.io/?images=gmacario/build-yocto-genivi:latest 'Get your own badge on imagelayers.io')
+
 build-yocto-genivi is a subproject of [easy-build](https://github.com/gmacario/easy-build)
 and has the objective of providing a simplified environment where to rebuild from sources
 
