@@ -7,10 +7,16 @@ Building the Docker image
 
 Running the slave as a Docker container
 
-    $ docker run [docker-run-opts] gmacario/build-inside-jenkins-slave jenkins-slave -url $JENKINS_SERVER_URL $SECRET $SLAVE_NAME
+    $ docker run [docker-run-opts] \
+      gmacario/build-inside-jenkins-slave jenkins-slave \
+      -url $JENKINS_SERVER_URL \
+      $SECRET $SLAVE_NAME
 
 Example
 
-    $ docker run -d gmacario/build-inside-jenkins-slave jenkins-slave -url http://mv-linux-powerhorse.solarma.it:9080/ mysecret my-slave-14
+    $ docker run -d --name my-slave-01 \
+      gmacario/build-inside-jenkins-slave jenkins-slave \
+      -url http://mv-linux-powerhorse.solarma.it:9080/ \
+      mysecret my-slave-01
 
 <!-- EOF -->
