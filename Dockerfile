@@ -1,13 +1,11 @@
 # ===========================================================================================
-# Base Dockerfile for building embedded distros
-# 
-# References:
-#	https://www.docker.io/learn/dockerfile/level1/
-#	https://www.docker.io/learn/dockerfile/level2/
+# Projetc: easy-build
+#
+# Description: Base Docker imaeg for building embedded distros
 # ===========================================================================================
 
-FROM gmacario/baseimage:0.9.15b
-MAINTAINER Gianpaolo Macario, gmacario@gmail.com
+FROM gmacario/baseimage-ssh:latest
+MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Make sure the package repository is up to date
 RUN apt-get update && apt-get -y upgrade
