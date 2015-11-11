@@ -5,7 +5,7 @@
 #	http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html
 # ===========================================================================================
 
-FROM gmacario/easy-build
+FROM gmacario/build-in-jenkins-slave:latest
 
 MAINTAINER Gianpaolo Macario, gmacario@gmail.com
 
