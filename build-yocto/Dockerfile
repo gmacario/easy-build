@@ -42,9 +42,6 @@ RUN mkdir -p /shared
 #RUN su -c "cd ~ && git clone git://git.yoctoproject.org/poky" build
 #ENTRYPOINT ["/bin/su", "-l", "build"]
 
-# For the time being, let us install and run poky as root
-RUN mkdir -p /opt/yocto
-RUN su -c "cd /opt/yocto && git clone git://git.yoctoproject.org/poky" root
 ENTRYPOINT ["/bin/bash"]
 
 # Expose sshd port
