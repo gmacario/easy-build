@@ -7,15 +7,14 @@
 
 FROM gmacario/build-in-jenkins-slave:latest
 
-MAINTAINER Gianpaolo Macario, gmacario@gmail.com
+MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Make sure the package repository is up to date
-RUN apt-get update
-RUN apt-get -y upgrade
+USER root
+RUN apt-get update && apt-get -y upgrade
 
 # Install packages we cannot leave without...
-RUN apt-get install -y git tig
-RUN apt-get install -y mc
+RUN apt-get install -y git mc tig
 RUN apt-get install -y openssh-server
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
@@ -28,12 +27,6 @@ RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
 # Additional host packages required by poky/scripts/wic
 # TODO: Understand how to build them using the -native recipes
 RUN apt-get install -y parted dosfstools mtools syslinux
-
-# NOTE: Uncomment if user "build" is not already created inside the base image
-## Create non-root user that will perform the build of the images
-#RUN useradd --shell /bin/bash build
-#RUN mkdir -p /home/build
-#RUN chown -R build /home/build
 
 RUN mkdir -p /shared
 
