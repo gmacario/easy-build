@@ -1,10 +1,11 @@
 build-in-jenkins-slave
 ======================
 
-This subproject of [gmacario/easy-build] extends the easy-build base image
-to implement a Jenkins slave node.
+This subproject of [easy-build](https://github.com/gmacario/easy-build)
+extends the easy-build base image to implement a [Jenkins](http://jenkins-ci.org/) slave node.
 
-See <https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds>
+See <https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds> to learn
+about the architecture of Jenkins distributed builds.
 
 ### Building the Docker image
 
