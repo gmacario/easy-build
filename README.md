@@ -28,7 +28,7 @@ Please refer to the `README.md` file available under each subdirectory for detai
 System Requirements
 -------------------
 
-* Docker 0.9.1 or later (tested with [Ubuntu](http://www.ubuntu.com/)
+* Docker 1.7 or later (tested with [Ubuntu](http://www.ubuntu.com/)
 and [CoreOS](https://coreos.com/))
 * A fast Internet connection
 
