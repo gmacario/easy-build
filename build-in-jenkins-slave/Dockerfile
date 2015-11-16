@@ -3,6 +3,8 @@
 
 FROM gmacario/easy-build:latest
 
+MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
+
 # Add prerequisites to run Jenkins slave using JNLP
 # Adapted from https://github.com/jenkinsci/docker-jnlp-slave
 
