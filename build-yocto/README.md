@@ -9,10 +9,7 @@ for creating embedded Linux distributions using the [Yocto Project](https://www.
 Building the Docker image
 -------------------------
 
-You may use the `build.sh` script:
-
-    $ cd .../build-yocto
-    $ ./build.sh
+    $ docker build -t gmacario/build-yocto .
 
 Running the Docker image
 ------------------------
