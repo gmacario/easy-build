@@ -15,14 +15,19 @@ about the architecture of Jenkins distributed builds.
 
     $ docker run [docker-run-opts] \
       gmacario/build-in-jenkins-slave jenkins-slave \
-      -url $JENKINS_SERVER_URL \
-      $SECRET $SLAVE_NAME
+      -url ${JENKINS_SERVER_URL} \
+      ${SECRET} \
+      ${SLAVE_NAME}
 
 Example:
 
-    $ docker run -d --name my-slave-01 -u jenkins \
+    $ JENKINS_SERVER_URL=http://mv-linux-powerhorse.solarma.it:9080/ && \
+      SECRET=f10b43a9aa63864188dc627243fd2a660926e1f7745322984e6b3aa2c5707a5f && \
+      SLAVE_NAME=my-slave-11 && \
+      docker run -d --name=${SLAVE_NAME} -u jenkins \
       gmacario/build-in-jenkins-slave jenkins-slave \
-      -url http://mv-linux-powerhorse.solarma.it:9080/ \
-      mysecret my-slave-01
+      -url ${JENKINS_SERVER_URL} \
+      ${SECRET} \
+      ${SLAVE_NAME}
 
 <!-- EOF -->
