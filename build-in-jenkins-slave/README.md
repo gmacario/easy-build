@@ -2,7 +2,7 @@ build-in-jenkins-slave
 ======================
 
 This subproject of [easy-build](https://github.com/gmacario/easy-build)
-extends the easy-build base image to implement a [Jenkins](http://jenkins-ci.org/) slave node.
+extends the gmacario/easy-build base image to implement a [Jenkins](http://jenkins-ci.org/) slave node.
 
 See <https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds> to learn
 about the architecture of Jenkins distributed builds.
