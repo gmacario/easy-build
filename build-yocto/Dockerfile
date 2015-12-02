@@ -28,6 +28,10 @@ RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
 # TODO: Understand how to build them using the -native recipes
 RUN apt-get install -y parted dosfstools mtools syslinux
 
+# Add "repo" tool (used by many Yocto-based projects)
+RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
+RUN chmod a+x /usr/local/bin/repo
+
 RUN mkdir -p /shared
 
 # TODO: Run as user "build" once Docker supports user-level volumes
