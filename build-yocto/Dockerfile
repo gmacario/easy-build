@@ -6,7 +6,6 @@
 # ===========================================================================================
 
 FROM gmacario/build-in-jenkins-slave:latest
-
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Make sure the package repository is up to date
@@ -14,7 +13,7 @@ USER root
 RUN apt-get update && apt-get -y upgrade
 
 # Install packages we cannot leave without...
-RUN apt-get install -y git mc tig
+RUN apt-get install -y git mc tig tree
 RUN apt-get install -y openssh-server
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
