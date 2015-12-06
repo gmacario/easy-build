@@ -11,7 +11,7 @@ MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 RUN apt-get update && apt-get -y upgrade
 
 # Install required packages
-RUN apt-get install -y git mc tig
+RUN apt-get install -y git mc tig tree
 
 # Create non-root user that will perform the build of the images
 RUN useradd --shell /bin/bash build && mkdir -p /home/build && chown -R build /home/build
