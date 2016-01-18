@@ -65,6 +65,6 @@ a `gmacario/<build_subproject>` image inside your local Docker installation.
 Please read the `build.sh` script and the corresponding `Dockerfile` for details.
 
 ------------------------
-Copyright 2014-2015, [Gianpaolo Macario](http://gmacario.github.io/)
+Copyright 2014-2016, [Gianpaolo Macario](http://gmacario.github.io/)
 
 <!-- EOF -->
