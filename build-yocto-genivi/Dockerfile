@@ -10,27 +10,26 @@
 #	- http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home
 # - https://at.projects.genivi.org/jira/browse/TOOL-21
 #
-# Usage Examples
-# --------------
+# === A FEW USAGE EXAMPLES ===
 #
-# Build the Docker image
+# --- Build the Docker image ---
 # $ docker build -t test/build-yocto-genivi build-yocto-genivi
 #
-# Create a development environment to interactively build YGB and GDP
+# --- Create a development environment for building YGB and GDP ---
 # $ docker run -ti test/build-yocto-genivi
+# Then execute /usr/local/bin/clone-and-build-gdp.sh or consult the GENIVI wiki
 #
-# Build GDP storing build results on a separate volume
+# --- Build GDP storing build results on a separate volume ---
 # $ docker run -ti --volume $PWD:/home/build test/build-yocto-genivi /usr/local/bin/clone-and-build-gdp.sh
-#
-# === UNTESTED CONFIGURATIONS ===
+
+# === OTHER SCENARIOS (WORK-IN-PROGRESS) ===
 #
 # --- Run the Docker image as a GoCD agent ---
 # $ docker run -d test/build-yocto-genivi TODO
 #
-# TODO Build GDP non-interactively
-#
-# --- Attach to a demonized development environment via ssh ---
+# --- Connect to a demonized development environment using ssh ---
 # TODO: STILL CANNOT CONNECT
+#
 # $ mkdir -p ./.ssh/ && chmod 700 ./.ssh && cat ~/.ssh/id_rsa.pub | tee -a ./.ssh/authorized_keys && chmod 640 ./.ssh/authorized_keys
 # $ docker run -ti -u root -p 50022:22 --volume $PWD:/home/build test/build-yocto-genivi /bin/bash
 #   service ssh restart
@@ -47,7 +46,7 @@ MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 # Make sure the package repository is up to date
 RUN apt-get update && apt-get -y upgrade
 
-# Install some packages I cannot stay without...
+# Install some packages I cannot live without...
 RUN apt-get install -y dos2unix git mc openssh-server screen tig
 
 # Install the following utilities (required by poky)
