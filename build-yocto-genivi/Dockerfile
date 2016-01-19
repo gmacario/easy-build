@@ -19,7 +19,7 @@
 # Create a development environment to interactively build YGB and GDP
 # $ docker run -ti test/build-yocto-genivi
 #
-# Mount a host volume to store build results
+# Build GDP storing build results on a separate volume
 # $ docker run -ti --volume $PWD:/home/build test/build-yocto-genivi /usr/local/bin/clone-and-build-gdp.sh
 #
 # === UNTESTED CONFIGURATIONS ===
