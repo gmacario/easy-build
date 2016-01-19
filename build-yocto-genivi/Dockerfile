@@ -10,7 +10,7 @@
 #	- http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home
 # - https://at.projects.genivi.org/jira/browse/TOOL-21
 #
-# === A FEW USAGE EXAMPLES ===
+# === SOME COMMON USAGE SCENARIOS ===
 #
 # --- Build the Docker image ---
 # $ docker build -t test/build-yocto-genivi build-yocto-genivi
@@ -21,21 +21,22 @@
 #
 # --- Build GDP storing build results on a separate volume ---
 # $ docker run -ti --volume $PWD:/home/build test/build-yocto-genivi /usr/local/bin/clone-and-build-gdp.sh
+#
+# --- Connect to a running development environment using SSH ---
+# $ mkdir /tmp/shared && cd /tmp/shared
+# $ mkdir -p .ssh && chmod 700 .ssh
+# $ cat ~/.ssh/id_rsa.pub | tee -a .ssh/authorized_keys && chmod 640 .ssh/authorized_keys
+# $ docker run -ti -u root -p 5022:22 --volume $PWD:/home/build test/build-yocto-genivi
+#   usermod -p verysecret build && service ssh restart
+#   ...
+#
+# From another terminal on the same host
+# $ ssh -p 5022 build@localhost
 
 # === OTHER SCENARIOS (WORK-IN-PROGRESS) ===
 #
 # --- Run the Docker image as a GoCD agent ---
 # $ docker run -d test/build-yocto-genivi TODO
-#
-# --- Connect to a demonized development environment using ssh ---
-# TODO: STILL CANNOT CONNECT
-#
-# $ mkdir -p ./.ssh/ && chmod 700 ./.ssh && cat ~/.ssh/id_rsa.pub | tee -a ./.ssh/authorized_keys && chmod 640 ./.ssh/authorized_keys
-# $ docker run -ti -u root -p 50022:22 --volume $PWD:/home/build test/build-yocto-genivi /bin/bash
-#   service ssh restart
-#
-# From another terminal
-# $ ssh -p 50022 build@localhost
 # ===========================================================================================
 
 # TODO: FROM gmacario/build-yocto
