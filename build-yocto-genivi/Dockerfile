@@ -27,8 +27,12 @@
 # TODO Build GDP non-interactively
 #
 # Create a development environment as a daemon, then attach to it via ssh
-# $ docker run -ti -u root -p 10022:22 --volume $PWD:/home/build test/build-yocto-genivi /bin/bash -c "service ssh start"
-# TODO $ ssh -p 10022 build@localhost
+# $ mkdir -p ./.ssh/ && chmod 700 ./.ssh && cat ~/.ssh/id_rsa.pub | tee -a ./.ssh/authorized_keys && chmod 640 ./.ssh/authorized_keys
+# $ docker run -ti -u root -p 50022:22 --volume $PWD:/home/build test/build-yocto-genivi /bin/bash
+#   service ssh restart
+#
+# From another terminal
+# $ ssh -p 50022 build@localhost
 #
 # Run the Docker image as a GoCD agent
 # $ docker run -d test/build-yocto-genivi TODO
