@@ -25,23 +25,13 @@ on [Docker Hub](https://hub.docker.com/):
 
     $ docker pull gmacario/build-yocto-genivi
 
-### Creating the image using the build.sh script
-
-Alternatively you may do a local rebuild of your Docker image following to the instructions
-inside the `Dockerfile`.  You may do so through the following command
-
-    $ ./build.sh
-    
-**NOTE**: If the script appears to hang, please either delete or move the contents
-of the `shared/` subdirectory before launching the script.
-
 ### Creating the image from the Dockerfile
 
 This is basically what the `build.sh` script does, but you may customize the Docker image
 or add other configuration options (please consult `man docker` for details)
 
     $ docker build -t my-build-yocto-genivi .
-    
+
 ## Running the Docker image
 
 Prerequisite: the Docker image is already available locally.
@@ -61,7 +51,7 @@ This command will create and start a new container
     $ docker run -t -i -v <shareddir>:/home/build/shared gmacario/build-yocto-genivi
 
 The `-v <shareddir>:/home/build/shared` options instructs Docker to have the `/home/build/shared`
-directory of the container mapped to a directory of the host filesystem. 
+directory of the container mapped to a directory of the host filesystem.
 This may be used to prevent the Yocto build directory to fill in the partition where containers
 are created, as well as for preserving the build directory after the container is destroyed.
 
@@ -75,10 +65,10 @@ Prerequisite: the container is already running.
 
     # Make sure that /dev/shm is writable
     chmod a+w /dev/shm
-    
+
     # Make sure that ~build/shared directory is owned by user "build"
     chown build.build ~build/shared
-    
+
     # Switch to user 'build'
     su - build
 
@@ -481,7 +471,7 @@ build@da81c1b5b2b8:~/shared/my-gdp-build07$
 In case the build fails you may try to clean the offending tasks, as in the following example:
 
     $ bitbake -c cleansstate cairo
-    
+
 then invoke `bitbake <package>` again.
 
 ## Creating standalone images for execution under QEMU, VirtualBox and VMware Player
