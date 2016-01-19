@@ -40,7 +40,7 @@
 # ===========================================================================================
 
 # TODO: FROM gmacario/build-yocto
-FROM gocd/gocd-agent:15.3.1
+FROM gocd/gocd-agent:16.1.0
 
 MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 
