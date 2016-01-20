@@ -45,56 +45,58 @@ This command will create and start a new container
 
     $ docker run -ti gmacario/build-yocto-genivi
 
-As a result you will be logged into the container as user `build`
+As a result a new Docker container will be created and you will be logged as user `build` into it:
 
 ```
-TODO
+gmacario@mv-linux-powerhorse:~⟫ docker run -ti gmacario/build-yocto-genivi
+build@8f58c7795ca9:~$
 ```
 
-Notice that in absence of the `--volume <hostdir>:/home/build` option, the result of the build are stored inside the container and will disappear when the container is removed.
-
-The `--volume <hostdir>:/home/build` option is used to prevent the Yocto build directory to fill in the partition where Docker creates the containers, as well as for preserving the build directory after the container is destroyed.
+Notice that in absence of the `--volume <hostdir>:/home/build` option to `docker run`, the build results will be stored inside the container, therefore they will disappear when the container is removed.
 
 ### Setting up an interactive development environment for YGB and GDP
 
+Change to a empty directory with at least 50 GB disk space, then type the following command:
+
     $ docker run -ti \
       --volume $PWD:/home/build \
-      test/build-yocto-genivi
+      gmacario/build-yocto-genivi
 
-As a result you will be logged into the container as user `build`
+The `--volume <hostdir>:/home/build` option is used to prevent the Yocto build directory to fill in the partition where Docker creates the containers, as well as for preserving the build directory after the container is destroyed.
+
+As a result a new Docker container will be created and you will be logged as user `build` into it:
 
 ```
 gmacario@mv-linux-powerhorse:~/test⟫ docker run -ti \
 >       --volume $PWD:/home/build \
->       test/build-yocto-genivi
+>       gmacario/build-yocto-genivi
 build@9be124a40754:~$
 ```
 
-You may now execute `/usr/local/bin/clone-and-build-gdp.sh`, or follow the instructions inside the GENIVI wiki for building:
+You may now follow the instructions inside the GENIVI wiki for building:
 
 * Yocto GENIVI Baseline
 * GENIVI Demo Platform
 
-### Building GDP non-interactively
+Or use the `/usr/local/bin/clone-and-build-gdp.sh` script as explained in the following section.
 
-The Docker image contains a sample `clone-and-build-gdp.sh` which may be run to clone the GDP sources from git.projects.genivi.org and perform a full build of the GDP image.
+### Building GDP from sources
 
-You may perform the build running the following command:
+The Docker image contains a sample `clone-and-build-gdp.sh` script which may be run to clone the GDP sources from the GENIVI git repository, then perform a full build of the GDP image.
 
-    $ docker run -ti \
-      --volume $PWD:/home/build \
-      test/build-yocto-genivi
-      /usr/local/bin/clone-and-build-gdp.sh
+To perform a complete build of the GDP, change to a empty directory with at least 50 GB disk space, then type the following command:
+
+    $ docker run -ti --volume $PWD:/home/build gmacario/build-yocto-genivi
+    
+Then when logged as `build@<container>` run the helper script:
+
+    build@0b7eaf86c65d:~$ /usr/local/bin/clone-and-build-gdp.sh
 
 Sample result:
 
 ```
-gmacario@mv-linux-powerhorse:~/test⟫ docker run -ti \
->       --volume $PWD:/home/build \
->       test/build-yocto-genivi
-      /usr/local/bin/clone-and-build-gdp.sh
-      /usr/local/bin/clone-and-build-gdp.sh
-build@2c61b74cac79:~$       /usr/local/bin/clone-and-build-gdp.sh
+gmacario@mv-linux-powerhorse:~/test⟫ docker run -ti --volume $PWD:/home/build test/build-yocto-genivi
+build@0b7eaf86c65d:~$ /usr/local/bin/clone-and-build-gdp.sh
 + set -e
 + GDP_URL=git://git.projects.genivi.org/genivi-demo-platform.git
 + GDP_BRANCH=qemux86-64
@@ -102,7 +104,7 @@ build@2c61b74cac79:~$       /usr/local/bin/clone-and-build-gdp.sh
 + git config --global user.name easy-build
 ++ whoami
 ++ hostname
-+ git config --global user.email build@2c61b74cac79
++ git config --global user.email build@0b7eaf86c65d
 + '[' '!' -e genivi-demo-platform ']'
 + cd genivi-demo-platform
 + git fetch --all --prune
@@ -119,12 +121,73 @@ Synchronizing submodule url for 'meta-openembedded'
 Synchronizing submodule url for 'meta-qt5'
 Synchronizing submodule url for 'poky'
 ++ git submodule update
-...
+++ source poky/oe-init-build-env gdp-src-build
++++ '[' -n poky/oe-init-build-env ']'
+++++ dirname poky/oe-init-build-env
++++ OEROOT=poky
++++ '[' -n '' ']'
++++ THIS_SCRIPT=poky/oe-init-build-env
++++ '[' -z '' ']'
++++ '[' /usr/local/bin/clone-and-build-gdp.sh = poky/oe-init-build-env ']'
+++++ readlink -f poky
++++ OEROOT=/home/build/genivi-demo-platform/poky
++++ export OEROOT
++++ . /home/build/genivi-demo-platform/poky/scripts/oe-buildenv-internal
+++++ '[' -z /home/build/genivi-demo-platform/poky ']'
+++++ '[' '!' -z '' ']'
++++++ /usr/bin/env python --version
++++++ grep 'Python 3'
+++++ py_v3_check=
+++++ '[' '' '!=' '' ']'
++++++ python -c 'import sys; print sys.version_info >= (2,7,3)'
+++++ py_v26_check=True
+++++ '[' True '!=' True ']'
+++++ '[' x = x ']'
+++++ BITBAKEDIR=/home/build/genivi-demo-platform/poky/bitbake/
++++++ readlink -f /home/build/genivi-demo-platform/poky/bitbake/
+++++ BITBAKEDIR=/home/build/genivi-demo-platform/poky/bitbake
++++++ readlink -f /home/build/genivi-demo-platform/gdp-src-build
+++++ BUILDDIR=/home/build/genivi-demo-platform/gdp-src-build
+++++ test -d /home/build/genivi-demo-platform/poky/bitbake
+++++ NEWPATHS=/home/build/genivi-demo-platform/poky/scripts:/home/build/genivi-demo-platform/poky/bitbake/bin:
++++++ echo /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++++++ sed -e 's|:/home/build/genivi-demo-platform/poky/scripts:/home/build/genivi-demo-platform/poky/bitbake/bin:|:|g' -e 's|^/home/build/genivi-demo-platform/poky/scripts:/home/build/genivi-demo-platform/poky/bitbake/bin:||'
+++++ PATH=/home/build/genivi-demo-platform/poky/scripts:/home/build/genivi-demo-platform/poky/bitbake/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++++ unset BITBAKEDIR NEWPATHS
+++++ export BUILDDIR
+++++ export PATH
+++++ export 'BB_ENV_EXTRAWHITE=MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR'
+++++ BB_ENV_EXTRAWHITE='MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR'
++++ /home/build/genivi-demo-platform/poky/scripts/oe-setup-builddir
+
+### Shell environment set up for builds. ###
+
+You can now run 'bitbake <target>'
+
+Common targets are:
+    core-image-minimal
+    core-image-sato
+    meta-toolchain
+    adt-installer
+    meta-ide-support
+
+You can also run generated qemu images with a command like 'runqemu qemux86'
++++ '[' -n /home/build/genivi-demo-platform/gdp-src-build ']'
++++ cd /home/build/genivi-demo-platform/gdp-src-build
++++ unset OEROOT
++++ unset BBPATH
++++ unset THIS_SCRIPT
++++ '[' -z '' ']'
++++ '[' -f bitbake.lock ']'
++++ grep : bitbake.lock
++++ '[' 1 = 0 ']'
+++ echo
+
 ++ echo 'Now run:  bitbake genivi-demo-platform'
 Now run:  bitbake genivi-demo-platform
 + bitbake genivi-demo-platform
-Parsing recipes: 100% |############################################################################################| Time: 00:00:51
-Parsing of 1547 .bb files complete (0 cached, 1547 parsed). 1995 targets, 167 skipped, 0 masked, 0 errors.
+Loading cache: 100% |##############################################################################################| ETA:  00:00:00
+Loaded 1996 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -150,29 +213,21 @@ meta-genivi-demo  = "(detachedfrome0c9fe6):e0c9fe684d84de9831d2b5612570c552c8bf7
 NOTE: Preparing runqueue
 NOTE: Executing SetScene Tasks
 NOTE: Executing RunQueue Tasks
-WARNING: Failed to fetch URL http://zlib.net/pigz/pigz-2.3.1.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://downloads.sourceforge.net/project/libpng/libpng16/1.6.13/libpng-1.6.13.tar.xz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.freedesktop.org/pub/mesa/10.1.3/MesaLib-10.1.3.tar.bz2, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-1.5.1.tar.bz2, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-util-1.5.3.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://www.apache.org/dist/subversion/subversion-1.8.9.tar.bz2, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://code.entropywave.com/download/orc/orc-0.4.18.tar.gz;name=orc, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://www.cpan.org/authors/id/D/DM/DMEGG/SGMLSpm-1.03ii.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://downloads.sourceforge.net/fuse/fuse-2.9.3.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/n/netbase/netbase_5.2.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.17.4.tar.xz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.39.tar.xz, attempting MIRRORS if available
-NOTE: validating kernel config, see log.do_kernel_configcheck for details
-WARNING: QA Issue: ELF binary '/home/build/genivi-demo-platform/gdp-src-build/tmp/work/core2-64-poky-linux/wayland-ivi-extension/1.3.0-r0/packages-split/wayland-ivi-extension/usr/lib/weston/ivi-controller.so' has relocations in .text [textrel]
-WARNING: QA Issue: pulseaudio-module-console-kit rdepends on consolekit, but it isn't a build dependency? [build-deps]
-NOTE: Tasks Summary: Attempted 4431 tasks of which 22 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 4431 tasks of which 4431 didn't need to be rerun and all succeeded.
+build@0b7eaf86c65d:~$
+```
 
-Summary: There were 15 WARNING messages shown.
+Notice that the first time the command is invoked on an empty directory, it may take several hours for the command to complete.
+
+You may now terminate the container and return to the host by typing
+
+```
+build@0b7eaf86c65d:~$ exit
+exit
 gmacario@mv-linux-powerhorse:~/test⟫
 ```
 
-Thanks to the `--volume $PWD:/home/build` option used when invoking `docker run`, the build results will directly be accessible from the host:
+As the `--volume $PWD:/home/build` option used when invoking `docker run`, the build results will directly be accessible from the host:
 
 ```
 gmacario@mv-linux-powerhorse:~/test⟫ ls -la genivi-demo-platform/gdp-src-build/tmp/deploy/images/qemux86-64/
