@@ -7,8 +7,8 @@
 # and the GENIVI Demo Platform either interactively or as a GoCD agent
 #
 # References:
-#	- http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home
-# - https://at.projects.genivi.org/jira/browse/TOOL-21
+#   - http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home
+#   - https://at.projects.genivi.org/jira/browse/TOOL-21
 #
 # === SOME COMMON USAGE SCENARIOS ===
 #
