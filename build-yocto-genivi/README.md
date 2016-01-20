@@ -2,15 +2,15 @@
 
 [![](https://badge.imagelayers.io/gmacario/build-yocto-genivi:latest.svg)](https://imagelayers.io/?images=gmacario/build-yocto-genivi:latest 'Get your own badge on imagelayers.io')
 
-build-yocto-genivi is a subproject of [easy-build](https://github.com/gmacario/easy-build)
+**build-yocto-genivi** is a subproject of [easy-build](https://github.com/gmacario/easy-build)
 and has the objective of providing a simplified environment where to rebuild from sources
 
 * The [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home)
 * The [GENIVI Demo Platform](http://wiki.projects.genivi.org/index.php/GENIVI_Demo_Platform)
 
-as well as running it on virtual targets such as QEMU, VirtualBox or VMware.
+in order to run them on virtual targets such as QEMU, VirtualBox or VMware.
 
-build-yocto-genivi relies on [Docker](http://www.docker.com/) and creates a clean,
+**build-yocto-genivi** relies on [Docker](http://www.docker.com/) to provide a clean,
 stand-alone development environment complete with all the tools needed to perform
 a full build of the target image.
 
@@ -20,14 +20,14 @@ Several options are possible here.
 
 ### Pulling image from Docker Hub
 
-The most recent builds of the build-yocto-genivi project are published
-on [Docker Hub](https://hub.docker.com/):
+The most recent builds of the **build-yocto-genivi** Docker images are published
+on [Docker Hub](https://hub.docker.com/) and can be pulled into your Docker machine with the following command:
 
     $ docker pull gmacario/build-yocto-genivi
 
 ### Creating the image from the Dockerfile
 
-You can build the image and test your changes locally using following command:
+You can build the image and test your changes locally with the following command:
 
     $ docker build -t my-build-yocto-genivi .
 
@@ -35,20 +35,25 @@ Please consult `man docker` for details.
 
 ## Running the Docker image
 
-Prerequisite: the Docker image is already available locally.
+A few use-cases are possible and described below.
 
-As before, several options are possible.
+Prerequisite: A Docker machine is installed, and the **build-yocto-genivi** image has been pulled.
 
-### Runing the Docker container manually
+### Setting up a scratch development environment inside a container
 
 This command will create and start a new container
 
-    $ docker run -t -i -v <hostdir>:/home/build/shared gmacario/build-yocto-genivi
+    $ docker run -ti gmacario/build-yocto-genivi
 
-The `-v <hostdir>:/home/build/shared` options instructs Docker to have the `/home/build`
-directory of the container mapped to a directory of the host filesystem.
-This may be used to prevent the Yocto build directory to fill in the partition where containers
-are created, as well as for preserving the build directory after the container is destroyed.
+As a result you will be logged into the container as user `build`
+
+```
+TODO
+```
+
+Notice that in absence of the `--volume <hostdir>:/home/build` option, the result of the build are stored inside the container and will disappear when the container is removed.
+
+The `--volume <hostdir>:/home/build` option is used to prevent the Yocto build directory to fill in the partition where Docker creates the containers, as well as for preserving the build directory after the container is destroyed.
 
 ### Setting up an interactive development environment for YGB and GDP
 
