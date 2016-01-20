@@ -80,23 +80,24 @@ You may now follow the instructions inside the GENIVI wiki for building:
 
 Or use the `/usr/local/bin/clone-and-build-gdp.sh` script as explained in the following section.
 
-### Building GDP from sources
+### Automatically building GDP from sources
 
 The Docker image contains a sample `clone-and-build-gdp.sh` script which may be run to clone the GDP sources from the GENIVI git repository, then perform a full build of the GDP image.
 
 To perform a complete build of the GDP, change to a empty directory with at least 50 GB disk space, then type the following command:
 
-    $ docker run -ti --volume $PWD:/home/build gmacario/build-yocto-genivi
+    $ docker run -ti \
+      --volume $PWD:/home/build \
+      gmacario/build-yocto-genivi \
+      /usr/local/bin/clone-and-build-gdp.sh
     
-Then when logged as `build@<container>` run the helper script:
-
-    build@0b7eaf86c65d:~$ /usr/local/bin/clone-and-build-gdp.sh
-
 Sample result:
 
 ```
-gmacario@mv-linux-powerhorse:~/test⟫ docker run -ti --volume $PWD:/home/build test/build-yocto-genivi
-build@0b7eaf86c65d:~$ /usr/local/bin/clone-and-build-gdp.sh
+gmacario@mv-linux-powerhorse:~/test⟫ docker run -ti \
+>       --volume $PWD:/home/build \
+>       gmacario/build-yocto-genivi \
+>       /usr/local/bin/clone-and-build-gdp.sh
 + set -e
 + GDP_URL=git://git.projects.genivi.org/genivi-demo-platform.git
 + GDP_BRANCH=qemux86-64
@@ -104,7 +105,7 @@ build@0b7eaf86c65d:~$ /usr/local/bin/clone-and-build-gdp.sh
 + git config --global user.name easy-build
 ++ whoami
 ++ hostname
-+ git config --global user.email build@0b7eaf86c65d
++ git config --global user.email build@d2ac51fdd9b1
 + '[' '!' -e genivi-demo-platform ']'
 + cd genivi-demo-platform
 + git fetch --all --prune
@@ -142,6 +143,20 @@ Synchronizing submodule url for 'poky'
 +++++ python -c 'import sys; print sys.version_info >= (2,7,3)'
 ++++ py_v26_check=True
 ++++ '[' True '!=' True ']'
+++++ '[' x = x ']'
+++++ '[' xgdp-src-build = x ']'
+++++ BDIR=gdp-src-build
+++++ '[' gdp-src-build = / ']'
++++++ echo gdp-src-build
++++++ sed -re 's|/+$||'
+++++ BDIR=gdp-src-build
++++++ readlink -f gdp-src-build
+++++ BDIR=/home/build/genivi-demo-platform/gdp-src-build
+++++ '[' -z /home/build/genivi-demo-platform/gdp-src-build ']'
+++++ '[' x '!=' x ']'
+++++ expr /home/build/genivi-demo-platform/gdp-src-build : '/.*'
+++++ BUILDDIR=/home/build/genivi-demo-platform/gdp-src-build
+++++ unset BDIR
 ++++ '[' x = x ']'
 ++++ BITBAKEDIR=/home/build/genivi-demo-platform/poky/bitbake/
 +++++ readlink -f /home/build/genivi-demo-platform/poky/bitbake/
@@ -214,20 +229,12 @@ NOTE: Preparing runqueue
 NOTE: Executing SetScene Tasks
 NOTE: Executing RunQueue Tasks
 NOTE: Tasks Summary: Attempted 4431 tasks of which 4431 didn't need to be rerun and all succeeded.
-build@0b7eaf86c65d:~$
+gmacario@mv-linux-powerhorse:~/test⟫
 ```
 
 Notice that the first time the command is invoked on an empty directory, it may take several hours for the command to complete.
 
-You may now terminate the container and return to the host by typing
-
-```
-build@0b7eaf86c65d:~$ exit
-exit
-gmacario@mv-linux-powerhorse:~/test⟫
-```
-
-As the `--volume $PWD:/home/build` option used when invoking `docker run`, the build results will directly be accessible from the host:
+As the `--volume $PWD:/home/build` option was used when invoking `docker run`, the build results will be accessible directly from the host:
 
 ```
 gmacario@mv-linux-powerhorse:~/test⟫ ls -la genivi-demo-platform/gdp-src-build/tmp/deploy/images/qemux86-64/
