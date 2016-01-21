@@ -29,7 +29,8 @@ on [Docker Hub](https://hub.docker.com/) and can be pulled into your Docker mach
 
 You can build the image and test your changes locally with the following command:
 
-    $ docker build -t my-build-yocto-genivi .
+    $ cd <directory-where-you-cloned-easy-build>
+    $ docker build -t <myuser>/build-yocto-genivi build-yocto-genivi/
 
 Please consult `man docker` for details.
 
