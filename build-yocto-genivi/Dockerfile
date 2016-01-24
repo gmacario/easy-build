@@ -66,6 +66,7 @@ RUN id build >/dev/null || useradd --create-home --shell /bin/bash build
 
 RUN mkdir -p /usr/local/bin
 COPY clone-and-build-gdp.sh /usr/local/bin/
+COPY run-gocd-agent.sh /usr/local/bin/
 RUN dos2unix /usr/local/bin/*.sh && chmod 755 /usr/local/bin/*.sh
 
 # Expose sshd port
