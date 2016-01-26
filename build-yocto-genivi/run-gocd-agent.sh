@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run as a GoCD Agent
 
-set -x
+# set -x
 set -e
 
 # Sanity checks
