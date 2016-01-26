@@ -14,12 +14,16 @@ if [ $(pwd) != '/var/lib/go-agent' ]; then
     echo "Please specify docker run --workdir /var/lib/go-agent"
     exit 1
 fi
+if [ "${GO_SERVER}" == "" ]; then
+    export GO_SERVER=go.genivi.org
+    echo "GO_SERVER was not defined - setting to ${GO_SERVER}"
+fi
 
 git config --global user.name "easy-build"
 git config --global user.email "$(whoami)@$(hostname)"
 
 cp /etc/default/go-agent go-agent.ORIG
-sed 's/^GO_SERVER=.*$/GO_SERVER=go.genivi.org/g' go-agent.ORIG >/etc/default/go-agent
+sed "s/^GO_SERVER=.*$/GO_SERVER=${GO_SERVER}/g" go-agent.ORIG >/etc/default/go-agent
 service go-agent start
 
 # EOF
