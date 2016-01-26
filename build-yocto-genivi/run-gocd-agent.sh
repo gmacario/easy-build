@@ -4,6 +4,17 @@
 set -x
 set -e
 
+# Sanity checks
+
+if [ $(whoami) != 'go' ]; then
+    echo "Please specify docker run --user go"
+    exit 1
+fi
+if [ $(pwd) != '/var/lib/go-agent' ]; then
+    echo "Please specify docker run --workdir /var/lib/go-agent"
+    exit 1
+fi
+
 git config --global user.name "easy-build"
 git config --global user.email "$(whoami)@$(hostname)"
 
