@@ -6,7 +6,7 @@
 and has the objective of providing a simplified environment where to rebuild from sources
 
 * The [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home) (YGB)
-* The [GENIVI Demo Platform](http://wiki.projects.genivi.org/index.php/GENIVI_Demo_Platform) (GDP)
+* The [GENIVI Demo Platform](https://at.projects.genivi.org/wiki/display/GDP/GENIVI+Demo+Platform+Home) (GDP)
 
 in order to run them on virtual targets such as QEMU, VirtualBox or VMware.
 
