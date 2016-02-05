@@ -5,8 +5,8 @@
 **build-yocto-genivi** is a subproject of [easy-build](https://github.com/gmacario/easy-build)
 and has the objective of providing a simplified environment where to rebuild from sources
 
-* The [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home)
-* The [GENIVI Demo Platform](http://wiki.projects.genivi.org/index.php/GENIVI_Demo_Platform)
+* The [Yocto GENIVI Baseline](http://projects.genivi.org/GENIVI_Baselines/meta-ivi/home) (YGB)
+* The [GENIVI Demo Platform](http://wiki.projects.genivi.org/index.php/GENIVI_Demo_Platform) (GDP)
 
 in order to run them on virtual targets such as QEMU, VirtualBox or VMware.
 
