@@ -257,6 +257,18 @@ lrwxrwxrwx 1 gmacario gmacario        76 Jan 19 18:25 modules-qemux86-64.tgz -> 
 gmacario@mv-linux-powerhorse:~/test⟫
 ```
 
+### Implementing a Go.CD agent
+
+In order to create a [Go.CD](https://www.go.cd/) agent able to build YGB and GDP you may use a command like the following (adjust the "hostname" and "name" parameters as needed):
+
+    $ docker run -d --user=go \
+      --hostname=my-genivigo-testagent \
+      --name=my-genivigo-testagent \
+      --workdir=/var/lib/go-agent \
+      gmacario/build-yocto-genivi /usr/local/bin/run-gocd-agent.sh
+    
+Notice that the Go.CD server administrator must authorize the agent before it is marked available inside <https://go.genivi.org/go/agents>.
+
 ## Troubleshooting
 
 In case the build fails, inside the interactive development environment you may try to clean the offending tasks, as in the following example:
