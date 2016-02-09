@@ -261,7 +261,7 @@ gmacario@mv-linux-powerhorse:~/test⟫
 
 In order to create a [Go.CD](https://www.go.cd/) agent able to build YGB and GDP you may use a command like the following (adjust the "hostname" and "name" parameters as needed):
 
-    $ docker run -d --user=go \
+    $ docker run -d --restart=always --user=go \
       --hostname=my-genivigo-testagent \
       --name=my-genivigo-testagent \
       --workdir=/var/lib/go-agent \
