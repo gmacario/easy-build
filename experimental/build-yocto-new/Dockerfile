@@ -13,7 +13,7 @@ RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/
 RUN chmod a+x /usr/local/bin/repo
 
 # Create a non-root user that will perform the actual build
-RUN id build 2>/dev/null || useradd -m build
+RUN id build 2>/dev/null || useradd --uid 30000 --create-home build
 RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
 
 USER build
