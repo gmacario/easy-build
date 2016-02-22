@@ -9,15 +9,21 @@ for creating embedded Linux distributions using the [Yocto Project](https://www.
 Building the Docker image
 -------------------------
 
-    $ docker build -t gmacario/build-yocto .
+    $ cd .../easy-build
+    $ docker build -t gmacario/build-yocto build-yocto/
 
 Running the Docker image
 ------------------------
 
-You may use the `run.sh` script:
+Type the following command to instantiate a clean development environment for the Yocto Project:
 
-    $ cd .../build-yocto
-    $ ./run.sh
+    $ docker run -ti gmacario/build-yocto
+
+Optionally, you may use the `--volume=[host-src:]container-dest` option to share a directory between the host and the container, as in the following example
+
+    $ docker run -ti --volume=${PWD}:/home/build/shared gmacario/build-yocto
+
+Please refer to https://docs.docker.com/engine/reference/run/#volume-shared-filesystems for details
 
 Congratulations! You can now execute the Yocto Project tools to create your own embedded Linux distribution.
 
@@ -27,64 +33,36 @@ Using Yocto
 This section shows a few commands to make sure that the Yocto build environment is properly installed.
 Please refer to the [Yocto Project documentation](https://www.yoctoproject.org/documentation) for details.
 
-### Select the Yocto release
+### Clone the Yocto metadata
 
-Fetch the latest updates of the poky repository, then switch to the desired release
-(in our example, Yocto Project 1.7 - a.k.a. "dizzy")
+Clone the poky repository (in our example, Yocto Project 2.0 - a.k.a. "jethro")
 
-    $ cd /opt/yocto/poky
-    $ git checkout dizzy
+    $ cd 
+    $ git clone -b jethro git://git.yoctoproject.org/poky
+    
+### Update the Yocto metadata
+
+Fetch the latest updates of the poky repository (in our example, Yocto Project 2.0 - a.k.a. "jethro")
+
+    $ cd ~/poky
+    $ git checkout jethro
+    $ git pull --all --prune
 
 ### Create the build environment
 
-    $ cd /shared
-    $ source /opt/yocto/poky/oe-init-build-env build-test01
+    $ cd
+    $ source ~/poky/oe-init-build-env build-test01
 
 You may inspect and - if necessary - change the configuration files under `conf/`.
 
-### Start the build
+### Build the minimal Yocto image
 
-    $ bitbake -k core-image-sato
+    $ bitbake -k core-image-minimal
     
 Result
 
 ```
-vagrant@e117d5aaa4f3:/shared/build-test02$ bitbake -k core-image-sato
-Parsing recipes: 100% |###########################################################################| Time: 00:00:24
-Parsing of 892 .bb files complete (0 cached, 892 parsed). 1289 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION        = "1.25.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Ubuntu-14.04"
-TARGET_SYS        = "i586-poky-linux"
-MACHINE           = "qemux86"
-DISTRO            = "poky"
-DISTRO_VERSION    = "1.7"
-TUNE_FEATURES     = "m32 i586"
-TARGET_FPU        = ""
-meta
-meta-yocto
-meta-yocto-bsp    = "master:ec6377bcf52d105cd23ac6bbbeddd38fee9337e4"
-
-NOTE: Preparing RunQueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://downloads.sourceforge.net/project/libpng/libpng16/1.6.13/libpng-1.6.13.tar.xz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://www.apache.org/dist/apr/apr-util-1.5.3.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz, attempting MIRRORS if available
-WARNING: Missing md5 SRC_URI checksum for /shared/build-test02/downloads/serf-1.3.8.tar.bz2, consider adding to the recipe:
-SRC_URI[md5sum] = "2e4efe57ff28cb3202a112e90f0c2889"
-WARNING: Failed to fetch URL http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-0.10.tar.gz, attempting MIRRORS if available
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.17.4.tar.xz, attempting MIRRORS if available
-WARNING: Failed to fetch URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.39.tar.xz, attempting MIRRORS if available
-NOTE: validating kernel config, see log.do_kernel_configcheck for details
-NOTE: Tasks Summary: Attempted 5154 tasks of which 16 didn't need to be rerun and all succeeded.
-
-Summary: There were 8 WARNING messages shown.
-vagrant@e117d5aaa4f3:/shared/build-test02$
+TODO
 ```
 
 ### Using the "wic" tool
