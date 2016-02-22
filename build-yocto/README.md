@@ -120,18 +120,18 @@ build@afaf6ac0c0e4:~/shared/build-test01$
 
 ### Using the "wic" tool
 
-Starting from release 1.5, Yocto features the `wic` tool to build system images.
+Starting from release 1.5 of the Yocto project, the `wic` tool can be used to build system images.
 
 #### Show program version
 
     $ wic --version
 
-Yocto 1.6 provides version 0.1.0
+Yocto 2.0 (jethro) features wic version 0.2.0:
 
 ```
-root@eb4b9143265d:/work/build-test01# wic --version
-wic version 0.1.0
-root@eb4b9143265d:/work/build-test01#
+build@afaf6ac0c0e4:~/shared/build-test01$ wic --version
+wic version 0.2.0
+build@afaf6ac0c0e4:~/shared/build-test01$
 ```
 
 #### Show program help
@@ -141,24 +141,28 @@ root@eb4b9143265d:/work/build-test01#
 Result:
 
 ```
-root@eb4b9143265d:/work/build-test01# wic --help
+build@afaf6ac0c0e4:~/shared/build-test01$ wic --help
 Usage:
 
  Create a customized OpenEmbedded image
 
- usage: wic [--version] [--help] COMMAND [ARGS]
+ usage: wic [--version] | [--help] | [COMMAND [ARGS]]
 
  Current 'wic' commands are:
+    help              Show help for command or one of the topics (see below)
     create            Create a new OpenEmbedded image
-    list              List available values for options and image properties
+    list              List available canned images and source plugins
 
- See 'wic help COMMAND' for more information on a specific command.
+ Help topics:
+    overview          wic overview - General overview of wic
+    plugins           wic plugins - Overview and API
+    kickstart         wic kickstart - wic kickstart reference
 
 
 Options:
   --version   show program's version number and exit
   -h, --help  show this help message and exit
-root@eb4b9143265d:/work/build-test01#
+build@afaf6ac0c0e4:~/shared/build-test01$
 ```
 
 #### List available OpenEmbedded image properties
@@ -168,10 +172,16 @@ root@eb4b9143265d:/work/build-test01#
 Result:
 
 ```
-root@eb4b9143265d:/work/build-test01# wic list images
-  directdisk            Create a 'pcbios' direct disk image
-  mkefidisk             Create an EFI disk image
-root@eb4b9143265d:/work/build-test01#
+build@afaf6ac0c0e4:~/shared/build-test01$ wic list images
+  mkhybridiso                                   Create a hybrid ISO image
+  directdisk-multi-rootfs                       Create multi rootfs image using rootfs plugin
+  qemux86-directdisk                            Create a qemu machine 'pcbios' direct disk image
+  directdisk-gpt                                Create a 'pcbios' direct disk image
+  mkgummidisk                                   Create an EFI disk image
+  directdisk                                    Create a 'pcbios' direct disk image
+  sdimage-bootpart                              Create SD card image with a boot partition
+  mkefidisk                                     Create an EFI disk image
+build@afaf6ac0c0e4:~/shared/build-test01$
 ```
 
 #### Getting help on "wic create"
@@ -186,9 +196,10 @@ NAME
 
 SYNOPSIS
     wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-        [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
-        [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
-        [-k, --kernel-dir] [-n, --native-sysroot] [-s, --skip-build-check]
+        [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
+        [-r, --rootfs-dir] [-b, --bootimg-dir]
+        [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
+        [-c, --compress-with]
 
 DESCRIPTION
     This command creates an OpenEmbedded image based on the 'OE
@@ -202,7 +213,7 @@ DESCRIPTION
     the corresponding artifacts are typically found in a normal
     OpenEmbedded build.
 
-    Alternatively, users can use the -e option to have 'mic' determine
+    Alternatively, users can use the -e option to have 'wic' determine
     those locations for a given image.  If the -e option is used, the
     user needs to have set the appropriate MACHINE variable in
     local.conf, and have sourced the build environment.
@@ -223,12 +234,20 @@ DESCRIPTION
     The -n option is used to specify the path to the native sysroot
     containing the tools to use to build the image.
 
+    The -f option is used to build rootfs by running "bitbake <image>"
+
     The -s option is used to skip the build check.  The build check is
     a simple sanity check used to determine whether the user has
     sourced the build environment so that the -e option can operate
     correctly.  If the user has specified the build artifact locations
     explicitly, 'wic' assumes the user knows what he or she is doing
     and skips the build check.
+
+    The -D option is used to display debug information detailing
+    exactly what happens behind the scenes when a create request is
+    fulfilled (or not, as the case may be).  It enumerates and
+    displays the command sequence used, and should be included in any
+    bug report describing unexpected results.
 
     When 'wic -e' is used, the locations for the build artifacts
     values are determined by 'wic -e' from the output of the 'bitbake
@@ -239,7 +258,10 @@ DESCRIPTION
     -r:        IMAGE_ROOTFS
     -k:        STAGING_KERNEL_DIR
     -n:        STAGING_DIR_NATIVE
-    -b:        HDDDIR and STAGING_DATA_DIR (handlers decide which to use)
+    -b:        empty (plugin-specific handlers must determine this)
+
+    If 'wic -e' is not used, the user needs to select the appropriate
+    value for -b (as well as -r, -k, and -n).
 
     If 'wic -e' is not used, the user needs to select the appropriate
     value for -b (as well as -r, -k, and -n).
@@ -247,23 +269,39 @@ DESCRIPTION
     The -o option can be used to place the image in a directory with a
     different name and location.
 
-    As an alternative to the wks file, the image-specific properties
-    that define the values that will be used to generate a particular
-    image can be specified on the command-line using the -i option and
-    supplying a JSON object consisting of the set of name:value pairs
-    needed by image creation.
-
-    The set of properties available for a given image type can be
-    listed using the 'wic list' command.
+    The -c option is used to specify compressor utility to compress
+    an image. gzip, bzip2 and xz compressors are supported.
 ```
 
 #### Create image
 
-TODO
+    $ bitbake dosfstools-native mtools-native parted-native syslinux
+    $ wic create directdisk -e core-image-minimal
+
+Result:
 
 ```
-wic create directdisk -e core-image-minimal
+build@afaf6ac0c0e4:~/shared/build-test01$ wic create directdisk -e core-image-minimal
+Checking basic build environment...
+Done.
+
+Creating image(s)...
+
+Info: The new image(s) can be found here:
+  /var/tmp/wic/build/directdisk-201602221523-sda.direct
+
+The following build artifacts were used to create the image(s):
+  ROOTFS_DIR:                   /home/build/shared/build-test01/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs
+  BOOTIMG_DIR:                  /home/build/shared/build-test01/tmp/sysroots/qemux86/usr/share
+  KERNEL_DIR:                   /home/build/shared/build-test01/tmp/deploy/images/qemux86
+  NATIVE_SYSROOT:               /home/build/shared/build-test01/tmp/sysroots/x86_64-linux
+
+
+The image(s) were created using OE kickstart file:
+  /home/build/shared/poky/scripts/lib/wic/canned-wks/directdisk.wks
+build@afaf6ac0c0e4:~/shared/build-test01$
 ```
+
 
 Known issues and workarounds
 ----------------------------
