@@ -65,7 +65,57 @@ After sourcing `oe-init-build-env` you are ready to start the build
 Result
 
 ```
-TODO
+build@afaf6ac0c0e4:~/shared/build-test01$ bitbake -k core-image-minimal
+Parsing recipes: 100% |############################################################################################| Time: 00:00:25
+Parsing of 899 .bb files complete (0 cached, 899 parsed). 1329 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION        = "1.28.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-14.04"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky"
+DISTRO_VERSION    = "2.0.1"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta
+meta-yocto
+meta-yocto-bsp    = "jethro:7fe17a2942ff03e2ec47d566fd5393f52b2eb736"
+
+NOTE: Preparing RunQueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+WARNING: Failed to fetch URL ftp://invisible-island.net/ncurses/current/ncurses-5.9-20150329.tgz, attempting MIRRORS if available
+WARNING: Failed to fetch URL http://www.openssl.org/source/openssl-1.0.2d.tar.gz, attempting MIRRORS if available
+WARNING: QA Issue: python-pygobject: /python-pygobject/usr/lib/python2.7/site-packages/pygtk.pth is owned by uid 30000, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+NOTE: Tasks Summary: Attempted 2005 tasks of which 9 didn't need to be rerun and all succeeded.
+
+Summary: There were 3 WARNING messages shown.
+build@afaf6ac0c0e4:~/shared/build-test01$
+```
+
+The build results will be stored under `tmp/deploy/images/${MACHINE}`:
+
+```
+build@afaf6ac0c0e4:~/shared/build-test01$ ls -la tmp/deploy/images/qemux86/
+total 97344
+drwxr-xr-x 2 build build     4096 Feb 22 15:04 .
+drwxr-xr-x 3 build build     4096 Feb 22 14:46 ..
+-rw-r--r-- 2 build build      294 Feb 22 15:04 README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+lrwxrwxrwx 1 build build       72 Feb 22 14:46 bzImage -> bzImage--4.1.17+git0+46bb64d605_2e0ac7b6c4-r0-qemux86-20160222140016.bin
+-rw-r--r-- 2 build build  6978640 Feb 22 14:45 bzImage--4.1.17+git0+46bb64d605_2e0ac7b6c4-r0-qemux86-20160222140016.bin
+lrwxrwxrwx 1 build build       72 Feb 22 14:46 bzImage-qemux86.bin -> bzImage--4.1.17+git0+46bb64d605_2e0ac7b6c4-r0-qemux86-20160222140016.bin
+-rw-r--r-- 1 build build  9138176 Feb 22 15:04 core-image-minimal-qemux86-20160222140016.rootfs.ext4
+-rw-r--r-- 1 build build      721 Feb 22 15:04 core-image-minimal-qemux86-20160222140016.rootfs.manifest
+-rw-r--r-- 1 build build  2399203 Feb 22 15:04 core-image-minimal-qemux86-20160222140016.rootfs.tar.bz2
+lrwxrwxrwx 1 build build       53 Feb 22 15:04 core-image-minimal-qemux86.ext4 -> core-image-minimal-qemux86-20160222140016.rootfs.ext4
+lrwxrwxrwx 1 build build       57 Feb 22 15:04 core-image-minimal-qemux86.manifest -> core-image-minimal-qemux86-20160222140016.rootfs.manifest
+lrwxrwxrwx 1 build build       56 Feb 22 15:04 core-image-minimal-qemux86.tar.bz2 -> core-image-minimal-qemux86-20160222140016.rootfs.tar.bz2
+-rw-r--r-- 2 build build 83265178 Feb 22 14:46 modules--4.1.17+git0+46bb64d605_2e0ac7b6c4-r0-qemux86-20160222140016.tgz
+lrwxrwxrwx 1 build build       72 Feb 22 14:46 modules-qemux86.tgz -> modules--4.1.17+git0+46bb64d605_2e0ac7b6c4-r0-qemux86-20160222140016.tgz
+build@afaf6ac0c0e4:~/shared/build-test01$
 ```
 
 ### Using the "wic" tool
