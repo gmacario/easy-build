@@ -21,7 +21,7 @@ Type the following command to instantiate a clean development environment for th
 
 Optionally, you may use the `--volume=[host-src:]container-dest` option to share a directory between the host and the container, as in the following example
 
-    $ docker run -ti --volume=${PWD}:/home/build/shared gmacario/build-yocto
+    $ docker run -ti --volume=${PWD}/shared:/home/build/shared gmacario/build-yocto
 
 Please refer to https://docs.docker.com/engine/reference/run/#volume-shared-filesystems for details
 
@@ -37,25 +37,28 @@ Please refer to the [Yocto Project documentation](https://www.yoctoproject.org/d
 
 Clone the poky repository (in our example, Yocto Project 2.0 - a.k.a. "jethro")
 
-    $ cd 
+    $ mkdir -p ~/shared && sudo chown build.build ~/shared
+    $ cd ~/shared
     $ git clone -b jethro git://git.yoctoproject.org/poky
     
 ### Update the Yocto metadata
 
-Fetch the latest updates of the poky repository (in our example, Yocto Project 2.0 - a.k.a. "jethro")
+Fetch the latest updates of the poky repository
 
-    $ cd ~/poky
-    $ git checkout jethro
-    $ git pull --all --prune
+    $ cd ~/shared/poky && git pull --all --prune
 
 ### Create the build environment
 
-    $ cd
-    $ source ~/poky/oe-init-build-env build-test01
+    $ cd ~/shared
+    $ source ~/shared/poky/oe-init-build-env ~/shared/build-test01
 
 You may inspect and - if necessary - change the configuration files under `conf/`.
 
 ### Build the minimal Yocto image
+
+<!-- (2016-02-22 15:00 CET) -->
+
+After sourcing `oe-init-build-env` you are ready to start the build
 
     $ bitbake -k core-image-minimal
     
