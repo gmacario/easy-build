@@ -15,7 +15,9 @@ RUN chmod a+x /usr/local/bin/repo
 # Create a non-root user that will perform the actual build
 RUN id build 2>/dev/null || useradd -m build
 RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
+
 USER build
 WORKDIR /home/build
+CMD "/bin/bash"
 
 # EOF
