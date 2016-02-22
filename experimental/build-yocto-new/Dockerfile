@@ -12,4 +12,10 @@ RUN apt-get install -y bzip2 dosfstools mtools parted syslinux
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
 
+# Create a non-root user that will perform the actual build
+RUN id build 2>/dev/null || useradd -m build
+RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
+USER build
+WORKDIR /home/build
+
 # EOF
