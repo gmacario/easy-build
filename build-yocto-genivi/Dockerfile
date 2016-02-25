@@ -48,10 +48,16 @@ MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 RUN apt-get update && apt-get -y upgrade
 
 # Install some packages I cannot live without...
-RUN apt-get install -y dos2unix git mc openssh-server screen tig
+RUN apt-get -y install dos2unix git mc openssh-server screen tig
 
 # Install the following utilities (required by poky)
-RUN apt-get install -y curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev
+RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev
+
+# Install extra packages (required for building GDP)
+RUN apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+    build-essential chrpath socat libsdl1.2-dev xterm
+# See https://at.projects.genivi.org/jira/browse/GDP-92
+RUN apt-get -y install git-svn
 
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
