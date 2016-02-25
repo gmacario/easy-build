@@ -53,6 +53,9 @@ RUN apt-get install -y dos2unix git mc openssh-server screen tig
 # Install the following utilities (required by poky)
 RUN apt-get install -y curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev
 
+# Extra packages required for building GDP - See https://github.com/gmacario/easy-build/issues/215
+RUN apt-get install -y git-svn
+
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
 
