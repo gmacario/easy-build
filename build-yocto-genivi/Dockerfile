@@ -45,7 +45,7 @@ FROM gocd/gocd-agent:16.1.0
 MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 
 # Make sure the package repository is up to date
-RUN apt-get update && apt-get -y upgrade
+RUN apt-get update && apt-get -y dist-upgrade
 
 # Install some packages I cannot live without...
 RUN apt-get -y install dos2unix git mc openssh-server screen tig
