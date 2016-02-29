@@ -55,9 +55,7 @@ RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libs
 
 # Install extra packages (required for building GDP)
 RUN apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
-    build-essential chrpath socat libsdl1.2-dev xterm
-# See https://at.projects.genivi.org/jira/browse/GDP-92
-RUN apt-get -y install git-svn
+    build-essential chrpath socat libsdl1.2-dev xterm git-svn
 
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
