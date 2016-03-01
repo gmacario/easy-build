@@ -7,8 +7,9 @@
 # ===========================================================================================
 
 FROM gmacario/build-yocto
-
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
+
+USER root
 
 # Install the following utilities (required later)
 RUN apt-get -y install curl
