@@ -8,10 +8,10 @@
 
 FROM gmacario/build-yocto
 
-MAINTAINER Gianpaolo Macario, gmacario@gmail.com
+MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Install the following utilities (required later)
-RUN apt-get install -y curl
+RUN apt-get -y install curl
 
 # Install "repo" tool
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
