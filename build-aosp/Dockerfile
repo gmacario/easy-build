@@ -26,11 +26,14 @@ RUN apt-get -y install curl git mc rsync screen tig
 # requires Java 8. On Ubuntu, use OpenJDK.
 #
 RUN apt-get -y install openjdk-8-jdk
+#
+# Update the default Java version - optional
+#
 RUN update-alternatives --config java
 RUN update-alternatives --config javac
 #
-# To develop older versions of Android, download and install
-# the corresponding version of the Java JDK (not OpenJDK):
+# To develop older versions of Android, download and install the corresponding version of the Java JDK:
+# * Java 7: for Lollipop through Marshmallow
 # * Java 6: for Gingerbread through KitKat
 # * Java 5: for Cupcake through Froyo
 #
@@ -42,7 +45,7 @@ RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
   libgl1-mesa-dev libxml2-utils xsltproc unzip
 
 # Note: To use SELinux tools for policy analysis, also install the python-networkx package.
-# RUN apt-get -y install python-networkx
+RUN apt-get -y install python-networkx
 
 # Optional: Install apt-file to find which package provides a given file
 #RUN apt-get -y install apt-file
