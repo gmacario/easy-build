@@ -15,16 +15,10 @@ MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Make sure the package repository is up to date
 RUN sed -i 's/main$/main universe/' /etc/apt/sources.list
-RUN dpkg --add-architecture i386
-RUN apt-get -qq update
+RUN dpkg --add-architecture i386 && apt-get -qq update
 
 # Install essential packages
-RUN apt-get -y install curl
-RUN apt-get -y install git
-RUN apt-get -y install tig
-RUN apt-get -y install mc
-RUN apt-get -y install rsync
-RUN apt-get -y install screen
+RUN apt-get -y install curl git mc rsync screen tig
 
 # See https://source.android.com/source/initializing.html
 #
@@ -42,11 +36,11 @@ RUN apt-get -y install screen
 #
 # Installing required packages (Ubuntu 14.04)
 #
-RUN apt-get -y install bc bison build-essential ccache flex
-RUN apt-get -y install g++-multilib gcc-multilib git gperf
-RUN apt-get -y install lib32stdc++6 lib32z1 lib32z1-dev liblzo2-dev
-RUN apt-get -y install libxml2-utils lzop make python
-RUN apt-get -y install u-boot-tools uuid-dev zip zlib1g-dev:i386
+RUN apt-get -y install bc bison build-essential ccache flex \
+    g++-multilib gcc-multilib git gperf \
+    lib32stdc++6 lib32z1 lib32z1-dev liblzo2-dev \
+    libxml2-utils lzop make python \
+    u-boot-tools uuid-dev zip zlib1g-dev:i386
 
 #RUN apt-get -y install git gnupg flex bison gperf build-essential \
 #  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
@@ -62,31 +56,19 @@ RUN apt-get -qqy dist-upgrade
 #RUN apt-get -y install apt-file
 #RUN apt-file update
 
-# Create non-root user that will perform the build of the images
-#RUN useradd --shell /bin/bash build
-#RUN mkdir -p /home/build
-#RUN chown -R build /home/build
-
-# Downloading the Source
-# See https://source.android.com/source/downloading.html
-
-RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
+# Add "repo" tool
+RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
 
-# Initializing a Repo client
-#RUN su -c "cd && repo init -u https://android.googlesource.com/platform/manifest \
-#	-b android-4.0.1_r1" build
-#RUN su -c "cd && repo sync" build
+# Create user "jenkins"
+RUN id jenkins 2>/dev/null || useradd --uid 1000 --create-home --shell /bin/bash jenkins
 
-RUN cd /home/build
+# Create a non-root user that will perform the actual build
+RUN id build 2>/dev/null || useradd --uid 30000 --create-home --shell /bin/bash build
+RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
 
-# Run as the following user
-#USER build
-
-# Say hello when the container is launched
-ENTRYPOINT ["/bin/bash"]
-
-# Expose memcached port
-#EXPOSE 11211
+USER build
+WORKDIR /home/build
+CMD "/bin/bash"1
 
 # EOF
