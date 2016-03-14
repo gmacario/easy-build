@@ -15,7 +15,7 @@ MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Make sure the package repository is up to date
 RUN sed -i 's/main$/main universe/' /etc/apt/sources.list
-RUN dpkg --add-architecture i386 && apt-get -qq update
+RUN dpkg --add-architecture i386 && apt-get -qq update && apt-get -qqy dist-upgrade
 
 # Install essential packages
 RUN apt-get -y install curl git mc rsync screen tig
@@ -49,8 +49,6 @@ RUN apt-get -y install bc bison build-essential ccache flex \
 #  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
 #RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 \
 #	/usr/lib/i386-linux-gnu/libGL.so
-
-RUN apt-get -qqy dist-upgrade
 
 # Optional: Install apt-file to find which package provides a given file
 #RUN apt-get -y install apt-file
