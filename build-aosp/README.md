@@ -5,24 +5,18 @@ This project helps rebuilding firmware images of the [Android Open Source Projec
 
 WARNING: Still experimental, use at your own risk!
 
-Running from Docker image repository
-
-Build the image
+### Build the Docker image
 
 ```
-$ ./build.sh
+$ docker build -t gmacario/build-aosp build-aosp/
 ```
 
-Run the image
+### Run the Docker image
 
 ```
-$ ./run.sh
+$ docker run -ti gmacario/build-aosp
 ```
 
-You must then change to user `build`
+Then logged as build@container you should do the usual `repo init`, `repo sync`, etc.
 
-```
-# su - build
-```
-
-Then do the usual `repo init`, `repo sync`, etc.
+<!-- EOF -->
