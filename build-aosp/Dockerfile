@@ -1,8 +1,8 @@
 # ===========================================================================================
 # Dockerfile for building Android Open Source Project
-# 
+#
 # References:
-#	http://source.android.com/source/index.html
+#       http://source.android.com/source/index.html
 # ===========================================================================================
 
 # FROM gmacario/easy-build
@@ -25,17 +25,20 @@ RUN apt-get -y install curl git mc rsync screen tig
 # The master branch of Android in the Android Open Source Project (AOSP)
 # requires Java 8. On Ubuntu, use OpenJDK.
 #
-RUN apt-get -y install openjdk-8-jdk
+# RUN apt-get -y install openjdk-8-jdk
+#
+# To develop older versions of Android, download and install the corresponding version of the Java JDK:
+# * Java 7: for Lollipop through Marshmallow
+RUN apt-get -y install openjdk-7-jdk
+# * Java 6: for Gingerbread through KitKat
+# * Java 5: for Cupcake through Froyo
+#
+# See http://www.oracle.com/technetwork/java/javase/archive-139210.html
 #
 # Update the default Java version - optional
 #
 RUN update-alternatives --config java
 RUN update-alternatives --config javac
-#
-# To develop older versions of Android, download and install the corresponding version of the Java JDK:
-# * Java 7: for Lollipop through Marshmallow
-# * Java 6: for Gingerbread through KitKat
-# * Java 5: for Cupcake through Froyo
 #
 # Installing required packages (Ubuntu 14.04)
 #
