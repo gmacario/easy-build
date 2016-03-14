@@ -61,6 +61,6 @@ RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
 
 USER build
 WORKDIR /home/build
-CMD "/bin/bash"1
+CMD "/bin/bash"
 
 # EOF
