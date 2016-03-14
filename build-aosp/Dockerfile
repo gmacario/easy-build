@@ -24,15 +24,15 @@ RUN apt-get -y install curl git mc rsync screen tig
 #
 # The master branch of Android in the Android Open Source Project (AOSP)
 # requires Java 8. On Ubuntu, use OpenJDK.
-#
 # RUN apt-get -y install openjdk-8-jdk
 #
 # To develop older versions of Android, download and install the corresponding version of the Java JDK:
-# * Java 7: for Lollipop through Marshmallow
-RUN apt-get -y install openjdk-7-jdk
-# * Java 6: for Gingerbread through KitKat
-# * Java 5: for Cupcake through Froyo
 #
+# Java 7: for Lollipop through Marshmallow
+RUN apt-get -y install openjdk-7-jdk
+#
+# Java 6: for Gingerbread through KitKat
+# Java 5: for Cupcake through Froyo
 # See http://www.oracle.com/technetwork/java/javase/archive-139210.html
 #
 # Update the default Java version - optional
@@ -46,6 +46,9 @@ RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
   zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
   lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
   libgl1-mesa-dev libxml2-utils xsltproc unzip
+
+# Installing additional packages (required for build_android_udooneo)
+RUN apt-get -y install bc
 
 # Note: To use SELinux tools for policy analysis, also install the python-networkx package.
 RUN apt-get -y install python-networkx
