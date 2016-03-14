@@ -5,8 +5,8 @@
 #	http://source.android.com/source/index.html
 # ===========================================================================================
 
-FROM gmacario/easy-build
-#FROM ubuntu
+# FROM gmacario/easy-build
+FROM ubuntu:14.04
 
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
