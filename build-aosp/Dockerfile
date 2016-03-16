@@ -6,7 +6,7 @@
 # ===========================================================================================
 
 # FROM gmacario/easy-build
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
@@ -15,7 +15,7 @@ MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
 # Make sure the package repository is up to date
 RUN sed -i 's/main$/main universe/' /etc/apt/sources.list
-# RUN dpkg --add-architecture i386
+RUN dpkg --add-architecture i386
 RUN apt-get -qq update && apt-get -qqy dist-upgrade
 
 # Install essential packages
@@ -43,22 +43,22 @@ RUN update-alternatives --config javac
 #
 # Installing required packages (Ubuntu 14.04)
 #
-# RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
-#   zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
-#   lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
-#   libgl1-mesa-dev libxml2-utils xsltproc unzip
+RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
+  zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
+  lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+  libgl1-mesa-dev libxml2-utils xsltproc unzip
+#
+# Note: To use SELinux tools for policy analysis, also install the python-networkx package.
+RUN apt-get -y install python-networkx
 #
 # Installing required packages (Ubuntu 12.04)
 #
-RUN apt-get -y install git gnupg flex bison gperf build-essential \
-  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
-  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
-  libgl1-mesa-dev g++-multilib mingw32 tofrodos \
-  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
-RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
-
-# Note: To use SELinux tools for policy analysis, also install the python-networkx package.
-RUN apt-get -y install python-networkx
+# RUN apt-get -y install git gnupg flex bison gperf build-essential \
+#   zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
+#   libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
+#   libgl1-mesa-dev g++-multilib mingw32 tofrodos \
+#   python-markdown libxml2-utils xsltproc zlib1g-dev:i386
+# RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
 
 # Installing additional packages (required for build_android_udooneo)
 RUN apt-get -y install bc lzop u-boot-tools
