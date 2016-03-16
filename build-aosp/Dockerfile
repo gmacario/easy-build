@@ -6,7 +6,7 @@
 # ===========================================================================================
 
 # FROM gmacario/easy-build
-FROM ubuntu:16.04
+FROM ubuntu:12.04
 
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
