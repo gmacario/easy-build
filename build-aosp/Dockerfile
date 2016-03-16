@@ -48,7 +48,7 @@ RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
   libgl1-mesa-dev libxml2-utils xsltproc unzip
 
 # Installing additional packages (required for build_android_udooneo)
-RUN apt-get -y install bc
+RUN apt-get -y install bc lzop
 
 # Note: To use SELinux tools for policy analysis, also install the python-networkx package.
 RUN apt-get -y install python-networkx
