@@ -48,7 +48,7 @@ MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 RUN apt-get update && apt-get -y dist-upgrade
 
 # Install some packages I cannot live without...
-RUN apt-get -y install dos2unix git mc openssh-server screen tig
+RUN apt-get -y install dos2unix git mc openssh-server screen tig tree
 
 # Install the following utilities (required by poky)
 RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev
