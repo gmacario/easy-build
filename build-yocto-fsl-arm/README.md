@@ -28,6 +28,7 @@ Configure SHA for each layer
 Create the build environment (notice the workaround to allow $TOPDIR outside $YOCTO)
 
     cd $YOCTO/fsl-community-bsp
+    mkdir -p ~/shared/build-imx6qsabresd
     ln -sf ~/shared/build-imx6qsabresd
     MACHINE=imx6qsabresd \
         source ./setup-environment \
