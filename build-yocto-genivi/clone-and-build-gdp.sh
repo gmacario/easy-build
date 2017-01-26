@@ -5,11 +5,12 @@
 set -x
 set -e
 
-GDP_URL=git://git.projects.genivi.org/genivi-demo-platform.git
-GDP_BRANCH=qemux86-64
-# GDP_SHA=811273dd0984169605bf216046cdf3c9a88448c6
+GDP_URL=https://github.com/GENIVI/genivi-dev-platform.git
+GDP_BRANCH=master
+# GDP_SHA=707eddc0f6f76488fb2c566bf998d63ec7e2ae9b
+MACHINE=qemux86-64
 
-WORKDIR=genivi-demo-platform
+WORKDIR=genivi-dev-platform
 [ "$GDP_SHA" != "" ] && WORKDIR=$WORKDIR-$GDP_SHA
 
 git config --global user.name "easy-build"
@@ -21,7 +22,7 @@ cd $WORKDIR && git fetch --all --prune
 git show
 git status
 
-source init.sh
-bitbake genivi-demo-platform
+source init.sh ${MACHINE}
+bitbake genivi-dev-platform
 
 # EOF
