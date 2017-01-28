@@ -1,4 +1,6 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
+
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y upgrade
 
@@ -11,6 +13,12 @@ RUN apt-get install -y bzip2 dosfstools mtools parted syslinux tree
 # Add "repo" tool (used by many Yocto-based projects)
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
+
+# Additional host packages 
+RUN apt-get install -y openssh-client coreutils libreadline-dev rpcbind nfs-common vim
+
+# Set the default shell to bash instead of dash
+RUN echo "dash dash/sh boolean false" | debconf-set-selections && dpkg-reconfigure dash
 
 # Create user "jenkins"
 RUN id jenkins 2>/dev/null || useradd --uid 1000 --create-home jenkins
