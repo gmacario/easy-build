@@ -35,6 +35,6 @@ License and Copyright
 
 License: [MPL-2.0](LICENSE)
 
-Copyright 2014-2016, [Gianpaolo Macario](http://gmacario.github.io/)
+Copyright 2014-2017, [Gianpaolo Macario](http://gmacario.github.io/)
 
 <!-- EOF -->
