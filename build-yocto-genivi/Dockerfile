@@ -56,6 +56,13 @@ RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libs
 # Install extra packages (required for building GDP)
 RUN apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
     build-essential chrpath socat libsdl1.2-dev xterm git-svn
+
+# Update to OpenJDK-8 (baseimage gocd/gocd-agent:16.1.0 has openjdk-7-jre-headless)
+# See easy-build/issues/241
+RUN add-apt-repository -y ppa:openjdk-r/ppa && \
+    apt update && \
+    apt-get -y install openjdk-8-jre-headless && \
+    apt-get -y remove --purge openjdk-7-jre-headless
     
 # See https://at.projects.genivi.org/jira/browse/GDP-92
 RUN apt-get -y install librsvg2-bin
