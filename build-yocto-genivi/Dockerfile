@@ -48,7 +48,7 @@ MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 RUN apt-get update && apt-get -y dist-upgrade
 
 # Install some packages I cannot live without...
-RUN apt-get -y install dos2unix git mc openssh-server screen tig
+RUN apt-get -y install dos2unix git mc openssh-server screen tig tree
 
 # Install the following utilities (required by poky)
 RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev
@@ -57,6 +57,13 @@ RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libs
 RUN apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
     build-essential chrpath socat libsdl1.2-dev xterm git-svn
 
+# Update to OpenJDK-8 (baseimage gocd/gocd-agent:16.1.0 has openjdk-7-jre-headless)
+# See easy-build/issues/241
+RUN add-apt-repository -y ppa:openjdk-r/ppa && \
+    apt update && \
+    apt-get -y install openjdk-8-jre-headless && \
+    apt-get -y remove --purge openjdk-7-jre-headless
+    
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
 

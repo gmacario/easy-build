@@ -1,7 +1,7 @@
 easy-build
 ==========
 
-[![](https://badge.imagelayers.io/gmacario/easy-build:latest.svg)](https://imagelayers.io/?images=gmacario/easy-build:latest 'Get your own badge on imagelayers.io')
+[![](https://images.microbadger.com/badges/image/gmacario/easy-build.svg)](https://microbadger.com/images/gmacario/easy-build "Get your own image badge on microbadger.com")
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmacario/easy-build?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![PullReview stats](https://www.pullreview.com/github/gmacario/easy-build/badges/master.svg?)](https://www.pullreview.com/github/gmacario/easy-build/reviews/master)
 [![Stories in Ready](https://badge.waffle.io/gmacario/easy-build.png?label=ready&title=Ready)](https://waffle.io/gmacario/easy-build)
@@ -35,6 +35,6 @@ License and Copyright
 
 License: [MPL-2.0](LICENSE)
 
-Copyright 2014-2016, [Gianpaolo Macario](http://gmacario.github.io/)
+Copyright 2014-2017, [Gianpaolo Macario](http://gmacario.github.io/)
 
 <!-- EOF -->

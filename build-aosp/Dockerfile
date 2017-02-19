@@ -1,12 +1,12 @@
 # ===========================================================================================
 # Dockerfile for building Android Open Source Project
-# 
+#
 # References:
-#	http://source.android.com/source/index.html
+#       http://source.android.com/source/index.html
 # ===========================================================================================
 
-FROM gmacario/easy-build
-#FROM ubuntu
+# FROM gmacario/easy-build
+FROM ubuntu:14.04
 
 MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 
@@ -16,77 +16,70 @@ MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
 # Make sure the package repository is up to date
 RUN sed -i 's/main$/main universe/' /etc/apt/sources.list
 RUN dpkg --add-architecture i386
-RUN apt-get -qq update
+RUN apt-get -qq update && apt-get -qqy dist-upgrade
 
 # Install essential packages
-RUN apt-get -y install curl
-RUN apt-get -y install git
-RUN apt-get -y install tig
-RUN apt-get -y install mc
-RUN apt-get -y install rsync
-RUN apt-get -y install screen
+RUN apt-get -y install curl git mc rsync screen tig
 
 # See https://source.android.com/source/initializing.html
 #
 # The master branch of Android in the Android Open Source Project (AOSP)
-# requires Java 7. On Ubuntu, use OpenJDK.
-# To develop older versions of Android, download and install
-# the corresponding version of the Java JDK (not OpenJDK):
-# * Java 6: for Gingerbread through KitKat
-# * Java 5: for Cupcake through Froyo
+# requires Java 8. On Ubuntu, use OpenJDK.
+# RUN apt-get -y install openjdk-8-jdk
 #
-#RUN apt-get install -y openjdk-7-jdk
+# To develop older versions of Android, download and install the corresponding version of the Java JDK:
 #
-#RUN update-alternatives --config java
-#RUN update-alternatives --config javac
+# Java 7: for Lollipop through Marshmallow
+RUN apt-get -y install openjdk-7-jdk
+#
+# Java 6: for Gingerbread through KitKat
+# Java 5: for Cupcake through Froyo
+# See http://www.oracle.com/technetwork/java/javase/archive-139210.html
+#
+# Update the default Java version - optional
+#
+RUN update-alternatives --config java
+RUN update-alternatives --config javac
 #
 # Installing required packages (Ubuntu 14.04)
 #
-RUN apt-get -y install bc bison build-essential ccache flex
-RUN apt-get -y install g++-multilib gcc-multilib git gperf
-RUN apt-get -y install lib32stdc++6 lib32z1 lib32z1-dev liblzo2-dev
-RUN apt-get -y install libxml2-utils lzop make python
-RUN apt-get -y install u-boot-tools uuid-dev zip zlib1g-dev:i386
+RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
+  zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
+  lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+  libgl1-mesa-dev libxml2-utils xsltproc unzip
+#
+# Note: To use SELinux tools for policy analysis, also install the python-networkx package.
+RUN apt-get -y install python-networkx
+#
+# Installing required packages (Ubuntu 12.04)
+#
+# RUN apt-get -y install git gnupg flex bison gperf build-essential \
+#   zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
+#   libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
+#   libgl1-mesa-dev g++-multilib mingw32 tofrodos \
+#   python-markdown libxml2-utils xsltproc zlib1g-dev:i386
+# RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
 
-#RUN apt-get -y install git gnupg flex bison gperf build-essential \
-#  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
-#  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
-#  libgl1-mesa-dev g++-multilib mingw32 tofrodos \
-#  python-markdown libxml2-utils xsltproc zlib1g-dev:i386
-#RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 \
-#	/usr/lib/i386-linux-gnu/libGL.so
-
-RUN apt-get -qqy dist-upgrade
+# Installing additional packages (required for build_android_udooneo)
+RUN apt-get -y install bc lzop u-boot-tools
 
 # Optional: Install apt-file to find which package provides a given file
 #RUN apt-get -y install apt-file
 #RUN apt-file update
 
-# Create non-root user that will perform the build of the images
-#RUN useradd --shell /bin/bash build
-#RUN mkdir -p /home/build
-#RUN chown -R build /home/build
-
-# Downloading the Source
-# See https://source.android.com/source/downloading.html
-
-RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
+# Add "repo" tool
+RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
 
-# Initializing a Repo client
-#RUN su -c "cd && repo init -u https://android.googlesource.com/platform/manifest \
-#	-b android-4.0.1_r1" build
-#RUN su -c "cd && repo sync" build
+# Create user "jenkins"
+RUN id jenkins 2>/dev/null || useradd --uid 1000 --create-home --shell /bin/bash jenkins
 
-RUN cd /home/build
+# Create a non-root user that will perform the actual build
+RUN id build 2>/dev/null || useradd --uid 30000 --create-home --shell /bin/bash build
+RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
 
-# Run as the following user
-#USER build
-
-# Say hello when the container is launched
-ENTRYPOINT ["/bin/bash"]
-
-# Expose memcached port
-#EXPOSE 11211
+USER build
+WORKDIR /home/build
+CMD "/bin/bash"
 
 # EOF
