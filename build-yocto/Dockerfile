@@ -8,6 +8,9 @@ RUN apt-get install -y build-essential chrpath curl diffstat gcc-multilib gawk g
 # Additional host packages required by poky/scripts/wic
 RUN apt-get install -y bzip2 dosfstools mtools parted syslinux tree
 
+# Add "npm" tool (used for building Resin OS)
+RUN apt -y install npm
+
 # Add "repo" tool (used by many Yocto-based projects)
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
