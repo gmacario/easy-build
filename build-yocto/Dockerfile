@@ -8,7 +8,8 @@ RUN apt-get install -y build-essential chrpath curl diffstat gcc-multilib gawk g
 # Additional host packages required by poky/scripts/wic
 RUN apt-get install -y bzip2 dosfstools mtools parted syslinux tree
 
-# Install nodejs and npm (required for building Resin OS)
+# Install jq, nodejs and npm (required for building Resin OS)
+RUN apt -y install jq
 #
 # gpg keys listed at https://github.com/nodejs/node#release-team
 RUN set -ex \
