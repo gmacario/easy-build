@@ -41,7 +41,8 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 # See https://wiki.yoctoproject.org/wiki/TipsAndTricks/ResolvingLocaleIssues
 RUN apt -y install locales && \
   dpkg-reconfigure locales && \
-  update-locale LC_ALL=en_us.UTF-8 LANG=en_US.UTF-8
+  locale-gen en_US.UTF-8 && \
+  update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 # Add "repo" tool (used by many Yocto-based projects)
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
