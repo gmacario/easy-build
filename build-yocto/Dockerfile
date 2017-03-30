@@ -19,6 +19,13 @@ RUN id jenkins 2>/dev/null || useradd --uid 1000 --create-home jenkins
 RUN id build 2>/dev/null || useradd --uid 30000 --create-home build
 RUN echo "build ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
 
+# Fix error "Please use a locale setting which supports utf-8."
+# See https://wiki.yoctoproject.org/wiki/TipsAndTricks/ResolvingLocaleIssues
+RUN apt -y install locales && \
+  dpkg-reconfigure locales && \
+  locale-gen en_US.UTF-8 && \
+  update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+
 USER build
 WORKDIR /home/build
 CMD "/bin/bash"
