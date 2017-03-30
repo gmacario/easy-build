@@ -36,15 +36,6 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
-# Fix error "Please use a locale setting which supports utf-8."
-# TODO: Should move to base Docker image (gmacario/build-yocto)
-#
-# See https://wiki.yoctoproject.org/wiki/TipsAndTricks/ResolvingLocaleIssues
-RUN apt -y install locales && \
-  dpkg-reconfigure locales && \
-  locale-gen en_US.UTF-8 && \
-  update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
- 
  # Switch back to default user
  USER build
  
