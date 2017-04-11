@@ -67,6 +67,11 @@ RUN add-apt-repository -y ppa:openjdk-r/ppa && \
 # See https://at.projects.genivi.org/jira/browse/GDP-92
 RUN apt-get -y install librsvg2-bin
 
+# Install extra packages (required for building GDP)
+# See https://at.projects.genivi.org/jira/browse/GDP-92
+RUN apt-get install -y git-svn libpango1.0-dev
+RUN sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm
+
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
 
