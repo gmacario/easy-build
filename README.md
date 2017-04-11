@@ -2,7 +2,7 @@ easy-build
 ==========
 
 [![](https://images.microbadger.com/badges/image/gmacario/easy-build.svg)](https://microbadger.com/images/gmacario/easy-build "Get your own image badge on microbadger.com")
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmacario/easy-build?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/gmacario/easy-build?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![PullReview stats](https://www.pullreview.com/github/gmacario/easy-build/badges/master.svg?)](https://www.pullreview.com/github/gmacario/easy-build/reviews/master)
 [![Stories in Ready](https://badge.waffle.io/gmacario/easy-build.png?label=ready&title=Ready)](https://waffle.io/gmacario/easy-build)
 
