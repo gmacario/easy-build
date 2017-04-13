@@ -64,9 +64,6 @@ RUN add-apt-repository -y ppa:openjdk-r/ppa && \
     apt-get -y install openjdk-8-jre-headless && \
     apt-get -y remove --purge openjdk-7-jre-headless
     
-# See https://at.projects.genivi.org/jira/browse/GDP-92
-RUN apt-get -y install librsvg2-bin
-
 # Make sure the directory exists, otherwise sshd will not start
 RUN mkdir -p /var/run/sshd
 
