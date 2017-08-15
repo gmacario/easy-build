@@ -60,9 +60,6 @@ cp "$DIR/"*.conf $POKY_CONF_DIR || { echo "Error: Copying configuration files fa
 
 cd "$POKY_DIR" || { echo "Error: cd-ing into $POKY_DIR failed, exiting ..."; exit 1; }
 
-echo "Applying a trivial patch for poky"
-patch -p1 <"$DIR/poky.patch" || { echo "Error: Patching poky failed, try to apply the patch manually. exiting ..."; exit 1; }
-
 echo "Setting up build environment"
 source oe-init-build-env
 
