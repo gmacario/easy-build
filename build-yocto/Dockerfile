@@ -30,7 +30,7 @@ RUN echo " \n\
 export LC_ALL=en_US.UTF-8 \n\
 export LANG=en_US.UTF-8 \n\
 export LANGUAGE=en_US.UTF-8 \n\
-" >> /home/build/.profile
+" >> /home/build/.bashrc
 
 USER build
 WORKDIR /home/build
