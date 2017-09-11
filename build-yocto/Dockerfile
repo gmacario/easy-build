@@ -26,11 +26,9 @@ RUN apt -y install locales && \
   locale-gen en_US.UTF-8 && \
   update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
-RUN echo " \n\
-export LC_ALL=en_US.UTF-8 \n\
-export LANG=en_US.UTF-8 \n\
-export LANGUAGE=en_US.UTF-8 \n\
-" >> /home/build/.bashrc
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
 
 USER build
 WORKDIR /home/build
