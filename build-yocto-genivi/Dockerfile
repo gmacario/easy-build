@@ -82,6 +82,12 @@ COPY clone-and-build-gdp.sh /usr/local/bin/
 COPY run-gocd-agent.sh /usr/local/bin/
 RUN dos2unix /usr/local/bin/*.sh && chmod 755 /usr/local/bin/*.sh
 
+# Fix error: Please use a locale setting which supports utf-8
+# See https://github.com/gmacario/easy-build/pull/260
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
 # Expose sshd port
 EXPOSE 22
 
