@@ -1,5 +1,7 @@
-build-yocto
+build-yocto //**enhanced**//
 ===========
+
+**This Dockerfile contains an Ubuntu 16.04 with the minimal yocto/openembedded dependencies. Plus the tools needed to call commands like `bitbake devshell` and `bitbake menuconfig`**
 
 [![](https://badge.imagelayers.io/gmacario/build-yocto:latest.svg)](https://imagelayers.io/?images=gmacario/build-yocto:latest 'Get your own badge on imagelayers.io')
 
