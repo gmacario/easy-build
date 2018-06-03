@@ -13,14 +13,12 @@ This repository contains a collection of [Docker](http://www.docker.com/)files t
 | [build-aosp][1]          | Android Open Source Project                 |
 | [build-openwrt][2]       | OpenWrt                                     |
 | [build-yocto][3]         | Yocto Project                               |
-| [build-yocto-genivi][5]  | Yocto GENIVI Baseline, GENIVI Demo Platform |
 
 Please refer to the `README.md` file available under each subdirectory for details and usage examples.
 
 [1]: build-aosp
 [2]: build-openwrt
 [3]: build-yocto
-[5]: build-yocto-genivi
 
 System Requirements
 -------------------
