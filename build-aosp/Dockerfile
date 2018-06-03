@@ -46,7 +46,7 @@ RUN update-alternatives --config javac
 RUN apt-get -y install git-core gnupg flex bison gperf build-essential \
   zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
   lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
-  libgl1-mesa-dev libxml2-utils xsltproc unzip
+  libgl1-mesa-dev libxml2-utils schedtool xsltproc unzip
 #
 # Note: To use SELinux tools for policy analysis, also install the python-networkx package.
 RUN apt-get -y install python-networkx
