@@ -15,6 +15,9 @@ RUN apt-get install -y curl dosfstools mtools parted syslinux tree
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
 RUN chmod a+x /usr/local/bin/repo
 
+# Set the default shell to bash instead of dash
+RUN echo "dash dash/sh boolean false" | debconf-set-selections && dpkg-reconfigure dash
+
 # Create user "jenkins"
 RUN id jenkins 2>/dev/null || useradd --uid 1000 --create-home jenkins
 
