@@ -1,17 +1,15 @@
 # ===========================================================================================
 # Projetc: easy-build
 #
-# Description: Base Docker imaeg for building embedded distros
+# Description: Base Docker image for building embedded distros
 # ===========================================================================================
 
-FROM gmacario/baseimage-ssh:latest
-MAINTAINER Gianpaolo Macario <gmacario@gmail.com>
+FROM ubuntu:18.04
 
-# Make sure the package repository is up to date
-RUN apt-get update && apt-get -y upgrade
-
-# Install required packages
-RUN apt-get install -y git mc tig tree
+# Make sure the package repository is up to date, then install required packages
+RUN apt-get update && \
+  apt-get -y upgrade && \
+  apt-get install -y git mc tig tree
 
 # Create non-root user that will perform the build of the images
 RUN useradd --shell /bin/bash build && mkdir -p /home/build && chown -R build /home/build
