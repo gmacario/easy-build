@@ -1,7 +1,7 @@
 build-yocto
 ===========
 
-[![](https://badge.imagelayers.io/gmacario/build-yocto:latest.svg)](https://imagelayers.io/?images=gmacario/build-yocto:latest 'Get your own badge on imagelayers.io')
+[![](https://images.microbadger.com/badges/image/gmacario/build-yocto.svg)](https://microbadger.com/images/gmacario/build-yocto "Get your own image badge on microbadger.com")
 
 This subproject of [easy-build](https://github.com/gmacario/easy-build) provides a quick and easy way
 for creating embedded Linux distributions using the [Yocto Project](https://www.yoctoproject.org/) tools.
