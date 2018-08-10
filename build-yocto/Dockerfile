@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 
+ENV DEBIAN_FRONTENV noninteractive
+
 RUN apt-get update && apt-get -y upgrade
 
 # Required Packages for the Host Development System
