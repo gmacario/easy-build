@@ -11,7 +11,7 @@ RUN apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib g+
      apt-utils tmux xz-utils debianutils iputils-ping libncurses5-dev
 
 # Additional host packages required by poky/scripts/wic
-RUN apt-get install -y curl dosfstools mtools parted syslinux tree
+RUN apt-get install -y curl dosfstools mtools parted syslinux tree zip
 
 # Add "repo" tool (used by many Yocto-based projects)
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
