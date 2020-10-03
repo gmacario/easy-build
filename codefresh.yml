@@ -1,5 +1,5 @@
 version: '1.0'
-stages: []
+build_version: 'v2'
 steps:
   BuildingDockerImage:
     title: Building Docker Image
