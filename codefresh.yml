@@ -1,0 +1,13 @@
+version: '1.0'
+build_version: 'v2'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: gmacario/easybuild
+    disable_push: true
+    working_directory: ./
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    dockerfile: Dockerfile
+
+# EOF
